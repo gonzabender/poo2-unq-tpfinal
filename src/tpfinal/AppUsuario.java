@@ -1,18 +1,32 @@
 package tpfinal;
 
-public abstract class AppUsuario implements MovementSensor {
+import java.util.Observer;
 
+public abstract class AppUsuario implements MovementSensor {
+/*En un principio se penso hacer la clase AppUsuario con 2 subclases
+ *una que se encargue del funcionamiento manual y otra que se encargue
+ *del funcionamiento automatico. Esto resulto en un problema, que es que
+ *al cambiar de modo, el usuario es el que se encarga de decir qué aplicacion
+ *va a estar en modo automatico, puesto que el cambio de modo se implementaba
+ *devolviendo una nueva AppUsuario, ya sea manual o automatica.
+ *Ej: 	AppUsuario miAppEst= new AppUsuario(sem, patente, celular);
+ *		AppUsuario miAppEst= miAppEst.cambiarModo();
+ **/
 	private SEM sem;
 	private String patente;
 	private int celular;
 	private boolean automatico; //false indica que la app no esta en automatico
 								//true indica que la app esta en automatico
 	
+	private boolean driving;	//false indica que la persona esta caminando
+								//true indica que la persona esta al volante
+	
 	public AppUsuario(SEM sem, String patente, int celular) {
 		this.sem=sem;
 		this.celular=celular;
 		this.patente=patente;
 		this.automatico=false;
+		this.driving=true;
 	}
 
 	public SEM getSem() {
@@ -55,18 +69,35 @@ public abstract class AppUsuario implements MovementSensor {
 	
 	public void cambiarModo() {
 		this.automatico= !this.automatico;
-		this.modoAutomatico();
 	}
-	
-	//A implementar con observer (puede que con un while, 
-	//siendo la condicion "automatico")
-	public void modoAutomatico() {
-		if (this.automatico){
-			//DO SOMETHING	
-		}else {
-			//STOP DOING IT
+
+
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////Observer/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+	//Podria separarse con un notify
+	public void driving() {
+		if (this.automatico && !this.driving){
+			this.driving= true;
+			this.finalizarEstacionamiento();
+			this.alertaFinEAuto();
+		}else if (!this.automatico && this.sem.estacionado(patente)) {
+			this.alertaFinE();
 		}
 	}
+	
+	public void walking() {
+		if (this.automatico && this.driving){
+			this.driving=false;
+			this.iniciarEstacionamiento();
+			this.alertaInicioEAuto();
+		}else if (!this.automatico && !this.sem.estacionado(patente)){
+			this.alertaInicioE();
+		}
+	}
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////	
 	
 	//Observer
 	public void alertaInicioE() {
@@ -76,5 +107,12 @@ public abstract class AppUsuario implements MovementSensor {
 	public void alertaFinE() {
 		//DO SOMETHING
 	};
-	
+	//Observer
+	public void alertaInicioEAuto() {
+		//DO SOMETHING
+	};
+		//Observer
+	public void alertaFinEAuto() {
+		//DO SOMETHING
+	};
 }
