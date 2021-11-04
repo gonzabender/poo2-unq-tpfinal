@@ -16,4 +16,13 @@ public abstract class Estacionamiento {
 		return horarioInicio <= horarioFin;
 	}
 
+
+	public Estacionamiento(String patente, int horarioInicio, int horarioFin) {
+		this.patente = patente;
+		this.horarioInicio = horarioInicio;
+		this.horarioFin = horarioFin;
+	}
+	
+	
+
 }
