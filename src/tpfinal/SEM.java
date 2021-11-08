@@ -29,5 +29,9 @@ public class SEM {
 	public void addInfracción() {
 		// Este espacio depende de la creación del sector de infraciones.
 	}
+	
+	public void addCompra(Compra compra) {
+		this.compras.add(compra);
+	}
 
 }
