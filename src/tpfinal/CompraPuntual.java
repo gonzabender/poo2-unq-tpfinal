@@ -11,11 +11,11 @@ import java.util.Calendar;
 public class CompraPuntual extends Compra {
 
 	private int horasCompradas;
-	
+
 	/**
 	 * 
-	 * @param nroCompra Generado de la clase abstracta Compra.
-	 * @param date Fecha de compra.
+	 * @param nroCompra      Generado de la clase abstracta Compra.
+	 * @param date           Fecha de compra.
 	 * @param horasCompradas cantidad de horas abonadas.
 	 */
 
@@ -23,7 +23,5 @@ public class CompraPuntual extends Compra {
 		super(nroCompra, date);
 		this.horasCompradas = horasCompradas;
 	}
-
-	
 
 }
