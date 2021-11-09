@@ -14,14 +14,15 @@ public abstract class AppUsuario implements MovementSensor {
  **/
 	private SEM sem;
 	private String patente;
-	private int celular;
+	private Celular celular;
+	private int horaActual;
 	private boolean automatico; //false indica que la app no esta en automatico
 								//true indica que la app esta en automatico
 	
 	private boolean driving;	//false indica que la persona esta caminando
 								//true indica que la persona esta al volante
 	
-	public AppUsuario(SEM sem, String patente, int celular) {
+	public AppUsuario(SEM sem, String patente, Celular celular) {
 		this.sem=sem;
 		this.celular=celular;
 		this.patente=patente;
@@ -37,7 +38,7 @@ public abstract class AppUsuario implements MovementSensor {
 		return patente;
 	}
 
-	public int getCelular() {
+	public Celular getCelular() {
 		return celular;
 	}
 
@@ -45,8 +46,8 @@ public abstract class AppUsuario implements MovementSensor {
 		this.sem=sem;
 	}
 	
-	public void cargarCredito(PuntoDeVenta pv) {
-		pv.cargarCredito(this.celular);
+	public void cargarCredito(PuntoDeVenta pv, int monto) {
+		pv.cargarCelular(this.celular, monto);
 	}
 
 	//devuelve el saldo disponible
@@ -58,13 +59,13 @@ public abstract class AppUsuario implements MovementSensor {
 	//estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto
 	//"Saldo insuficiente, Estacionamiento no permitido" (tambien podria hacerse con una clase y una excepcion)
 	public String iniciarEstacionamiento (){
-		return this.sem.iniciarEstacionamiento(this.celular,this.patente);
+		return this.sem.iniciarEstacionamiento(this.celular,this.patente, this.horaActual);
 	}
 
 	//devuelve la hora de iicio de estacionamiento, la hora de fin, la cantidad de horas estacionado
 	//y el costo del estacionamiento (en lugar de un string se podria usar una nueva clase)
 	public String finalizarEstacionamiento() {
-		return this.sem.finalizarEstacionamiento(this.celular);
+		return this.sem.finalizarEstacionamiento(this.celular.getNúmero());
 	}	
 	
 	public void cambiarModo() {

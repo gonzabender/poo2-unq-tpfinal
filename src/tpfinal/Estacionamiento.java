@@ -22,6 +22,9 @@ public abstract class Estacionamiento {
 		this.horarioInicio = horarioInicio;
 		this.horarioFin = horarioFin;
 	}
+
+
+	protected abstract int getCelular();
 	
 	
 

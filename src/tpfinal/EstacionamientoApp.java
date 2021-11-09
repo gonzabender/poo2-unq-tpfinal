@@ -2,7 +2,7 @@ package tpfinal;
 
 public class EstacionamientoApp extends Estacionamiento{
 	
-	private Celular celular;  //dará error hasta crear la clase celular...
+	private int celular;  //dará error hasta crear la clase celular...
 	
 	
 
@@ -13,10 +13,18 @@ public class EstacionamientoApp extends Estacionamiento{
 	 * @param horarioFin Fin de estacionamiento, automático en la app.
 	 * @param celular El celular que realizo la compra.
 	 */
-	public EstacionamientoApp(String patente, int horarioInicio, int horarioFin, Celular celular) {
+	public EstacionamientoApp(String patente, int horarioInicio, int horarioFin, int celular) {
 		super(patente, horarioInicio, horarioFin);
 		this.celular = celular;
 	}
+
+
+
+	public int getCelular() {
+		return celular;
+	}
+	
+	
 	
 	
 

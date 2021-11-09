@@ -17,7 +17,10 @@ public class Celular {
 	public void cargarCrédito(int monto) {
 		this.crédito = crédito + monto;
 	}
-	
-	
+
+	public int getCrédito() {
+		return this.crédito;
+	}
+
 
 }
