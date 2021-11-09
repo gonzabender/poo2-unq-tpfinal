@@ -1,17 +1,13 @@
 package tpfinal;
 
 public abstract class Compra {
-	
-	private int nroCompra;
+
 	private String date;
-	//private PuntoDeVenta puntoDeVenta;
-	
-	
-	public Compra(int nroCompra, String date) {
-		this.nroCompra = nroCompra;
+	private PuntoDeVenta puntoDeVenta;
+
+	public Compra(String date, PuntoDeVenta puntoDeVenta) {
 		this.date = date;
+		this.puntoDeVenta = puntoDeVenta;
 	}
-	
-	
 
 }
