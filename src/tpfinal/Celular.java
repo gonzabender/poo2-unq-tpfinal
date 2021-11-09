@@ -22,5 +22,13 @@ public class Celular {
 		return this.crédito;
 	}
 
+	public Celular(AppUsuario app, int número, int crédito) {
+		this.app = app;
+		this.número = número;
+		this.crédito = crédito;
+	}
+	
+	
+
 
 }

@@ -2,7 +2,7 @@ package tpfinal;
 
 import java.util.Observer;
 
-public abstract class AppUsuario implements MovementSensor {
+public class AppUsuario implements MovementSensor {
 /*En un principio se penso hacer la clase AppUsuario con 2 subclases
  *una que se encargue del funcionamiento manual y otra que se encargue
  *del funcionamiento automatico. Esto resulto en un problema, que es que
