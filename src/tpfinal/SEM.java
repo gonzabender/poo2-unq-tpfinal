@@ -5,18 +5,23 @@ import java.util.ArrayList;
 
 public class SEM {
 
-	private List<ZonaDeSem> zonasDeEstacionamiento = new ArrayList<ZonaDeSem>();
-	private List<Estacionamiento> estacionamientosEnCurso = new ArrayList<Estacionamiento>();
-	private List<Compra> compras = new ArrayList<Compra>();
-	private List<Infracción> infracciones = new ArrayList<Infracción>();
+	// private List<ZonaDeSem> zonasDeEstacionamiento = new ArrayList<ZonaDeSem>();
+	private List<Estacionamiento> estacionamientosEnCurso;
+	private List<Compra> compras;
+	// private List<Infracción> infracciones = new ArrayList<Infracción>();
+	
+	public SEM() {
+		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
+		this.compras = new ArrayList<Compra>();
+	}
 
 	/**
 	 * 
 	 * @param zona La zona a agregar.
 	 */
-	public void addZona(ZonaDeSem zona) {
-		zonasDeEstacionamiento.add(zona);
-	}
+	/*
+	 * public void addZona(ZonaDeSem zona) { zonasDeEstacionamiento.add(zona); }
+	 */
 
 	/**
 	 * 
@@ -34,15 +39,13 @@ public class SEM {
 		this.compras.add(compra);
 	}
 
-	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
+	public void iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
 		if (finDeEstacionamiento >= hora) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento,
 					celular.getNúmero());
 			this.addEstacionamiento(operación);
-			return "Puede"; // Ayudaaaa
-		} else {
-			return "No puede"; // Ayuda 2
+			// return true; // deberia enviar info
 		}
 	}
 
@@ -60,16 +63,18 @@ public class SEM {
 		return horas;
 	}
 
-	
-	public String finalizarEstacionamiento(int número) {
+	public void finalizarEstacionamiento(int número) {
 		this.estacionamientosEnCurso.removeIf(est -> est.getCelular() == número);
-		return "Data"; //Ayuda 3.
+		//return "Data"; // Deberia enviar info
 	}
 
 	public List<Compra> getCompras() {
 		return compras;
 	}
-	
+
+	public List<Estacionamiento> getEstacionamientosEnCurso() {
+		return estacionamientosEnCurso;
+	}
 	
 	
 

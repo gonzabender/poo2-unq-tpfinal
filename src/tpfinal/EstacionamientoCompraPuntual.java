@@ -15,6 +15,12 @@ public class EstacionamientoCompraPuntual extends Estacionamiento{
 		super(patente, horarioInicio, horarioFin);
 		this.compra = compra;
 	}
+
+	@Override
+	protected int getCelular() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 	

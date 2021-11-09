@@ -2,7 +2,7 @@ package tpfinal;
 
 import java.util.Observer;
 
-public class AppUsuario implements MovementSensor {
+public class AppUsuario  {
 /*En un principio se penso hacer la clase AppUsuario con 2 subclases
  *una que se encargue del funcionamiento manual y otra que se encargue
  *del funcionamiento automatico. Esto resulto en un problema, que es que
@@ -58,14 +58,14 @@ public class AppUsuario implements MovementSensor {
 	//devuelve la hora de inicio de estacionamiento, la cantidad maxima de horas que es posible
 	//estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto
 	//"Saldo insuficiente, Estacionamiento no permitido" (tambien podria hacerse con una clase y una excepcion)
-	public String iniciarEstacionamiento (){
-		return this.sem.iniciarEstacionamiento(this.celular,this.patente, this.horaActual);
+	public void iniciarEstacionamiento (){
+		this.sem.iniciarEstacionamiento(this.celular,this.patente, this.horaActual);
 	}
 
 	//devuelve la hora de iicio de estacionamiento, la hora de fin, la cantidad de horas estacionado
 	//y el costo del estacionamiento (en lugar de un string se podria usar una nueva clase)
-	public String finalizarEstacionamiento() {
-		return this.sem.finalizarEstacionamiento(this.celular.getNúmero());
+	public void finalizarEstacionamiento() {
+		this.sem.finalizarEstacionamiento(this.celular.getNúmero());
 	}	
 	
 	public void cambiarModo() {
@@ -77,7 +77,7 @@ public class AppUsuario implements MovementSensor {
 /////////////////////////Observer/////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 	//Podria separarse con un notify
-	public void driving() {
+/*	public void driving() {
 		if (this.automatico && !this.driving){
 			this.driving= true;
 			this.finalizarEstacionamiento();
@@ -85,9 +85,9 @@ public class AppUsuario implements MovementSensor {
 		}else if (!this.automatico && this.sem.estacionado(patente)) {
 			this.alertaFinE();
 		}
-	}
+	} */
 	
-	public void walking() {
+/*	public void walking() {
 		if (this.automatico && this.driving){
 			this.driving=false;
 			this.iniciarEstacionamiento();
@@ -95,7 +95,7 @@ public class AppUsuario implements MovementSensor {
 		}else if (!this.automatico && !this.sem.estacionado(patente)){
 			this.alertaInicioE();
 		}
-	}
+	} */
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////	
