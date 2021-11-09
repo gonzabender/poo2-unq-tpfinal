@@ -1,6 +1,7 @@
 package tpfinal.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,9 @@ public class ModalidadDeEstacionamientoTest {
 		// Set up
 
 		sem = new SEM();
+		kiosco = new PuntoDeVenta(sem);
 		iphone = new Celular(app, 118594729, 0);
 		app = new AppUsuario(sem, "PO2UNQ", iphone);
-		kiosco = new PuntoDeVenta();
 	}
 
 	@Test
@@ -31,6 +32,7 @@ public class ModalidadDeEstacionamientoTest {
 
 		// Verify
 		assertEquals(iphone.getCrédito(), 120);
+		assertTrue(sem.getCompras().size() == 1);
 
 	}
 

@@ -65,6 +65,12 @@ public class SEM {
 		this.estacionamientosEnCurso.removeIf(est -> est.getCelular() == número);
 		return "Data"; //Ayuda 3.
 	}
+
+	public List<Compra> getCompras() {
+		return compras;
+	}
+	
+	
 	
 
 }

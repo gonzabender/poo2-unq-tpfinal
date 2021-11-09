@@ -21,4 +21,10 @@ public class PuntoDeVenta {
 		return b - a;
 	}
 
+	public PuntoDeVenta(SEM sem) {
+		this.sem = sem;
+	}
+	
+	
+
 }
