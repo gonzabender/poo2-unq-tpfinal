@@ -1,29 +1,37 @@
 package tpfinal.test;
+
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import tpfinal.*;
 
 public class ModalidadDeEstacionamientoTest {
-	
+
 	Celular iphone;
 	AppUsuario app;
 	PuntoDeVenta kiosco;
 	SEM sem;
-	
+
 	@Before
 	public void setUp() throws Exception {
-		// Set up.
-		
+		// Set up
+
 		sem = new SEM();
 		iphone = new Celular(app, 118594729, 0);
 		app = new AppUsuario(sem, "PO2UNQ", iphone);
 		kiosco = new PuntoDeVenta();
 	}
-	
+
 	@Test
-	public void testCompraPuntual() {
-		
+	public void testCargaCelular() {
+		// Exercise
+		kiosco.cargarCelular(iphone, 120);
+
+		// Verify
+		assertEquals(iphone.getCrédito(), 120);
+
 	}
 
 }
