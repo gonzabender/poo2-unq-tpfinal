@@ -17,10 +17,11 @@ public class EstacionamientoCompraPuntual extends Estacionamiento{
 	}
 
 	@Override
-	protected int getCelular() {
+	protected Celular getCelular() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
+
 	
 	
 	

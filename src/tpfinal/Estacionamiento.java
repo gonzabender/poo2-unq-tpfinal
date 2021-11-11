@@ -23,13 +23,24 @@ public abstract class Estacionamiento {
 		this.horarioFin = horarioFin;
 	}
 
-
-	protected abstract int getCelular();
+	
+	protected abstract Celular getCelular();
 	
 	public String getPatente() {
 		return this.patente;
 	}
 	
+	public int getHorarioInicio() {
+		return horarioInicio;
+	}
+	
+	public int getHorarioFin() {
+		return horarioFin;
+	}
+	
+	public int duración() {
+		return this.getHorarioFin() - this.getHorarioInicio();
+	}
 	
 
 }

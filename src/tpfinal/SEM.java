@@ -9,7 +9,7 @@ public class SEM {
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
-	
+
 	public SEM() {
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
 		this.compras = new ArrayList<Compra>();
@@ -39,13 +39,14 @@ public class SEM {
 		this.compras.add(compra);
 	}
 
-	public void iniciarEstacionamiento(Celular celular, String patente, int hora) {
+	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
-		if (finDeEstacionamiento >= hora) {
-			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento,
-					celular.getNúmero());
+		if (finDeEstacionamiento >= hora && finDeEstacionamiento != 20) {
+			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
 			this.addEstacionamiento(operación);
-			// return true; // deberia enviar info
+			return String.valueOf(hora) + String.valueOf(finDeEstacionamiento);
+		} else {
+			return "Saldo Insuficiente. Estacionamiento no permitido";
 		}
 	}
 
@@ -63,9 +64,13 @@ public class SEM {
 		return horas;
 	}
 
-	public void finalizarEstacionamiento(int número) {
-		this.estacionamientosEnCurso.removeIf(est -> est.getCelular() == número);
-		//return "Data"; // Deberia enviar info
+	public String finalizarEstacionamiento(int número) {
+		Estacionamiento estacionamiento = this.estacionamientosEnCurso.stream()
+				.filter(est -> est.getCelular().getNúmero() == número).toList().get(0);
+		this.estacionamientosEnCurso.removeIf(est -> est.getCelular().getNúmero() == número);
+		this.descontarCrédito(estacionamiento.getCelular(), estacionamiento.getCelular().getCrédito());
+		return String.valueOf(estacionamiento.getHorarioInicio()) + String.valueOf(estacionamiento.getHorarioFin())
+				+ String.valueOf(estacionamiento.duración()) + String.valueOf(estacionamiento.getCelular().getCrédito());
 	}
 
 	public List<Compra> getCompras() {
@@ -76,6 +81,8 @@ public class SEM {
 		return estacionamientosEnCurso;
 	}
 	
-	
+	public void descontarCrédito(Celular celular, int monto) {
+		celular.setCrédito(celular.getCrédito() - monto);
+	}
 
 }
