@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class SEM {
 
-	// private List<ZonaDeSem> zonasDeEstacionamiento = new ArrayList<ZonaDeSem>();
+	private List<ZonaSem> zonasDeEstacionamiento = new ArrayList<ZonaSem>();
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
@@ -15,18 +15,10 @@ public class SEM {
 		this.compras = new ArrayList<Compra>();
 	}
 
-	/**
-	 * 
-	 * @param zona La zona a agregar.
-	 */
-	/*
-	 * public void addZona(ZonaDeSem zona) { zonasDeEstacionamiento.add(zona); }
-	 */
+	public void addZona(ZonaSem zona) {
+		zonasDeEstacionamiento.add(zona);
+	}
 
-	/**
-	 * 
-	 * @param estacionamiento El estacionamiento a agregar.
-	 */
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientosEnCurso.add(estacionamiento);
 	}
@@ -39,6 +31,14 @@ public class SEM {
 		this.compras.add(compra);
 	}
 
+	/**
+	 * 
+	 * @param celular El celular del cliente.
+	 * @param patente La patente del cliente.
+	 * @param hora    La hora de inicio del estacionamiento.
+	 * @return Informacion de la hora de inicio y de fin, o un mensaje de error si
+	 *         el celular no posee suficiente saldo.
+	 */
 	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
 		if (finDeEstacionamiento >= hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
@@ -54,6 +54,13 @@ public class SEM {
 		return celular.getCrédito();
 	}
 
+	/**
+	 * 
+	 * @param celular      De tipo Celular
+	 * @param horaDeCompra de tipo int
+	 * @return Un número que representa la hora de finalización de un
+	 *         estacionamiento
+	 */
 	public int calcularFinalDeEstacionamiento(Celular celular, int horaDeCompra) {
 		int saldo = this.consultarSaldo(celular);
 		int horas = horaDeCompra;
@@ -64,13 +71,20 @@ public class SEM {
 		return horas;
 	}
 
+	/**
+	 * 
+	 * @param número El número del celular del cliente, lo unico requerido para
+	 *               finalizar su estacionamiento.
+	 * @return Información variada sobre el servicio otorgado
+	 */
 	public String finalizarEstacionamiento(int número) {
 		Estacionamiento estacionamiento = this.estacionamientosEnCurso.stream()
 				.filter(est -> est.getCelular().getNúmero() == número).toList().get(0);
 		this.estacionamientosEnCurso.removeIf(est -> est.getCelular().getNúmero() == número);
 		this.descontarCrédito(estacionamiento.getCelular(), estacionamiento.getCelular().getCrédito());
 		return String.valueOf(estacionamiento.getHorarioInicio()) + String.valueOf(estacionamiento.getHorarioFin())
-				+ String.valueOf(estacionamiento.duración()) + String.valueOf(estacionamiento.getCelular().getCrédito());
+				+ String.valueOf(estacionamiento.duración())
+				+ String.valueOf(estacionamiento.getCelular().getCrédito());
 	}
 
 	public List<Compra> getCompras() {
@@ -80,13 +94,13 @@ public class SEM {
 	public List<Estacionamiento> getEstacionamientosEnCurso() {
 		return estacionamientosEnCurso;
 	}
-	
+
 	public void descontarCrédito(Celular celular, int monto) {
 		celular.setCrédito(celular.getCrédito() - monto);
 	}
-	
+
 	public boolean créditoSuficiente(Celular celular, int horas) {
-		return celular.getCrédito() / 40 >=  horas;
+		return celular.getCrédito() / 40 >= horas;
 	}
 
 }
