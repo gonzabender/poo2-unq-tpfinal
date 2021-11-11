@@ -1,11 +1,11 @@
 package tpfinal;
 
 public class Celular {
-	
+
 	private AppUsuario app;
 	private int número;
 	private int crédito;
-	
+
 	public void iniciarEstacionamiento() {
 		app.iniciarEstacionamiento();
 	}
@@ -31,9 +31,5 @@ public class Celular {
 		this.número = número;
 		this.crédito = crédito;
 	}
-	
-	
-	
-
 
 }
