@@ -8,7 +8,7 @@ public class SEM {
 	// private List<ZonaDeSem> zonasDeEstacionamiento = new ArrayList<ZonaDeSem>();
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
-	// private List<Infracción> infracciones = new ArrayList<Infracción>();
+	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
 	
 	public SEM() {
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
@@ -31,8 +31,8 @@ public class SEM {
 		estacionamientosEnCurso.add(estacionamiento);
 	}
 
-	public void addInfracción() {
-		// Este espacio depende de la creación del sector de infraciones.
+	public void addInfraccion(Infraccion i) {
+		this.infracciones.add(i);
 	}
 
 	public void addCompra(Compra compra) {

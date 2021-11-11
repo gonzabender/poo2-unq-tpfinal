@@ -26,6 +26,10 @@ public abstract class Estacionamiento {
 
 	protected abstract int getCelular();
 	
+	public String getPatente() {
+		return this.patente;
+	}
+	
 	
 
 }
