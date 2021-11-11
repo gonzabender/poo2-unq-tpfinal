@@ -41,7 +41,7 @@ public class SEM {
 
 	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
-		if (finDeEstacionamiento >= hora && finDeEstacionamiento != 20) {
+		if (finDeEstacionamiento >= hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
 			this.addEstacionamiento(operación);
 			return String.valueOf(hora) + String.valueOf(finDeEstacionamiento);
@@ -83,6 +83,10 @@ public class SEM {
 	
 	public void descontarCrédito(Celular celular, int monto) {
 		celular.setCrédito(celular.getCrédito() - monto);
+	}
+	
+	public boolean créditoSuficiente(Celular celular, int horas) {
+		return celular.getCrédito() / 40 >=  horas;
 	}
 
 }

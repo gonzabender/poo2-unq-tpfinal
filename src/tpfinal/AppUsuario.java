@@ -42,8 +42,8 @@ public class AppUsuario  {
 		return celular;
 	}
 
-	private void setSem(SEM sem) {
-		this.sem=sem;
+	public void setHoraActual(int hora) {
+		this.horaActual = hora;
 	}
 	
 	public void cargarCredito(PuntoDeVenta pv, int monto) {
@@ -58,14 +58,14 @@ public class AppUsuario  {
 	//devuelve la hora de inicio de estacionamiento, la cantidad maxima de horas que es posible
 	//estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto
 	//"Saldo insuficiente, Estacionamiento no permitido" (tambien podria hacerse con una clase y una excepcion)
-	public void iniciarEstacionamiento (){
-		this.sem.iniciarEstacionamiento(this.celular,this.patente, this.horaActual);
+	public String iniciarEstacionamiento (){
+		return this.sem.iniciarEstacionamiento(this.celular,this.patente, this.horaActual);
 	}
 
 	//devuelve la hora de iicio de estacionamiento, la hora de fin, la cantidad de horas estacionado
 	//y el costo del estacionamiento (en lugar de un string se podria usar una nueva clase)
-	public void finalizarEstacionamiento() {
-		this.sem.finalizarEstacionamiento(this.celular.getNúmero());
+	public String finalizarEstacionamiento() {
+		return this.sem.finalizarEstacionamiento(this.celular.getNúmero());
 	}	
 	
 	public void cambiarModo() {
