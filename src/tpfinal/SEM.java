@@ -2,6 +2,7 @@ package tpfinal;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SEM {
 
@@ -9,6 +10,7 @@ public class SEM {
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
+	private HashMap <Integer,Integer> saldos= new HashMap <Integer,Integer>();
 
 	public SEM() {
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
@@ -41,10 +43,11 @@ public class SEM {
 	 */
 	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
-		if (finDeEstacionamiento >= hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
+		if (finDeEstacionamiento > hora && hora <= 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
 			this.addEstacionamiento(operación);
-			return String.valueOf(hora) + String.valueOf(finDeEstacionamiento);
+			return "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " 
+					+ "Hasta las " + String.valueOf(finDeEstacionamiento)+ "hs.";
 		} else {
 			return "Saldo Insuficiente. Estacionamiento no permitido";
 		}
@@ -64,7 +67,7 @@ public class SEM {
 	public int calcularFinalDeEstacionamiento(Celular celular, int horaDeCompra) {
 		int saldo = this.consultarSaldo(celular);
 		int horas = horaDeCompra;
-		while (saldo > 0 || saldo < 40) {
+		while (saldo >= 40) {
 			horas = horas + 1;
 			saldo = saldo - 40;
 		}

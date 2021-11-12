@@ -50,6 +50,7 @@ public class ZonaSem {
 		for(Estacionamiento e : this.estacionamientos) {
 			if (e.getPatente() == patente) {
 				res = true;
+				break;
 			}
 		}
 		return res;

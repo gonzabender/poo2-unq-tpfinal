@@ -1,7 +1,5 @@
 package tpfinal;
 
-import java.util.Observer;
-
 public class AppUsuario  {
 /*En un principio se penso hacer la clase AppUsuario con 2 subclases
  *una que se encargue del funcionamiento manual y otra que se encargue
@@ -11,22 +9,28 @@ public class AppUsuario  {
  *devolviendo una nueva AppUsuario, ya sea manual o automatica.
  *Ej: 	AppUsuario miAppEst= new AppUsuario(sem, patente, celular);
  *		AppUsuario miAppEst= miAppEst.cambiarModo();
+ *
+ *Edit: Resuelto con state ^
+ *
  **/
 	private SEM sem;
 	private String patente;
 	private Celular celular;
 	private int horaActual;
-	private boolean automatico; //false indica que la app no esta en automatico
+	private EstadoApp estado; //false indica que la app no esta en automatico
 								//true indica que la app esta en automatico
 	
 	private boolean driving;	//false indica que la persona esta caminando
 								//true indica que la persona esta al volante
 	
+	private ZonaSem posicion;
+	
+	
 	public AppUsuario(SEM sem, String patente, Celular celular) {
 		this.sem=sem;
 		this.celular=celular;
 		this.patente=patente;
-		this.automatico=false;
+		this.estado=new Manual();
 		this.driving=true;
 	}
 
@@ -41,9 +45,16 @@ public class AppUsuario  {
 	public Celular getCelular() {
 		return celular;
 	}
-
+	public int getHoraActual() {
+		return horaActual;
+	}
+	
 	public void setHoraActual(int hora) {
 		this.horaActual = hora;
+	}
+	
+	public void setPosicion(ZonaSem zona) {
+		this.posicion= zona;
 	}
 	
 	public void cargarCredito(PuntoDeVenta pv, int monto) {
@@ -58,62 +69,52 @@ public class AppUsuario  {
 	//devuelve la hora de inicio de estacionamiento, la cantidad maxima de horas que es posible
 	//estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto
 	//"Saldo insuficiente, Estacionamiento no permitido" (tambien podria hacerse con una clase y una excepcion)
-	public String iniciarEstacionamiento (){
-		return this.sem.iniciarEstacionamiento(this.celular,this.patente, this.horaActual);
+	public void iniciarEstacionamiento (){
+		this.estado.iniciarEstacionamiento(this);	//Delegado a EstadoApp
 	}
 
 	//devuelve la hora de iicio de estacionamiento, la hora de fin, la cantidad de horas estacionado
 	//y el costo del estacionamiento (en lugar de un string se podria usar una nueva clase)
-	public String finalizarEstacionamiento() {
-		return this.sem.finalizarEstacionamiento(this.celular.getNúmero());
+	public void finalizarEstacionamiento() {
+		this.estado.finalizarEstacionamiento(this);	//Delegado a EstadoApp
 	}	
 	
 	public void cambiarModo() {
-		this.automatico= !this.automatico;
+		this.estado.cambiarModo(this);	//Delegado a EstadoApp
+	}
+
+	public boolean estaEstacionado() {
+		if (this.posicion==null) {
+			return false;
+		}else {
+			return this.posicion.estaVigente(this.patente);
+		}
 	}
 
 
-//////////////////////////////////////////////////////////////////////////////////
-/////////////////////////Observer/////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-	//Podria separarse con un notify
-/*	public void driving() {
-		if (this.automatico && !this.driving){
-			this.driving= true;
-			this.finalizarEstacionamiento();
-			this.alertaFinEAuto();
-		}else if (!this.automatico && this.sem.estacionado(patente)) {
-			this.alertaFinE();
-		}
-	} */
+/////////////////////////Simil-Observer/////////////////////////////////////////////////
 	
-/*	public void walking() {
-		if (this.automatico && this.driving){
+	public void driving() {
+		if(!this.driving) {
+			this.driving=true;
+			this.estado.notificar(this.driving, this);//notifica que esta manejando si estaba caminando antes
+		}	
+	}
+	
+	public void walking() {
+		if(this.driving) {
 			this.driving=false;
-			this.iniciarEstacionamiento();
-			this.alertaInicioEAuto();
-		}else if (!this.automatico && !this.sem.estacionado(patente)){
-			this.alertaInicioE();
-		}
-	} */
+			this.estado.notificar(this.driving, this);//nofifica que no esta manejando si estaba manejando antes.
+		}	
+	}
+
 //////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////	
+
+	public void toggleMovementSensor() {
+		this.estado.toggleMovementSensor(this);	//Delegado a EstadoApp
+	}
 	
-	//Observer
-	public void alertaInicioE() {
-		//DO SOMETHING
-	};
-	//Observer
-	public void alertaFinE() {
-		//DO SOMETHING
-	};
-	//Observer
-	public void alertaInicioEAuto() {
-		//DO SOMETHING
-	};
-		//Observer
-	public void alertaFinEAuto() {
-		//DO SOMETHING
+	void setEstado(EstadoApp estado) {
+		this.estado=estado;
 	};
 }

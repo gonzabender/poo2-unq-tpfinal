@@ -32,4 +32,9 @@ public class Celular {
 		this.crédito = crédito;
 	}
 
+	public void alerta(String texto) {
+		// Imprime el mensaje que recibe en pantalla
+		System.out.println(texto);
+	}
+
 }

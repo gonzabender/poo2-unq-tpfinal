@@ -68,6 +68,7 @@ public class ModalidadDeEstacionamientoTest {
         app.iniciarEstacionamiento(); // Por el momento, no retorna nada 
 		
 		// Verify
+        assertEquals(0, app.consultaSaldo());
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
 	}
 
