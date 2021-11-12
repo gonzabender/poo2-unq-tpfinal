@@ -2,7 +2,6 @@ package tpfinal;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SEM {
 
@@ -10,8 +9,7 @@ public class SEM {
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
-	private HashMap <Integer,Integer> saldos= new HashMap <Integer,Integer>();
-
+	
 	public SEM() {
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
 		this.compras = new ArrayList<Compra>();

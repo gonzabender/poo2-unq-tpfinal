@@ -8,12 +8,20 @@ import tpfinal.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 public class ModalidadDeEstacionamientoTest {
 
 	SEM sem;
 	Celular iphone;
 	AppUsuario app;
 	PuntoDeVenta kiosco;
+	
+	//Para testear los prints de consola
+	ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	PrintStream originalOut = System.out;
+	
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -25,6 +33,8 @@ public class ModalidadDeEstacionamientoTest {
 		kiosco = new PuntoDeVenta();
 		kiosco.setSem(sem);
 
+		//Para testear los prints de consola
+		System.setOut(new PrintStream(outContent));
 	}
 
 	@Test
@@ -67,9 +77,16 @@ public class ModalidadDeEstacionamientoTest {
 		// Exercise
         app.iniciarEstacionamiento(); // Por el momento, no retorna nada 
 		
+        String data= "Saldo Insuficiente. Estacionamiento no permitido";
 		// Verify
         assertEquals(0, app.consultaSaldo());
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
+		assertEquals(data, outContent.toString());
+		
+		
+	    System.setOut(originalOut);
 	}
 
 }
+
+

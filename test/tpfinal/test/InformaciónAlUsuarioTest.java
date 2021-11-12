@@ -22,9 +22,7 @@ public class InformaciónAlUsuarioTest {
 	
 	//Para testear los prints de consola
 	ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 	PrintStream originalOut = System.out;
-	PrintStream originalErr = System.err;
 	
 	
 	@Before
@@ -39,7 +37,6 @@ public class InformaciónAlUsuarioTest {
 		
 		//Para testear los prints de consola
 	    System.setOut(new PrintStream(outContent));
-	    System.setErr(new PrintStream(errContent));
 		
 	}
 
@@ -85,7 +82,6 @@ public class InformaciónAlUsuarioTest {
 	@After
 	public void restoreStreams() {
 	    System.setOut(originalOut);
-	    System.setErr(originalErr);
 	}
 
 }
