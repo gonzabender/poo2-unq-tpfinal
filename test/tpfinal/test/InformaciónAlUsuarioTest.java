@@ -6,8 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +28,7 @@ public class InformaciónAlUsuarioTest {
 		// Set up
 
 		sem = new SEM();
-		iphone = new Celular(app, 1157990244, 0);
+		iphone = new Celular(app, 1157990244, 0); 
 		app = new AppUsuario(sem, "UNQ021", iphone);
 		kiosco = new PuntoDeVenta();
 		kiosco.setSem(sem);
@@ -58,11 +56,12 @@ public class InformaciónAlUsuarioTest {
 	public void testEstacionamientoNoPermitido() {
 		// Exercise
 		app.setHoraActual(9);
-		app.cargarCredito(kiosco, 40);
-		String data = app.iniciarEstacionamiento();
+		app.cargarCredito(kiosco, 20); // No llegaría a pagar ni una hora de estacionamiento
+		app.iniciarEstacionamiento();
+		String data = "Saldo Insuficiente. Estacionamiento no permitido";
 
 		// Verify
-		assertEquals(data, app.iniciarEstacionamiento());
+		assertEquals(data,outContent.toString());
 	}
 
 	@Test
@@ -70,12 +69,12 @@ public class InformaciónAlUsuarioTest {
 		// Exercise
 		app.setHoraActual(9);
 		app.cargarCredito(kiosco, 120);
-		String data = app.iniciarEstacionamiento();
-		String data2 = app.finalizarEstacionamiento();
+		String data = "Hora de inicio: 9hs. Hora de fin: 12. Duración: 3hs. Duración: 3hs. Crédito restante: 0";
+		app.iniciarEstacionamiento();
+		app.finalizarEstacionamiento();
 
 		// Verify
-		assertTrue(sem.getEstacionamientosEnCurso().size() == 1);
-		assertEquals(data2, app.finalizarEstacionamiento());
+		assertEquals(data, outContent.toString());
 	}
 	
 	

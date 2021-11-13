@@ -89,7 +89,8 @@ public class SEM {
 	}
 
 	public String retornarInfo(int inicio, int fin, int duración, int crédito) {
-		return String.valueOf(inicio) + String.valueOf(fin) + String.valueOf(duración) + String.valueOf(crédito);
+		return "Hora de Inicio: " + String.valueOf(inicio) + "hs. Hora de fin: " + String.valueOf(fin) + "hs. Duración: "
+				+ String.valueOf(duración) + "hs. Crédito restante: " + String.valueOf(crédito);
 	}
 
 	public List<Compra> getCompras() {
