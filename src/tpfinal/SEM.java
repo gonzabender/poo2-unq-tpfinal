@@ -9,7 +9,8 @@ public class SEM {
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
-	
+	private int horaActual;
+
 	public SEM() {
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
 		this.compras = new ArrayList<Compra>();
@@ -44,8 +45,8 @@ public class SEM {
 		if (finDeEstacionamiento > hora && hora <= 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
 			this.addEstacionamiento(operación);
-			return "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " 
-					+ "Hasta las " + String.valueOf(finDeEstacionamiento)+ "hs.";
+			return "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
+					+ String.valueOf(finDeEstacionamiento) + "hs.";
 		} else {
 			return "Saldo Insuficiente. Estacionamiento no permitido";
 		}
@@ -83,9 +84,12 @@ public class SEM {
 				.filter(est -> est.getCelular().getNúmero() == número).toList().get(0);
 		this.estacionamientosEnCurso.removeIf(est -> est.getCelular().getNúmero() == número);
 		this.descontarCrédito(estacionamiento.getCelular(), estacionamiento.getCelular().getCrédito());
-		return String.valueOf(estacionamiento.getHorarioInicio()) + String.valueOf(estacionamiento.getHorarioFin())
-				+ String.valueOf(estacionamiento.duración())
-				+ String.valueOf(estacionamiento.getCelular().getCrédito());
+		return this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
+				estacionamiento.duración(), estacionamiento.getCelular().getCrédito());
+	}
+
+	public String retornarInfo(int inicio, int fin, int duración, int crédito) {
+		return String.valueOf(inicio) + String.valueOf(fin) + String.valueOf(duración) + String.valueOf(crédito);
 	}
 
 	public List<Compra> getCompras() {
@@ -103,5 +107,16 @@ public class SEM {
 	public boolean créditoSuficiente(Celular celular, int horas) {
 		return celular.getCrédito() / 40 >= horas;
 	}
+
+	public void finForzosoDeEstacionamiento() {
+
+	}
+
+	/*
+	 * String.valueOf(estacionamiento.getHorarioInicio()) +
+	 * String.valueOf(estacionamiento.getHorarioFin()) +
+	 * String.valueOf(estacionamiento.duración()) +
+	 * String.valueOf(estacionamiento.getCelular().getCrédito());
+	 */
 
 }

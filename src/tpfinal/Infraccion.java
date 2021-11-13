@@ -4,10 +4,10 @@ import java.util.Calendar;
 
 public class Infraccion {
 	
-	Calendar fechaYHora;
-	String patente;
-	Inspector inspector;
-	ZonaSem zonasem;
+	private Calendar fechaYHora;
+	private String patente;
+	private Inspector inspector;
+	private ZonaSem zonasem;
 	
 	public Infraccion(Inspector inspector, ZonaSem zonaSem, String patente) {
 		this.fechaYHora = Calendar.getInstance();

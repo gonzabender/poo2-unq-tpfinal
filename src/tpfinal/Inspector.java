@@ -1,11 +1,9 @@
 package tpfinal;
 
-import java.util.Calendar;
-
 public class Inspector {
 	
-	SEM sem;
-	ZonaSem zona;
+	private SEM sem;
+	private ZonaSem zona;
 	
 	public Inspector(SEM sem, ZonaSem zona) {
 		this.sem = sem;
