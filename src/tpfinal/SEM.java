@@ -112,6 +112,14 @@ public class SEM {
 
 	}
 
+	public List<Infraccion> getInfracciones() {
+		return infracciones;
+	}
+
+	public int getHoraActual() {
+		return horaActual;
+	}
+
 	/*
 	 * String.valueOf(estacionamiento.getHorarioInicio()) +
 	 * String.valueOf(estacionamiento.getHorarioFin()) +

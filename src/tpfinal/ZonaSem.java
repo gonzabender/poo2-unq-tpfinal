@@ -10,7 +10,7 @@ public class ZonaSem {
 	private SEM sem;
 	private Inspector inspector;
 
-	public ZonaSem(SEM sem, ArrayList<PuntoDeVenta> puntos, Inspector inspector) {
+	public ZonaSem(SEM sem, List<PuntoDeVenta> puntos, Inspector inspector) {
 		this.sem = sem;
 		this.puntosDeVenta = puntos;
 		this.inspector = inspector;
@@ -48,15 +48,16 @@ public class ZonaSem {
 		this.puntosDeVenta.add(punto);
 	}
 
+	/*
+	 * public boolean estaVigente(String patente) { boolean res = false; for
+	 * (Estacionamiento e : sem.getEstacionamientosEnCurso()) { if (e.getPatente()
+	 * == patente) { res = true; break; } } return res; }
+	 */
+
 	public boolean estaVigente(String patente) {
-		boolean res = false;
-		for (Estacionamiento e : this.estacionamientos) {
-			if (e.getPatente() == patente) {
-				res = true;
-				break;
-			}
-		}
-		return res;
+		List<Estacionamiento> estacionamientos = sem.getEstacionamientosEnCurso().stream()
+				.filter(est -> est.getPatente() == patente).toList();
+		return estacionamientos.size() == 1;
 	}
 
 }

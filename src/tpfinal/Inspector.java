@@ -35,6 +35,15 @@ public class Inspector {
 		this.sem.addInfraccion(inf);
 	}
 	
+	public boolean verificarEstacionamiento(String patente) {
+		if (!this.consultaVigencia(patente)) {
+			this.altaInfraccion(patente);
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	
 	
 }
