@@ -89,8 +89,8 @@ public class SEM {
 	}
 
 	public String retornarInfo(int inicio, int fin, int duración, int crédito) {
-		return "Hora de Inicio: " + String.valueOf(inicio) + "hs. Hora de fin: " + String.valueOf(fin) + "hs. Duración: "
-				+ String.valueOf(duración) + "hs. Crédito restante: " + String.valueOf(crédito);
+		return "Hora de Inicio: " + String.valueOf(inicio) + "hs. Hora de fin: " + String.valueOf(fin)
+				+ "hs. Duración: " + String.valueOf(duración) + "hs. Crédito restante: " + String.valueOf(crédito);
 	}
 
 	public List<Compra> getCompras() {
@@ -109,7 +109,11 @@ public class SEM {
 		return celular.getCrédito() / 40 >= horas;
 	}
 
-	public void finForzosoDeEstacionamiento() {
+	public void finalizarTodosLosEstacionamientos() {
+		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
+		if (this.getHoraActual() == 20) {
+			this.estacionamientosEnCurso.removeAll(estacionamientos);
+		}
 
 	}
 
@@ -119,6 +123,10 @@ public class SEM {
 
 	public int getHoraActual() {
 		return horaActual;
+	}
+
+	public void setHoraActual(int horaActual) {
+		this.horaActual = horaActual;
 	}
 
 	/*

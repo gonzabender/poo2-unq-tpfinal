@@ -86,6 +86,22 @@ public class ModalidadDeEstacionamientoTest {
 		
 	    System.setOut(originalOut);
 	}
+	
+	@Test
+	public void testFinalizarTodo() {
+		// Exercise
+		kiosco.iniciarEstacionamiento("986DRH", 10, 15);
+		app.cargarCredito(kiosco, 120); // Primero debe cargar crédito, aunque eso debe ser algo manual...
+		app.iniciarEstacionamiento();
+		assertEquals(2, sem.getEstacionamientosEnCurso().size());
+		sem.setHoraActual(20);
+		sem.finalizarTodosLosEstacionamientos();
+		
+		// Verify
+		assertTrue(sem.getEstacionamientosEnCurso().isEmpty());
+		
+		
+	}
 
 }
 
