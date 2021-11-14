@@ -11,6 +11,12 @@ public class EntidadAdapter implements Observer {
 	private List<Estacionamiento> interesantes = new ArrayList<Estacionamiento>();
 
 	
+	
+	public EntidadAdapter(SEM sem) {
+		this.sem=sem;
+	}
+
+
 	public void suscribirse() {
 		sem.addObserver(this);
 	}

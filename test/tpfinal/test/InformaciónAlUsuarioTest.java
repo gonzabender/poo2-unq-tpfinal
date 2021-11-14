@@ -71,7 +71,8 @@ public class InformaciónAlUsuarioTest {
 		// Exercise
 		app.setHoraActual(9);
 		app.cargarCredito(kiosco, 120);
-		String data = "Hora de inicio: 9hs. Hora de fin: 12. Duración: 3hs. Duración: 3hs. Crédito restante: 0";
+		String data = "Su estacionamiento es valido desde las 9hs. Hasta las 12hs."
+						+"Hora de Inicio: 9hs. Hora de fin: 12hs. Duración: 3hs. Crédito restante: 0";
 
 		app.iniciarEstacionamiento();
 		app.finalizarEstacionamiento();

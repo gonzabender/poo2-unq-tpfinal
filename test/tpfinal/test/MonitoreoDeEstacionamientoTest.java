@@ -1,9 +1,9 @@
 package tpfinal.test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import tpfinal.*;
 
@@ -14,13 +14,14 @@ public class MonitoreoDeEstacionamientoTest {
 	EntidadAdapter callCenter;
 	String A;
 	
-	@BeforeEach
+	@Before
 	public void setUp() throws Exception {
 		
 		// Set up
 		sem = new SEM();
 	    kiosco = new PuntoDeVenta();
-	    callCenter = new EntidadAdapter();
+	    kiosco.setSem(sem);
+	    callCenter = new EntidadAdapter(sem);
 	    callCenter.suscribirse();
 	}
 	
@@ -30,8 +31,7 @@ public class MonitoreoDeEstacionamientoTest {
 		kiosco.iniciarEstacionamiento(A, 14, 15);
 		
 		// Verify
-		assertTrue(callCenter.getInteresantes().size() == 1);
-		
+		assertTrue(callCenter.getInteresantes().size() == 1);		
 	}
 
 }
