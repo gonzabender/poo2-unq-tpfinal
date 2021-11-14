@@ -8,7 +8,7 @@ import java.util.Observer;
 public class EntidadAdapter implements Observer {
 
 	private SEM sem;
-	private List<Estacionamiento> interesantes = new ArrayList<Estacionamiento>();
+	private ArrayList<String> informes = new ArrayList<String>();
 
 	
 	
@@ -24,17 +24,16 @@ public class EntidadAdapter implements Observer {
 	
 	public void desuscribirse() {
 		sem.deleteObserver(this);
-
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.interesantes.add((Estacionamiento) arg); 
+		this.informes.add((String) arg); 
 	}
 
 
-	public List<Estacionamiento> getInteresantes() {
-		return interesantes;
+	public List<String> getInformes() {
+		return informes;
 	}
 	
 	

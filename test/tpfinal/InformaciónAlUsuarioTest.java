@@ -1,4 +1,4 @@
-package tpfinal.test;
+package tpfinal;
 
 import static org.junit.jupiter.api.Assertions.*;
 

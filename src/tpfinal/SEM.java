@@ -23,6 +23,12 @@ public class SEM extends Observable{
 
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientosEnCurso.add(estacionamiento);
+		String info= 	"Estacionamiento iniciado a las " 
+						+String.valueOf(estacionamiento.getHorarioInicio())
+						+"hs. Y finalizado a las "
+						+String.valueOf(estacionamiento.getHorarioFin()) + "hs.";
+		this.setChanged();
+		this.notifyObservers(info);
 	}
 
 	public void addInfraccion(Infraccion i) {
@@ -45,13 +51,15 @@ public class SEM extends Observable{
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
 		if (finDeEstacionamiento > hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
-			this.addEstacionamiento(operación);
-			this.setChanged();
-			this.notifyObservers(operación);;
-			return "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
+			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
+			this.addEstacionamiento(operación);
+			
+			return info;
 		} else {
+			
 			return "Saldo Insuficiente. Estacionamiento no permitido";
+		
 		}
 		
 	}
@@ -85,13 +93,17 @@ public class SEM extends Observable{
 	 */
 	public String finalizarEstacionamiento(int número) {
 		Estacionamiento estacionamiento = this.estacionamientosEnCurso.stream()
-				.filter(est -> est.getCelular().getNúmero() == número).toList().get(0);
-		this.estacionamientosEnCurso.removeIf(est -> est.getCelular().getNúmero() == número);
+				.filter(est -> est.getCelular()!=null && est.getCelular().getNúmero() == número).toList().get(0);
+		
+		this.estacionamientosEnCurso.removeIf(est -> est.getCelular()!=null && est.getCelular().getNúmero() == número);
 		this.descontarCrédito(estacionamiento.getCelular(), estacionamiento.getCelular().getCrédito());
-		this.setChanged();
-		this.notifyObservers(estacionamiento);;
-		return this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
+		
+		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
 				estacionamiento.duración(), estacionamiento.getCelular().getCrédito());
+		
+		this.setChanged();
+		this.notifyObservers(info);;
+		return info;
 	}
 
 	public String retornarInfo(int inicio, int fin, int duración, int crédito) {

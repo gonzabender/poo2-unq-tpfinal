@@ -6,10 +6,6 @@ public class Celular {
 	private int número;
 	private int crédito;
 
-	public void iniciarEstacionamiento() {
-		app.iniciarEstacionamiento();
-	}
-
 	public int getNúmero() {
 		return número;
 	}

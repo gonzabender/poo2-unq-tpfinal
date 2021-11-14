@@ -3,10 +3,6 @@ package tpfinal;
 public class PuntoDeVenta {
 	
 	private SEM sem;
-	
-	public SEM getSem() {
-		return sem;
-	}
 
 	public void cargarCelular(Celular celular, int monto) {
 		RecargaCelular operación = new RecargaCelular("hoy", this, monto, celular.getNúmero());

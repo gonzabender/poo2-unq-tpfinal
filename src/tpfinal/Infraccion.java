@@ -20,33 +20,16 @@ public class Infraccion {
 		return fechaYHora;
 	}
 
-	public void setFechaYHora(Calendar fechaYHora) {
-		this.fechaYHora = fechaYHora;
-	}
-
 	public String getPatente() {
 		return patente;
-	}
-
-	public void setPatente(String patente) {
-		this.patente = patente;
 	}
 
 	public Inspector getInspector() {
 		return inspector;
 	}
 
-	public void setInspector(Inspector inspector) {
-		this.inspector = inspector;
-	}
-
 	public ZonaSem getZonasem() {
 		return zonasem;
 	}
 
-	public void setZonasem(ZonaSem zonasem) {
-		this.zonasem = zonasem;
-	}
-	
-	
 }
