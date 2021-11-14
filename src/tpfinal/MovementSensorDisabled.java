@@ -31,7 +31,9 @@ public class MovementSensorDisabled extends EstadoApp {
 
 	@Override
 	protected void finalizarEstacionamiento(AppUsuario app) {
-		app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero());
+		app.getCelular().alerta(
+				app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero())
+		);
 	}	
 	
 }

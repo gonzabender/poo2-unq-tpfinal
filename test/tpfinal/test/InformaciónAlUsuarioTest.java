@@ -3,7 +3,9 @@ package tpfinal.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.After;
@@ -70,6 +72,7 @@ public class InformaciónAlUsuarioTest {
 		app.setHoraActual(9);
 		app.cargarCredito(kiosco, 120);
 		String data = "Hora de inicio: 9hs. Hora de fin: 12. Duración: 3hs. Duración: 3hs. Crédito restante: 0";
+
 		app.iniciarEstacionamiento();
 		app.finalizarEstacionamiento();
 

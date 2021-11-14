@@ -42,7 +42,7 @@ public class SEM {
 	 */
 	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
-		if (finDeEstacionamiento > hora && hora <= 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
+		if (finDeEstacionamiento > hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
 			this.addEstacionamiento(operación);
 			return "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "

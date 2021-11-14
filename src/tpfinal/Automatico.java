@@ -24,12 +24,13 @@ public class Automatico extends EstadoApp{
 	@Override
 	protected void notificar(boolean driving, AppUsuario app) {
 		if (!driving){
-			app.getSem().iniciarEstacionamiento(app.getCelular(),app.getPatente(),app.getHoraActual());
-			app.getCelular().alerta("Se ha estacionado");
+			app.getCelular().alerta("Se ha estacionado. "
+									+ app.getSem().iniciarEstacionamiento(app.getCelular(),app.getPatente(),app.getHoraActual()));
 		}
 		else if (driving){
-			app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero());
-			app.getCelular().alerta("Se ha finalizado el estacionamiento");
+			app.getCelular().alerta("Se ha finalizado el estacionamiento. " 
+									+ app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero()));
+			
 		}
 	}
 
@@ -46,7 +47,7 @@ public class Automatico extends EstadoApp{
 
 	@Override
 	protected void finalizarEstacionamiento(AppUsuario app) {
-		app.getCelular().alerta("no se puede finalizar estacionamiento en modo automatico");
+		app.getCelular().alerta("No se puede finalizar estacionamiento en modo automatico");
 	}
 	
 	

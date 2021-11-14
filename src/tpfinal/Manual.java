@@ -3,14 +3,6 @@ package tpfinal;
 public class Manual extends EstadoApp {
 	//Estado donde el usuario se encarga de iniciar y finalizar estacionamientos
 	
-	/*else if (!this.automatico && !driving){
-		//alerta si no esta en automatico y dejo de manejar
-		ret=this.alertaInicioE();
-	}
-	else if (!this.automatico) {
-		//alerta si esta no esta en modo automatico y comenzo a manejar
-		ret=this.alertaFinE();
-	}*/
 	
 	@Override
 	protected void cambiarModo(AppUsuario app) {
