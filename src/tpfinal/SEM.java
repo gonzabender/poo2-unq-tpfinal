@@ -1,9 +1,10 @@
 package tpfinal;
 
 import java.util.List;
+import java.util.Observable;
 import java.util.ArrayList;
 
-public class SEM {
+public class SEM extends Observable{
 
 	private List<ZonaSem> zonasDeEstacionamiento = new ArrayList<ZonaSem>();
 	private List<Estacionamiento> estacionamientosEnCurso;
@@ -45,11 +46,14 @@ public class SEM {
 		if (finDeEstacionamiento > hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
 			this.addEstacionamiento(operación);
+			this.setChanged();
+			this.notifyObservers(operación);;
 			return "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
 		} else {
 			return "Saldo Insuficiente. Estacionamiento no permitido";
 		}
+		
 	}
 
 	public int consultarSaldo(Celular celular) {
@@ -84,6 +88,8 @@ public class SEM {
 				.filter(est -> est.getCelular().getNúmero() == número).toList().get(0);
 		this.estacionamientosEnCurso.removeIf(est -> est.getCelular().getNúmero() == número);
 		this.descontarCrédito(estacionamiento.getCelular(), estacionamiento.getCelular().getCrédito());
+		this.setChanged();
+		this.notifyObservers(estacionamiento);;
 		return this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
 				estacionamiento.duración(), estacionamiento.getCelular().getCrédito());
 	}
