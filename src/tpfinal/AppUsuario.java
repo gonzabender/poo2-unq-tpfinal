@@ -20,7 +20,7 @@ public class AppUsuario  {
 	private EstadoApp estado; //false indica que la app no esta en automatico
 								//true indica que la app esta en automatico
 	
-	private boolean driving;	//false indica que la persona esta caminando
+	private EstadoMoveS estadoMoveS;	//false indica que la persona esta caminando
 								//true indica que la persona esta al volante
 	
 	private ZonaSem posicion;
@@ -31,7 +31,7 @@ public class AppUsuario  {
 		this.celular=celular;
 		this.patente=patente;
 		this.estado=new Manual();
-		this.driving=true;
+		this.estadoMoveS= new Driving();
 	}
 
 	public SEM getSem() {
@@ -95,26 +95,29 @@ public class AppUsuario  {
 /////////////////////////Simil-Observer/////////////////////////////////////////////////
 	
 	public void driving() {
-		if(!this.driving) {
-			this.driving=true;
-			this.estado.notificar(this.driving, this);//notifica que esta manejando si estaba caminando antes
-		}	
+		this.estadoMoveS.driving(this,this.estado, this.sem, this.celular);
+		//delega al EstadoMoveS el cual vuelve a delgar 
 	}
 	
 	public void walking() {
-		if(this.driving) {
-			this.driving=false;
-			this.estado.notificar(this.driving, this);//nofifica que no esta manejando si estaba manejando antes.
-		}	
+		this.estadoMoveS.walking(this,this.estado, this.sem, this.celular, this.patente, this.horaActual);
+		//delega al EstadoMoveS el cual vuelve a delgar 
 	}
 
 //////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Desactiva el MovementSensor si esta activado o lo activa si esta desactivado
+	 */
 	public void toggleMovementSensor() {
-		this.estado.toggleMovementSensor(this);	//Delegado a EstadoApp
+		this.estadoMoveS.toggleMovementSensor(this);	//Delegado a EstadoMoveS
 	}
 	
 	void setEstado(EstadoApp estado) {
 		this.estado=estado;
+	}
+
+	public void setEstadoMoveS(EstadoMoveS estadoMoveS) {
+		this.estadoMoveS=estadoMoveS;
 	};
 }

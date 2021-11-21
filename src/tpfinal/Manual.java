@@ -10,23 +10,6 @@ public class Manual extends EstadoApp {
 	}
 
 	@Override
-	protected void notificar(boolean driving,AppUsuario app) {
-		boolean estacionado= app.estaEstacionado();
-		if (!estacionado && !driving){
-			//alerta si no esta en automatico y dejo de manejar
-			app.getCelular().alerta("Aun no se ha estacionado");
-		}else if(estacionado && driving){
-			//alerta si esta no esta en modo automatico y comenzo a manejar
-			app.getCelular().alerta("Aun no ha finalizado el estacionamiento");
-		}
-	}
-
-	@Override
-	protected void toggleMovementSensor(AppUsuario app) {
-		app.setEstado(new MovementSensorDisabled());
-	}
-
-	@Override
 	protected void iniciarEstacionamiento(AppUsuario app) {
 		app.getCelular().alerta(
 			app.getSem().iniciarEstacionamiento(app.getCelular(),
@@ -40,6 +23,30 @@ public class Manual extends EstadoApp {
 		app.getCelular().alerta(
 			app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero())
 		);
+	}
+	
+	
+	//hay que ver una manera de que sepa si esta estacionado
+	//aun no alerta nada
+	@Override
+	protected void driving(SEM sem, Celular celular) {
+	/*	boolean estacionado= app.estaEstacionado();
+	  	if(estacionado && driving){
+			//alerta si esta no esta en modo automatico y comenzo a manejar
+			app.getCelular().alerta("Aun no ha finalizado el estacionamiento");
+		}*/
+	}
+
+	
+	//hay que ver una manera de que sepa si esta estacionado
+	//aun no alerta nada
+	@Override
+	protected void walking(SEM sem, Celular celular, String patente, int horaActual) {
+		/*boolean estacionado= app.estaEstacionado();
+		if (!estacionado && !driving){
+			//alerta si no esta en automatico y dejo de manejar
+			app.getCelular().alerta("Aun no se ha estacionado");
+		}*/
 	}
 
 }

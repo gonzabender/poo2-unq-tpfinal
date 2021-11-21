@@ -22,25 +22,6 @@ public class Automatico extends EstadoApp{
 	}
 
 	@Override
-	protected void notificar(boolean driving, AppUsuario app) {
-		if (!driving){
-			app.getCelular().alerta("Se ha estacionado. "
-									+ app.getSem().iniciarEstacionamiento(app.getCelular(),app.getPatente(),app.getHoraActual()));
-		}
-		else if (driving){
-			app.getCelular().alerta("Se ha finalizado el estacionamiento. " 
-									+ app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero()));
-			
-		}
-	}
-
-	@Override
-	protected void toggleMovementSensor(AppUsuario app) {
-		app.setEstado(new MovementSensorDisabled());
-		app.getCelular().alerta("Se ha desactivado el modo automatico porque se desactivo el sensor de movimiento");
-	}
-
-	@Override
 	protected void iniciarEstacionamiento(AppUsuario app) {
 		app.getCelular().alerta("No se puede iniciar estacionamiento en modo automatico");
 	}
@@ -48,6 +29,26 @@ public class Automatico extends EstadoApp{
 	@Override
 	protected void finalizarEstacionamiento(AppUsuario app) {
 		app.getCelular().alerta("No se puede finalizar estacionamiento en modo automatico");
+	}
+
+
+	
+	//Finaliza estacionamiento,
+	//no devuelve nada aun ni alerta nada
+	//hay que arreglar el finalizar estacionamiento del sem para que tome solo el celular y descuente el saldo
+	@Override
+	protected void driving(SEM sem, Celular celular) {
+		sem.finalizarEstacionamiento(celular.getNúmero());
+	}
+
+
+	
+	//Se estaciona
+	//no devuelve nada aun ni alerta nada
+	//hay que revisar un poco el iniciar del sem
+	@Override
+	protected void walking(SEM sem, Celular celular, String patente, int horaActual) {
+		sem.iniciarEstacionamiento(celular,patente,horaActual);
 	}
 	
 	
