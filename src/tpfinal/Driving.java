@@ -3,14 +3,14 @@ package tpfinal;
 public class Driving extends EstadoMoveS{
 
 	@Override
-	protected void walking(AppUsuario appUsuario,EstadoApp estado, SEM sem, Celular celular, String patente, int horaActual) {
+	protected String walking(AppUsuario appUsuario,EstadoApp estado, SEM sem, Celular celular, String patente, int horaActual) {
 		appUsuario.setEstadoMoveS(new Walking());
-		estado.walking(sem,celular,patente,horaActual);
+		return estado.walking(sem,celular,patente,horaActual);
 	}	
 
-
 	@Override
-	protected void driving(AppUsuario appUsuario,EstadoApp estado, SEM sem, Celular celular) {
+	protected String driving(AppUsuario appUsuario,EstadoApp estado, SEM sem, Celular celular) {
+		return "";
 	}
 
 	@Override

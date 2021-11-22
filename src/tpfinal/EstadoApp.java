@@ -8,7 +8,7 @@ public abstract class EstadoApp {
 
 	protected abstract void finalizarEstacionamiento(AppUsuario appUsuario);
 	
-	protected abstract void driving(SEM sem, Celular celular);
+	protected abstract String driving(SEM sem, Celular celular);
 
-	protected abstract void walking(SEM sem, Celular celular, String patente, int horaActual);
+	protected abstract String walking(SEM sem, Celular celular, String patente, int horaActual);
 }

@@ -37,8 +37,8 @@ public class Automatico extends EstadoApp{
 	//no devuelve nada aun ni alerta nada
 	//hay que arreglar el finalizar estacionamiento del sem para que tome solo el celular y descuente el saldo
 	@Override
-	protected void driving(SEM sem, Celular celular) {
-		sem.finalizarEstacionamiento(celular.getNúmero());
+	protected String driving(SEM sem, Celular celular) {
+		return sem.finalizarEstacionamiento(celular.getNúmero());
 	}
 
 
@@ -47,8 +47,8 @@ public class Automatico extends EstadoApp{
 	//no devuelve nada aun ni alerta nada
 	//hay que revisar un poco el iniciar del sem
 	@Override
-	protected void walking(SEM sem, Celular celular, String patente, int horaActual) {
-		sem.iniciarEstacionamiento(celular,patente,horaActual);
+	protected String walking(SEM sem, Celular celular, String patente, int horaActual) {
+		return sem.iniciarEstacionamiento(celular,patente,horaActual);
 	}
 	
 	

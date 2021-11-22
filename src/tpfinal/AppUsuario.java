@@ -90,21 +90,28 @@ public class AppUsuario  {
 			return this.posicion.estaVigente(this.patente);
 		}
 	}
-
-
-/////////////////////////Simil-Observer/////////////////////////////////////////////////
 	
+	
+	/**
+	 * Mensaje recibido constantemente por la app para determinar si el usuario está manejando.
+	 * 
+	 * @see #walking()
+	 */
 	public void driving() {
-		this.estadoMoveS.driving(this,this.estado, this.sem, this.celular);
+		this.celular.alerta( this.estadoMoveS.driving(this,this.estado, this.sem, this.celular));
 		//delega al EstadoMoveS el cual vuelve a delgar 
 	}
 	
+	
+	/**
+	 * Mensaje recibido constantemente por la app para determinar si el usuario está caminando
+	 * 
+	 * @see #driving()
+	 */
 	public void walking() {
-		this.estadoMoveS.walking(this,this.estado, this.sem, this.celular, this.patente, this.horaActual);
+		this.celular.alerta(this.estadoMoveS.walking(this,this.estado, this.sem, this.celular, this.patente, this.horaActual));
 		//delega al EstadoMoveS el cual vuelve a delgar 
 	}
-
-//////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Desactiva el MovementSensor si esta activado o lo activa si esta desactivado
