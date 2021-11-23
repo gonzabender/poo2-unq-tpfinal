@@ -1,5 +1,7 @@
 package tpfinal;
 
+import java.time.LocalTime;
+
 public class EstacionamientoApp extends Estacionamiento {
 
 	private Celular celular;
@@ -11,11 +13,17 @@ public class EstacionamientoApp extends Estacionamiento {
 	 * @param horarioFin    Fin de estacionamiento, automático en la app.
 	 * @param celular       El celular que realizo la compra.
 	 */
-	public EstacionamientoApp(String patente, int horarioInicio, int horarioFin, Celular celular) {
-		super(patente, horarioInicio, horarioFin);
+	public EstacionamientoApp(String patente,  Celular celular) {
+		super(patente);
+		this.celular = celular;
+	}
+	
+	@Override
+	public void setCelular(Celular celular) {
 		this.celular = celular;
 	}
 
+	@Override
 	public Celular getCelular() {
 		return celular;
 	}

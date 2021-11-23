@@ -2,9 +2,10 @@ package tpfinal;
 
 import java.util.List;
 import java.util.Observable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class SEM extends Observable{
+public class SEM extends Observable {
 
 	private List<ZonaSem> zonasDeEstacionamiento = new ArrayList<ZonaSem>();
 	private List<Estacionamiento> estacionamientosEnCurso;
@@ -23,10 +24,8 @@ public class SEM extends Observable{
 
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientosEnCurso.add(estacionamiento);
-		String info= 	"Estacionamiento iniciado a las " 
-						+String.valueOf(estacionamiento.getHorarioInicio())
-						+"hs. Y finalizado a las "
-						+String.valueOf(estacionamiento.getHorarioFin()) + "hs.";
+		String info = "Estacionamiento iniciado a las " + String.valueOf(estacionamiento.getHorarioInicio())
+				+ "hs. Y finalizado a las " + String.valueOf(estacionamiento.getHorarioFin()) + "hs.";
 		this.setChanged();
 		this.notifyObservers(info);
 	}
@@ -50,18 +49,18 @@ public class SEM extends Observable{
 	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
 		if (finDeEstacionamiento > hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
-			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
+			EstacionamientoApp operación = new EstacionamientoApp(patente, celular);
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
 			this.addEstacionamiento(operación);
-			
+
 			return info;
 		} else {
-			
+
 			return "Saldo Insuficiente. Estacionamiento no permitido";
-		
+
 		}
-		
+
 	}
 
 	public int consultarSaldo(Celular celular) {
@@ -93,20 +92,22 @@ public class SEM extends Observable{
 	 */
 	public String finalizarEstacionamiento(int número) {
 		Estacionamiento estacionamiento = this.estacionamientosEnCurso.stream()
-				.filter(est -> est.getCelular()!=null && est.getCelular().getNúmero() == número).toList().get(0);
-		
-		this.estacionamientosEnCurso.removeIf(est -> est.getCelular()!=null && est.getCelular().getNúmero() == número);
+				.filter(est -> est.getCelular() != null && est.getCelular().getNúmero() == número).toList().get(0);
+
+		this.estacionamientosEnCurso
+				.removeIf(est -> est.getCelular() != null && est.getCelular().getNúmero() == número);
 		this.descontarCrédito(estacionamiento.getCelular(), estacionamiento.getCelular().getCrédito());
-		
+
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
 				estacionamiento.duración(), estacionamiento.getCelular().getCrédito());
-		
+
 		this.setChanged();
-		this.notifyObservers(info);;
+		this.notifyObservers(info);
+		;
 		return info;
 	}
 
-	public String retornarInfo(int inicio, int fin, int duración, int crédito) {
+	public String retornarInfo(LocalTime inicio, LocalTime fin, int duración, int crédito) {
 		return "Hora de Inicio: " + String.valueOf(inicio) + "hs. Hora de fin: " + String.valueOf(fin)
 				+ "hs. Duración: " + String.valueOf(duración) + "hs. Crédito restante: " + String.valueOf(crédito);
 	}

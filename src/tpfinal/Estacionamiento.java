@@ -1,10 +1,17 @@
 package tpfinal;
 
+import java.time.LocalTime;
+import java.util.Calendar;
+
 public abstract class Estacionamiento {
 
+	/**
+	 * Mucho comportaiento para ser una clase abstracta, revisar.
+	 */
 	private String patente;
-	private int horarioInicio;
-	private int horarioFin;
+	private LocalTime horarioInicio;
+	private LocalTime horarioFin;
+	private Celular celular;
 
 	/**
 	 * 
@@ -12,31 +19,42 @@ public abstract class Estacionamiento {
 	 *         horario abonado, falso sino.
 	 */
 	public boolean vigente() {
-		return horarioInicio <= horarioFin;
+		return horarioInicio.isBefore(horarioFin);
 	}
 
-	public Estacionamiento(String patente, int horarioInicio, int horarioFin) {
+	public Estacionamiento(String patente) {
 		this.patente = patente;
-		this.horarioInicio = horarioInicio;
+		this.horarioInicio = LocalTime.now();
+	}
+
+	public void setHorarioFin(LocalTime horarioFin) {
 		this.horarioFin = horarioFin;
 	}
+	
 
-	protected abstract Celular getCelular();
+	public void setCelular(Celular celular) {
+		this.celular = celular;
+	}
 
 	public String getPatente() {
 		return this.patente;
 	}
 
-	public int getHorarioInicio() {
+	public LocalTime getHorarioInicio() {
 		return horarioInicio;
 	}
 
-	public int getHorarioFin() {
+	public LocalTime getHorarioFin() {
 		return horarioFin;
 	}
 
 	public int duración() {
-		return this.getHorarioFin() - this.getHorarioInicio();
+		return horarioInicio.compareTo(horarioFin);
+	}
+
+	 
+	public Celular getCelular() {
+		return celular;
 	}
 
 }

@@ -1,5 +1,7 @@
 package tpfinal;
 
+import java.time.LocalTime;
+
 public class EstacionamientoCompraPuntual extends Estacionamiento {
 
 	private CompraPuntual compra;
@@ -11,15 +13,9 @@ public class EstacionamientoCompraPuntual extends Estacionamiento {
 	 * @param horarioFin    Hora de finalizar estacionamiento, previamente patada.
 	 * @param compra        El punto de compra del estacionamiento.
 	 */
-	public EstacionamientoCompraPuntual(String patente, int horarioInicio, int horarioFin, CompraPuntual compra) {
-		super(patente, horarioInicio, horarioFin);
+	public EstacionamientoCompraPuntual(String patente, CompraPuntual compra) {
+		super(patente);
 		this.compra = compra;
-	}
-
-	@Override
-	protected Celular getCelular() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
