@@ -19,7 +19,7 @@ public class CompraPuntual extends Compra {
 	 * @param horasCompradas cantidad de horas abonadas.
 	 */
 
-	public CompraPuntual(String date, PuntoDeVenta puntoDeVenta, int horasCompradas) {
+	public CompraPuntual(Calendar date, PuntoDeVenta puntoDeVenta, int horasCompradas) {
 		super(date, puntoDeVenta);
 		this.horasCompradas = horasCompradas;
 	}

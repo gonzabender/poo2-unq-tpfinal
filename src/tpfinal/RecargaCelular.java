@@ -1,5 +1,7 @@
 package tpfinal;
 
+import java.util.Calendar;
+
 public class RecargaCelular extends Compra {
 
 	private int monto;
@@ -13,7 +15,7 @@ public class RecargaCelular extends Compra {
 	 * @param date      Fecha de compra
 	 * @param monto     Cantidad de dinero a recargar.
 	 */
-	public RecargaCelular(String date, PuntoDeVenta puntoDeVenta, int monto, int número) {
+	public RecargaCelular(Calendar date, PuntoDeVenta puntoDeVenta, int monto, int número) {
 		super(date, puntoDeVenta);
 		this.monto = monto;
 		this.nroCelular = número;

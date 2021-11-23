@@ -1,11 +1,13 @@
 package tpfinal;
 
+import java.util.Calendar;
+
 public abstract class Compra {
 
-	private String date;
+	private Calendar date;
 	private PuntoDeVenta puntoDeVenta;
 
-	public Compra(String date, PuntoDeVenta puntoDeVenta) {
+	public Compra(Calendar date, PuntoDeVenta puntoDeVenta) {
 		this.date = date;
 		this.puntoDeVenta = puntoDeVenta;
 	}
