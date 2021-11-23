@@ -22,13 +22,13 @@ public class Automatico extends EstadoApp{
 	}
 
 	@Override
-	protected void iniciarEstacionamiento(AppUsuario app) {
-		app.getCelular().alerta("No se puede iniciar estacionamiento en modo automatico");
+	protected String iniciarEstacionamiento(AppUsuario app) {
+		return "No se puede iniciar estacionamiento en modo automatico";
 	}
 
 	@Override
-	protected void finalizarEstacionamiento(AppUsuario app) {
-		app.getCelular().alerta("No se puede finalizar estacionamiento en modo automatico");
+	protected String finalizarEstacionamiento(AppUsuario app) {
+		return "No se puede finalizar estacionamiento en modo automatico";
 	}
 
 

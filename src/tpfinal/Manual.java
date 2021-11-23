@@ -10,19 +10,16 @@ public class Manual extends EstadoApp {
 	}
 
 	@Override
-	protected void iniciarEstacionamiento(AppUsuario app) {
-		app.getCelular().alerta(
-			app.getSem().iniciarEstacionamiento(app.getCelular(),
-												app.getPatente(),
-												app.getHoraActual())
-		);
+	protected String iniciarEstacionamiento(AppUsuario app) {
+	
+		return app.getSem().iniciarEstacionamiento(app.getCelular(),app.getPatente(),app.getHoraActual());
 	}
 
 	@Override
-	protected void finalizarEstacionamiento(AppUsuario app) {
-		app.getCelular().alerta(
-			app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero())
-		);
+	protected String finalizarEstacionamiento(AppUsuario app) {
+		
+		return app.getSem().finalizarEstacionamiento(app.getCelular().getNúmero());
+		
 	}
 	
 	
