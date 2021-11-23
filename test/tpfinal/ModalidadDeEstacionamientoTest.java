@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.LocalTime;
 
 public class ModalidadDeEstacionamientoTest {
 
@@ -51,7 +52,24 @@ public class ModalidadDeEstacionamientoTest {
 	@Test
 	public void testCompraPuntual() {
 		// Exercise
-		kiosco.iniciarEstacionamiento("986DRH", 10, 15); // Un estacionamiento cualquiera...
+		LocalTime horaSem = LocalTime.of(17, 0);
+		sem.setHoraActual(horaSem);
+		LocalTime fin = LocalTime.of(19, 0);				
+		kiosco.iniciarEstacionamiento("986DRH",fin); // Un estacionamiento cualquiera...
+
+		// Verify
+		assertTrue(sem.getEstacionamientosEnCurso().size() == 1); // Se registra en los estacionamientos en curso
+		assertTrue(sem.getCompras().size() == 1); // Se registra en las compras de punto de venta
+		assertTrue(sem.getEstacionamientosEnCurso().get(0).vigente()); // El estacionamiento se encuentra vigente
+
+	}
+	@Test
+	public void testCompraPuntualFalla() {
+		// Exercise
+		LocalTime horaSem = LocalTime.of(20, 0);
+		sem.setHoraActual(horaSem);
+		LocalTime fin = LocalTime.of(19, 0);				
+		kiosco.iniciarEstacionamiento("986DRH",fin); // Un estacionamiento cualquiera...
 
 		// Verify
 		assertTrue(sem.getEstacionamientosEnCurso().size() == 1); // Se registra en los estacionamientos en curso
@@ -90,11 +108,12 @@ public class ModalidadDeEstacionamientoTest {
 	@Test
 	public void testFinalizarTodo() {
 		// Exercise
-		kiosco.iniciarEstacionamiento("986DRH", 10, 15);
+		LocalTime fin = LocalTime.of(15, 0);
+		kiosco.iniciarEstacionamiento("986DRH", fin);
 		app.cargarCredito(kiosco, 120); // Primero debe cargar crédito, aunque eso debe ser algo manual...
 		app.iniciarEstacionamiento();
 		assertEquals(2, sem.getEstacionamientosEnCurso().size());
-		sem.setHoraActual(20);
+		sem.setHoraActual(LocalTime.of(20, 1));
 		sem.finalizarTodosLosEstacionamientos();
 		
 		// Verify

@@ -3,6 +3,7 @@ package tpfinal;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 
 import org.junit.Before;
@@ -37,7 +38,9 @@ public class InspectorTest {
 	@Test
 	public void testEstacionamientoVigente() {
 		// Exercise
-		kiosco.iniciarEstacionamiento(patente, 10, 18); // Alguien se estaciona
+		sem.setHoraActual(LocalTime.of(10, 0));
+		LocalTime fin = LocalTime.of(18, 0);
+		kiosco.iniciarEstacionamiento(patente, fin); // Alguien se estaciona
 		
 		// Verify
 		assertTrue(inspector.verificarEstacionamiento(patente)); // Pasa el inspector, verifica que la patente se encuntra en el sistema

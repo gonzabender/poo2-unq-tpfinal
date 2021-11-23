@@ -11,7 +11,7 @@ public class SEM extends Observable {
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
-	private int horaActual;
+	private LocalTime horaActual;
 
 	public SEM() {
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
@@ -130,7 +130,8 @@ public class SEM extends Observable {
 
 	public void finalizarTodosLosEstacionamientos() {
 		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
-		if (this.getHoraActual() == 20) {
+		LocalTime horaFin = LocalTime.of(20, 0);
+		if (this.getHoraActual().isAfter(horaFin)) {
 			this.estacionamientosEnCurso.removeAll(estacionamientos);
 		}
 
@@ -140,11 +141,11 @@ public class SEM extends Observable {
 		return infracciones;
 	}
 
-	public int getHoraActual() {
+	public LocalTime getHoraActual() {
 		return horaActual;
 	}
 
-	public void setHoraActual(int horaActual) {
+	public void setHoraActual(LocalTime horaActual) {
 		this.horaActual = horaActual;
 	}
 
