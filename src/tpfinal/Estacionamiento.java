@@ -5,9 +5,13 @@ import java.util.Calendar;
 
 public abstract class Estacionamiento {
 
+	/**
+	 * Mucho comportaiento para ser una clase abstracta, revisar.
+	 */
 	private String patente;
 	private LocalTime horarioInicio;
 	private LocalTime horarioFin;
+	private Celular celular;
 
 	/**
 	 * 
@@ -28,11 +32,8 @@ public abstract class Estacionamiento {
 	}
 	
 
-	/**
-	 * Método hook
-	 */
 	public void setCelular(Celular celular) {
-		
+		this.celular = celular;
 	}
 
 	public String getPatente() {
@@ -49,6 +50,11 @@ public abstract class Estacionamiento {
 
 	public int duración() {
 		return horarioInicio.compareTo(horarioFin);
+	}
+
+	 
+	public Celular getCelular() {
+		return celular;
 	}
 
 }

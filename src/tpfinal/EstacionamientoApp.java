@@ -23,6 +23,7 @@ public class EstacionamientoApp extends Estacionamiento {
 		this.celular = celular;
 	}
 
+	@Override
 	public Celular getCelular() {
 		return celular;
 	}
