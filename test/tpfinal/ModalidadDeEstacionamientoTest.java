@@ -66,15 +66,15 @@ public class ModalidadDeEstacionamientoTest {
 	@Test
 	public void testCompraPuntualFalla() {
 		// Exercise
-		LocalTime horaSem = LocalTime.of(20, 0);
+		LocalTime horaSem = LocalTime.of(18, 0);
 		sem.setHoraActual(horaSem);
-		LocalTime fin = LocalTime.of(19, 0);				
+		LocalTime fin = LocalTime.of(17, 0);				
 		kiosco.iniciarEstacionamiento("986DRH",fin); // Un estacionamiento cualquiera...
 
 		// Verify
 		assertTrue(sem.getEstacionamientosEnCurso().size() == 1); // Se registra en los estacionamientos en curso
 		assertTrue(sem.getCompras().size() == 1); // Se registra en las compras de punto de venta
-		assertTrue(sem.getEstacionamientosEnCurso().get(0).vigente()); // El estacionamiento se encuentra vigente
+		assertTrue(!sem.getEstacionamientosEnCurso().get(0).vigente()); // El estacionamiento se encuentra vigente
 
 	}
 	
