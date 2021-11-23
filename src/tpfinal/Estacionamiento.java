@@ -26,8 +26,14 @@ public abstract class Estacionamiento {
 	public void setHorarioFin(LocalTime horarioFin) {
 		this.horarioFin = horarioFin;
 	}
+	
 
-	protected abstract Celular getCelular();
+	/**
+	 * Método hook
+	 */
+	public void setCelular(Celular celular) {
+		
+	}
 
 	public String getPatente() {
 		return this.patente;

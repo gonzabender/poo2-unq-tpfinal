@@ -18,10 +18,4 @@ public class EstacionamientoCompraPuntual extends Estacionamiento {
 		this.compra = compra;
 	}
 
-	@Override
-	protected Celular getCelular() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
