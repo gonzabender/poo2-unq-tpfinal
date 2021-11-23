@@ -17,12 +17,8 @@ public class AppUsuario  {
 	private String patente;
 	private Celular celular;
 	private int horaActual;
-	private EstadoApp estado; //false indica que la app no esta en automatico
-								//true indica que la app esta en automatico
-	
-	private EstadoMoveS estadoMoveS;	//false indica que la persona esta caminando
-								//true indica que la persona esta al volante
-	
+	private EstadoApp estado; 
+	private EstadoMoveS estadoMoveS;
 	private ZonaSem posicion;
 	
 	
@@ -70,13 +66,13 @@ public class AppUsuario  {
 	//estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto
 	//"Saldo insuficiente, Estacionamiento no permitido" (tambien podria hacerse con una clase y una excepcion)
 	public void iniciarEstacionamiento (){
-		this.estado.iniciarEstacionamiento(this);	//Delegado a EstadoApp
+		this.celular.alerta( this.estado.iniciarEstacionamiento(this) );	//Delegado a EstadoApp
 	}
 
 	//devuelve la hora de iicio de estacionamiento, la hora de fin, la cantidad de horas estacionado
 	//y el costo del estacionamiento (en lugar de un string se podria usar una nueva clase)
 	public void finalizarEstacionamiento() {
-		this.estado.finalizarEstacionamiento(this);	//Delegado a EstadoApp
+		this.celular.alerta( this.estado.finalizarEstacionamiento(this));	//Delegado a EstadoApp
 	}	
 	
 	public void cambiarModo() {
