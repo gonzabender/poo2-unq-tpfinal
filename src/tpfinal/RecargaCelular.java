@@ -5,9 +5,7 @@ import java.util.Calendar;
 public class RecargaCelular extends Compra {
 
 	private int monto;
-	// private Celular celular;
-	// o...
-	private int nroCelular;
+	private Celular celular;
 
 	/**
 	 * 
@@ -15,10 +13,10 @@ public class RecargaCelular extends Compra {
 	 * @param date      Fecha de compra
 	 * @param monto     Cantidad de dinero a recargar.
 	 */
-	public RecargaCelular(Calendar date, PuntoDeVenta puntoDeVenta, int monto, int número) {
+	public RecargaCelular(Calendar date, PuntoDeVenta puntoDeVenta, int monto, Celular celular) {
 		super(date, puntoDeVenta);
 		this.monto = monto;
-		this.nroCelular = número;
+		this.celular = celular;
 	}
 
 }
