@@ -2,6 +2,7 @@ package tpfinal;
 
 import java.util.List;
 import java.util.Observable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SEM extends Observable{
@@ -50,7 +51,7 @@ public class SEM extends Observable{
 	public String iniciarEstacionamiento(Celular celular, String patente, int hora) {
 		int finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular, hora);
 		if (finDeEstacionamiento > hora && hora < 20 && this.créditoSuficiente(celular, finDeEstacionamiento - hora)) {
-			EstacionamientoApp operación = new EstacionamientoApp(patente, hora, finDeEstacionamiento, celular);
+			EstacionamientoApp operación = new EstacionamientoApp(patente, celular);
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
 			this.addEstacionamiento(operación);
@@ -106,7 +107,7 @@ public class SEM extends Observable{
 		return info;
 	}
 
-	public String retornarInfo(int inicio, int fin, int duración, int crédito) {
+	public String retornarInfo(LocalTime inicio, LocalTime fin, int duración, int crédito) {
 		return "Hora de Inicio: " + String.valueOf(inicio) + "hs. Hora de fin: " + String.valueOf(fin)
 				+ "hs. Duración: " + String.valueOf(duración) + "hs. Crédito restante: " + String.valueOf(crédito);
 	}

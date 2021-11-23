@@ -1,5 +1,6 @@
 package tpfinal;
 
+import java.time.LocalTime;
 import java.util.Calendar;
 
 public class PuntoDeVenta {
@@ -12,16 +13,17 @@ public class PuntoDeVenta {
 		sem.addCompra(operación);
 	}
 
-	public void iniciarEstacionamiento(String patente, int horaInicio, int horaFin) {
-		CompraPuntual compra = new CompraPuntual(Calendar.getInstance(), this,
-				this.cantidadDeHorasTotales(horaInicio, horaFin));
-		EstacionamientoCompraPuntual operación = new EstacionamientoCompraPuntual(patente, horaInicio, horaFin, compra);
+	public void iniciarEstacionamiento(String patente, LocalTime horaFin) {
+		CompraPuntual compra = new CompraPuntual(Calendar.getInstance(), this);
+		EstacionamientoCompraPuntual operación = new EstacionamientoCompraPuntual(patente, compra);
+		operación.setHorarioFin(horaFin);
+		compra.setHorasCompradas(this.cantidadDeHorasTotales(operación.getHorarioInicio(), horaFin));
 		sem.addCompra(compra);
 		sem.addEstacionamiento(operación);
 	}
 
-	private int cantidadDeHorasTotales(int a, int b) {
-		return b - a;
+	private int cantidadDeHorasTotales(LocalTime a, LocalTime b) {
+		return a.compareTo(b);
 	}
 
 	public void setSem(SEM sem) {
