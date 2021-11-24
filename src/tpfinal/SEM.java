@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Observable;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SEM extends Observable {
 
@@ -11,6 +12,7 @@ public class SEM extends Observable {
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones = new ArrayList<Infraccion>();
+	private HashMap<Celular, Integer> saldos = new HashMap<Celular, Integer>();
 	private LocalTime horaActual;
 
 	public SEM() {
@@ -64,7 +66,7 @@ public class SEM extends Observable {
 	}
 
 	public int consultarSaldo(Celular celular) {
-		return celular.getCrédito();
+		return this.saldos.get(celular);
 	}
 
 	/**
@@ -96,10 +98,10 @@ public class SEM extends Observable {
 
 		this.estacionamientosEnCurso
 				.removeIf(est -> est.getCelular() != null && est.getCelular().getNúmero() == número);
-		this.descontarCrédito(estacionamiento.getCelular(), estacionamiento.getCelular().getCrédito());
+		this.descontarCrédito(estacionamiento.getCelular(), this.consultarSaldo(estacionamiento.getCelular()));
 
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
-				estacionamiento.duración(), estacionamiento.getCelular().getCrédito());
+				estacionamiento.duración(), this.consultarSaldo(estacionamiento.getCelular()));
 
 		this.setChanged();
 		this.notifyObservers(info);
@@ -121,11 +123,11 @@ public class SEM extends Observable {
 	}
 
 	public void descontarCrédito(Celular celular, int monto) {
-		celular.setCrédito(celular.getCrédito() - monto);
+		this.saldos.put(celular, this.saldos.get(celular) - monto);
 	}
 
 	public boolean créditoSuficiente(Celular celular, int horas) {
-		return celular.getCrédito() / 40 >= horas;
+		return this.saldos.get(celular) / 40 >= horas;
 	}
 
 	public void finalizarTodosLosEstacionamientos() {
@@ -147,6 +149,20 @@ public class SEM extends Observable {
 
 	public void setHoraActual(LocalTime horaActual) {
 		this.horaActual = horaActual;
+	}
+
+	
+	/**
+	 * Añade el monto al saldo actual del celular, si no esta registrado lo registra y carga el celular con ese monto
+	 * 
+	 * @param celular 	Key
+	 * @param monto		Value
+	 */
+	public void cargarCrédito(Celular celular, int monto) {
+		if(this.saldos.containsKey(celular))
+		    this.saldos.put(celular, monto + this.saldos.get(celular));
+		else
+		    this.saldos.put(celular, monto);
 	}
 
 	/*

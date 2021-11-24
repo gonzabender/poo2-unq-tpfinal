@@ -14,7 +14,7 @@ public class PuntoDeVenta {
 	 */
 	public void cargarCelular(Celular celular, int monto) {
 		RecargaCelular operación = new RecargaCelular(Calendar.getInstance(), this, monto, celular);
-		celular.cargarCrédito(monto);
+		sem.cargarCrédito(celular,monto);
 		sem.addCompra(operación);
 	}
 

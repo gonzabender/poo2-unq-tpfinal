@@ -28,16 +28,10 @@ public class AppUsuarioTest {
 	
 	@Test
 	public void testCargarCredito() {
-		assertEquals(0,cel.getCrédito());
-		app.cargarCredito(kiosco, 1000);
-		assertEquals(1000, cel.getCrédito());
-	}
-	
-	@Test
-	public void testConsultarSaldo() {
 		assertEquals(0,app.consultaSaldo());
 		app.cargarCredito(kiosco, 1000);
-		assertEquals(1000,app.consultaSaldo());
+		assertEquals(1000, app.consultaSaldo());
 	}
+
 	
 }

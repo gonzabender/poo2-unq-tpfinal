@@ -44,7 +44,7 @@ public class ModalidadDeEstacionamientoTest {
 		kiosco.cargarCelular(iphone, 120);
 
 		// Verify
-		assertEquals(iphone.getCrédito(), 120); // El saldo se cargó al celular
+		assertEquals(app.consultaSaldo(), 120); // El saldo se cargó al celular
 		assertTrue(sem.getCompras().size() == 1); // La compra se agregó al registro del sistema SEM
 
 	}
