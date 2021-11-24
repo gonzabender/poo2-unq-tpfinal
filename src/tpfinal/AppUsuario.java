@@ -52,25 +52,31 @@ public class AppUsuario  {
 	public void setPosicion(ZonaSem zona) {
 		this.posicion= zona;
 	}
-	
-	public void cargarCredito(PuntoDeVenta pv, int monto) {
-		pv.cargarCelular(this.celular, monto);
-	}
 
-	//devuelve el saldo disponible
+	/**
+	 * 
+	 * @return El saldo del celular
+	 */
 	public int consultaSaldo() {
 		return this.sem.consultarSaldo(this.celular);
 	}
 
-	//devuelve la hora de inicio de estacionamiento, la cantidad maxima de horas que es posible
-	//estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto
-	//"Saldo insuficiente, Estacionamiento no permitido" (tambien podria hacerse con una clase y una excepcion)
+	/**
+	 * Alerta de la hora de inicio de estacionamiento, la cantidad maxima de horas que es posible 
+	 * estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto 
+	 * Saldo insuficiente, Estacionamiento no permitido" 
+	 */
+	//(puede simplemente devolver un string o tambien podria hacerse con una clase y una excepcion)
 	public void iniciarEstacionamiento (){
-		this.celular.alerta( this.estado.iniciarEstacionamiento(this) );	//Delegado a EstadoApp
+		this.celular.alerta( this.estado.iniciarEstacionamiento(this.sem,this.celular,this.patente,this.horaActual) );	//Delegado a EstadoApp
 	}
 
-	//devuelve la hora de iicio de estacionamiento, la hora de fin, la cantidad de horas estacionado
-	//y el costo del estacionamiento (en lugar de un string se podria usar una nueva clase)
+	
+	/**
+	 * Alerta de la hora de inicio de estacionamiento, la hora de fin, la cantidad de horas estacionado 
+	 * y el costo del estacionamiento 
+	 */
+	//(puede simplemente devolver un string o en lugar de un string se podria usar una nueva clase)
 	public void finalizarEstacionamiento() {
 		this.celular.alerta( this.estado.finalizarEstacionamiento(this));	//Delegado a EstadoApp
 	}	

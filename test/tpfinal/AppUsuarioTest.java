@@ -27,9 +27,9 @@ public class AppUsuarioTest {
 	}
 	
 	@Test
-	public void testCargarCredito() {
+	public void testConsultaSaldo() {
 		assertEquals(0,app.consultaSaldo());
-		app.cargarCredito(kiosco, 1000);
+		kiosco.cargarCelular(cel, 1000);;
 		assertEquals(1000, app.consultaSaldo());
 	}
 

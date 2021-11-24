@@ -22,10 +22,10 @@ public class Automatico extends EstadoApp{
 	}
 
 	@Override
-	protected String iniciarEstacionamiento(AppUsuario app) {
+	protected String iniciarEstacionamiento(SEM sem, Celular celular, String patente, int horaActual) {
 		return "No se puede iniciar estacionamiento en modo automatico";
 	}
-
+	
 	@Override
 	protected String finalizarEstacionamiento(AppUsuario app) {
 		return "No se puede finalizar estacionamiento en modo automatico";
@@ -34,22 +34,22 @@ public class Automatico extends EstadoApp{
 
 	
 	//Finaliza estacionamiento,
-	//no devuelve nada aun ni alerta nada
 	//hay que arreglar el finalizar estacionamiento del sem para que tome solo el celular y descuente el saldo
 	@Override
 	protected String driving(SEM sem, Celular celular) {
-		return sem.finalizarEstacionamiento(celular.getNúmero());
+		return sem.finalizarEstacionamiento(celular);
 	}
 
 
 	
 	//Se estaciona
-	//no devuelve nada aun ni alerta nada
 	//hay que revisar un poco el iniciar del sem
 	@Override
 	protected String walking(SEM sem, Celular celular, String patente, int horaActual) {
 		return sem.iniciarEstacionamiento(celular,patente,horaActual);
 	}
+
+
 	
 	
 }

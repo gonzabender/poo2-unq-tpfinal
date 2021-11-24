@@ -65,8 +65,14 @@ public class SEM extends Observable {
 
 	}
 
+	
+	/**
+	 * 
+	 * @param celular Celular a obtener el saldo
+	 * @return El saldo del celular o 0 si el celular nunca cargo saldo y no esta en el sistema
+	 */
 	public int consultarSaldo(Celular celular) {
-		return this.saldos.get(celular);
+		return this.saldos.getOrDefault(celular, 0);
 	}
 
 	/**
@@ -88,16 +94,16 @@ public class SEM extends Observable {
 
 	/**
 	 * 
-	 * @param número El número del celular del cliente, lo unico requerido para
+	 * @param celular El número del celular del cliente, lo unico requerido para
 	 *               finalizar su estacionamiento.
 	 * @return Información variada sobre el servicio otorgado
 	 */
-	public String finalizarEstacionamiento(int número) {
+	public String finalizarEstacionamiento(Celular celular) {
 		Estacionamiento estacionamiento = this.estacionamientosEnCurso.stream()
-				.filter(est -> est.getCelular() != null && est.getCelular().getNúmero() == número).toList().get(0);
+				.filter(est -> est.getCelular() != null && est.getCelular()== celular).toList().get(0);
 
 		this.estacionamientosEnCurso
-				.removeIf(est -> est.getCelular() != null && est.getCelular().getNúmero() == número);
+				.removeIf(est -> est.getCelular() != null && est.getCelular() == celular);
 		this.descontarCrédito(estacionamiento.getCelular(), this.consultarSaldo(estacionamiento.getCelular()));
 
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
@@ -122,12 +128,17 @@ public class SEM extends Observable {
 		return estacionamientosEnCurso;
 	}
 
-	public void descontarCrédito(Celular celular, int monto) {
-		this.saldos.put(celular, this.saldos.get(celular) - monto);
+	/**
+	 * Descuenta saldo al celular
+	 * @param celular	Celular a descontar saldo
+	 * @param monto		Monto a descontar
+	 */
+	private void descontarCrédito(Celular celular, int monto) {
+		this.saldos.put(celular, this.consultarSaldo(celular) - monto);
 	}
 
-	public boolean créditoSuficiente(Celular celular, int horas) {
-		return this.saldos.get(celular) / 40 >= horas;
+	private boolean créditoSuficiente(Celular celular, int horas) {
+		return this.consultarSaldo(celular) / 40 >= horas;
 	}
 
 	public void finalizarTodosLosEstacionamientos() {
@@ -153,16 +164,13 @@ public class SEM extends Observable {
 
 	
 	/**
-	 * Añade el monto al saldo actual del celular, si no esta registrado lo registra y carga el celular con ese monto
+	 * Añade el monto al saldo actual del celular, si no esta registrado en el sistema lo registra y carga el celular con ese monto
 	 * 
 	 * @param celular 	Key
 	 * @param monto		Value
 	 */
 	public void cargarCrédito(Celular celular, int monto) {
-		if(this.saldos.containsKey(celular))
-		    this.saldos.put(celular, monto + this.saldos.get(celular));
-		else
-		    this.saldos.put(celular, monto);
+		    this.saldos.put(celular, monto + this.consultarSaldo(celular));
 	}
 
 	/*

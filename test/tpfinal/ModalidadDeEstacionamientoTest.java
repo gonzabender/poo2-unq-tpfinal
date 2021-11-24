@@ -81,7 +81,7 @@ public class ModalidadDeEstacionamientoTest {
 	@Test
 	public void testCompraConApp() {
 		// Exercise
-		app.cargarCredito(kiosco, 120); // Primero debe cargar crédito, aunque eso debe ser algo manual...
+		kiosco.cargarCelular(iphone, 120);; // Primero debe cargar crédito, aunque eso debe ser algo manual...
 		app.iniciarEstacionamiento(); // Por el momento, no retorna nada 
 		
 		// Verify
@@ -110,7 +110,7 @@ public class ModalidadDeEstacionamientoTest {
 		// Exercise
 		LocalTime fin = LocalTime.of(15, 0);
 		kiosco.iniciarEstacionamiento("986DRH", fin);
-		app.cargarCredito(kiosco, 120); // Primero debe cargar crédito, aunque eso debe ser algo manual...
+		kiosco.cargarCelular(iphone, 120);; // Primero debe cargar crédito, aunque eso debe ser algo manual...
 		app.iniciarEstacionamiento();
 		assertEquals(2, sem.getEstacionamientosEnCurso().size());
 		sem.setHoraActual(LocalTime.of(20, 1));

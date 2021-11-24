@@ -44,7 +44,7 @@ public class InformaciónAlUsuarioTest {
 	public void testInformaciónEstacionamientoExitoso() {
 		// Exercise
 		app.setHoraActual(9);
-		app.cargarCredito(kiosco, 120);
+		kiosco.cargarCelular(iphone, 120);;
 		app.iniciarEstacionamiento();
 		
 		String data =  "Su estacionamiento es valido desde las 9hs. Hasta las 12hs.";
@@ -58,7 +58,7 @@ public class InformaciónAlUsuarioTest {
 	public void testEstacionamientoNoPermitido() {
 		// Exercise
 		app.setHoraActual(9);
-		app.cargarCredito(kiosco, 20); // No llegaría a pagar ni una hora de estacionamiento
+		kiosco.cargarCelular(iphone, 20);; // No llegaría a pagar ni una hora de estacionamiento
 		app.iniciarEstacionamiento();
 		String data = "Saldo Insuficiente. Estacionamiento no permitido";
 
@@ -70,7 +70,7 @@ public class InformaciónAlUsuarioTest {
 	public void testFinDeEstacionamiento() {
 		// Exercise
 		app.setHoraActual(9);
-		app.cargarCredito(kiosco, 120);
+		kiosco.cargarCelular(iphone, 120);;
 		String data = "Su estacionamiento es valido desde las 9hs. Hasta las 12hs."
 						+"Hora de Inicio: 9hs. Hora de fin: 12hs. Duración: 3hs. Crédito restante: 0";
 

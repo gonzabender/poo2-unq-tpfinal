@@ -37,7 +37,7 @@ public class AutomatizacionAppTest {
 		pvs.add(pv);
 		inspector=new Inspector(sem, posicion);
 		
-		app.cargarCredito(pv, 120);
+		pv.cargarCelular(cel, 120);;
 		
 		posicion= new ZonaSem(sem, pvs, inspector);
 		app.setPosicion(posicion);
