@@ -2,6 +2,8 @@ package tpfinal.sistema;
 
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import tpfinal.compras.Compra;
 import tpfinal.compras.estacionamientos.Estacionamiento;
@@ -167,9 +169,9 @@ public class SEM extends Observable {
 	}
 
 	public void finalizarTodosLosEstacionamientos() {
-		List<Celular> estacionamientos = this.celularesEstacionados.keySet().stream().toList();
+		Set<Celular> estacionamientos = this.celularesEstacionados.keySet();
 		if (!this.noSonLasOcho()) {
-			for (Estacionamiento e : estacionamientos) {
+			for (Celular e : estacionamientos) {
 				this.descontarTodosLosCréditos(this.consultarSaldo(e.), e);
 			}
 			this.estacionamientosEnCurso.removeAll(estacionamientos);
@@ -178,7 +180,7 @@ public class SEM extends Observable {
 	}
 
 	public Celular celularDelEstacionamiento(Estacionamiento est) {
-		this.celularesEstacionados.keySet().stream().filter(cel -> this.celularesEstacionados)
+		this.celularesEstacionados.keySet().stream().filter(cel -> this.celularesEstacionados);
 
 	}
 
@@ -186,7 +188,13 @@ public class SEM extends Observable {
 		this.celularesEstacionados.keySet().forEach(cel -> this.descontarCrédito(cel, monto, est));
 		;
 	}
-
+	
+	public Stream<Infraccion> getInfraccionesVehiculo(String patente){
+		List<Infraccion> inf = this.getInfracciones();
+		Stream<Infraccion> res = inf.stream().filter(i -> i.getPatente() == patente); 
+				return res;
+	}
+	
 	public List<Infraccion> getInfracciones() {
 		return infracciones;
 	}
