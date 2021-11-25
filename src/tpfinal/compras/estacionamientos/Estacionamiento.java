@@ -45,5 +45,7 @@ public abstract class Estacionamiento {
 	public int duración() {
 		return horarioInicio.compareTo(horarioFin);
 	}
+	
+	public abstract void terminarEstacionamiento(); 
 
 }

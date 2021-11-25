@@ -24,6 +24,7 @@ public class SEM extends Observable {
 	private HashMap<Celular, Integer> saldos;
 	private LocalTime horaActual;
 	private HashMap<Celular, String> celularesEstacionados;
+	private int precioHora;
 
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
@@ -32,6 +33,7 @@ public class SEM extends Observable {
 		this.infracciones = new ArrayList<Infraccion>();
 		this.saldos = new HashMap<Celular, Integer>();
 		this.celularesEstacionados = new HashMap<Celular, String>();
+		this.precioHora = 40;
 	}
 
 	public void addZona(ZonaSem zona) {
@@ -138,7 +140,7 @@ public class SEM extends Observable {
 
 		return info;
 	}
-
+	
 	public String retornarInfo(LocalTime inicio, LocalTime fin, int duración, int crédito) {
 		return "Hora de Inicio: " + String.valueOf(inicio) + "hs. Hora de fin: " + String.valueOf(fin)
 				+ "hs. Duración: " + String.valueOf(duración) + "hs. Crédito restante: " + String.valueOf(crédito);
@@ -169,10 +171,10 @@ public class SEM extends Observable {
 	}
 
 	public void finalizarTodosLosEstacionamientos() {
-		Set<Celular> estacionamientos = this.celularesEstacionados.keySet();
+		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
 		if (!this.noSonLasOcho()) {
-			for (Celular e : estacionamientos) {
-				this.descontarTodosLosCréditos(this.consultarSaldo(e.), e);
+			for (Estacionamiento e : estacionamientos) {
+				e.terminarEstacionamiento();
 			}
 			this.estacionamientosEnCurso.removeAll(estacionamientos);
 		}
@@ -180,7 +182,7 @@ public class SEM extends Observable {
 	}
 
 	public Celular celularDelEstacionamiento(Estacionamiento est) {
-		this.celularesEstacionados.keySet().stream().filter(cel -> this.celularesEstacionados);
+		this.celularesEstacionados.keySet().stream().filter(cel ->  this.celularesEstacionados);
 
 	}
 

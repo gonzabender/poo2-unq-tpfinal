@@ -19,5 +19,9 @@ public class EstacionamientoCompraPuntual extends Estacionamiento {
 		super(patente);
 		this.compra = compra;
 	}
+	
+	public void terminarEstacionamiento() {
+		
+	}
 
 }

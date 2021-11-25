@@ -23,5 +23,13 @@ public class EstacionamientoApp extends Estacionamiento {
 	public Celular getCelular() {
 		return celular;
 	}
+	
+	public void terminarEstacionamiento() {
+		this.celular.restarSaldo(this.calcularResta());
+	}
+	
+	public int calcularResta() {
+		return (this.getHorarioFin().getHour() - this.getHorarioInicio().getHour()) *40;
+	}
 
 }
