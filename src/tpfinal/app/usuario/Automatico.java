@@ -1,4 +1,10 @@
-package tpfinal;
+package tpfinal.app.usuario;
+
+import java.time.LocalTime;
+
+import tpfinal.sistema.SEM;
+import tpfinal.usuario.AppUsuario;
+import tpfinal.usuario.Celular;
 
 public class Automatico extends EstadoApp{
 	//Estado donde la app se encarga de iniciar y finalizar estacionamientos, el usuario no puede
@@ -17,17 +23,17 @@ public class Automatico extends EstadoApp{
 	}*/
 	
 	@Override
-	protected void cambiarModo(AppUsuario app) {
+	public void cambiarModo(AppUsuario app) {
 		app.setEstado(new Manual());
 	}
 
 	@Override
-	protected String iniciarEstacionamiento(SEM sem, Celular celular, String patente, int horaActual) {
+	public String iniciarEstacionamiento(SEM sem, Celular celular, String patente, LocalTime horaActual) {
 		return "No se puede iniciar estacionamiento en modo automatico";
 	}
 	
 	@Override
-	protected String finalizarEstacionamiento(AppUsuario app) {
+	public String finalizarEstacionamiento(AppUsuario app) {
 		return "No se puede finalizar estacionamiento en modo automatico";
 	}
 
@@ -36,7 +42,7 @@ public class Automatico extends EstadoApp{
 	//Finaliza estacionamiento,
 	//hay que arreglar el finalizar estacionamiento del sem para que tome solo el celular y descuente el saldo
 	@Override
-	protected String cambieAManejar(SEM sem, Celular celular) {
+	public String cambieAManejar(SEM sem, Celular celular) {
 		return sem.finalizarEstacionamiento(celular);
 	}
 
@@ -45,7 +51,7 @@ public class Automatico extends EstadoApp{
 	//Se estaciona
 	//hay que revisar un poco el iniciar del sem
 	@Override
-	protected String cambieACaminar(SEM sem, Celular celular, String patente, int horaActual) {
+	public String cambieACaminar(SEM sem, Celular celular, String patente, LocalTime horaActual) {
 		return sem.iniciarEstacionamiento(celular,patente,horaActual);
 	}
 

@@ -1,4 +1,13 @@
-package tpfinal;
+package tpfinal.usuario;
+
+import java.time.LocalTime;
+
+import tpfinal.app.usuario.EstadoApp;
+import tpfinal.app.usuario.EstadoMoveS;
+import tpfinal.app.usuario.Manejando;
+import tpfinal.app.usuario.Manual;
+import tpfinal.sistema.SEM;
+import tpfinal.sistema.ZonaSem;
 
 public class AppUsuario  {
 /*En un principio se penso hacer la clase AppUsuario con 2 subclases
@@ -16,7 +25,7 @@ public class AppUsuario  {
 	private SEM sem;
 	private String patente;
 	private Celular celular;
-	private int horaActual;
+	private LocalTime horaActual;
 	private EstadoApp estado; 
 	private EstadoMoveS estadoMoveS;
 	private ZonaSem posicion;
@@ -41,11 +50,11 @@ public class AppUsuario  {
 	public Celular getCelular() {
 		return celular;
 	}
-	public int getHoraActual() {
+	public LocalTime getHoraActual() {
 		return horaActual;
 	}
 	
-	public void setHoraActual(int hora) {
+	public void setHoraActual(LocalTime hora) {
 		this.horaActual = hora;
 	}
 	
@@ -122,11 +131,11 @@ public class AppUsuario  {
 		this.estadoMoveS.toggleMovementSensor(this);	//Delegado a EstadoMoveS
 	}
 	
-	void setEstado(EstadoApp estado) {
+	public void setEstado(EstadoApp estado) {
 		this.estado=estado;
 	}
 
-	protected void setEstadoMoveS(EstadoMoveS estadoMoveS) {
+	public void setEstadoMoveS(EstadoMoveS estadoMoveS) {
 		this.estadoMoveS=estadoMoveS;
 	}
 

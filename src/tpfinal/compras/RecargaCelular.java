@@ -1,6 +1,9 @@
-package tpfinal;
+package tpfinal.compras;
 
 import java.util.Calendar;
+
+import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.usuario.Celular;
 
 public class RecargaCelular extends Compra {
 

@@ -1,6 +1,8 @@
-package tpfinal;
+package tpfinal.inspector;
 
 import java.util.Calendar;
+
+import tpfinal.sistema.ZonaSem;
 
 public class Infraccion {
 	

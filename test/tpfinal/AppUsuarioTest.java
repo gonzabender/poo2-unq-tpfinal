@@ -6,6 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tpfinal.*;
+import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.sistema.SEM;
+import tpfinal.usuario.AppUsuario;
+import tpfinal.usuario.Celular;
 
 public class AppUsuarioTest {
 

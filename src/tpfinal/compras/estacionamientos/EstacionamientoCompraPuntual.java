@@ -1,6 +1,8 @@
-package tpfinal;
+package tpfinal.compras.estacionamientos;
 
 import java.time.LocalTime;
+
+import tpfinal.compras.CompraPuntual;
 
 public class EstacionamientoCompraPuntual extends Estacionamiento {
 

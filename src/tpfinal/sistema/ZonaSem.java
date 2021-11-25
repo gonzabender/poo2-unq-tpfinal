@@ -1,7 +1,10 @@
-package tpfinal;
+package tpfinal.sistema;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tpfinal.compras.estacionamientos.Estacionamiento;
+import tpfinal.inspector.Inspector;
 
 public class ZonaSem {
 

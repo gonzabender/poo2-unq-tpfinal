@@ -1,4 +1,4 @@
-package tpfinal;
+package tpfinal.compras.estacionamientos;
 
 import java.time.LocalTime;
 import java.util.Calendar;

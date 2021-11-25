@@ -11,6 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tpfinal.*;
+import tpfinal.inspector.Inspector;
+import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.sistema.SEM;
+import tpfinal.sistema.ZonaSem;
+import tpfinal.usuario.AppUsuario;
+import tpfinal.usuario.Celular;
 
 public class AutomatizacionAppTest {
 
