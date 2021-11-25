@@ -1,5 +1,7 @@
 package tpfinal;
 
+import java.time.LocalTime;
+
 public class Automatico extends EstadoApp{
 	//Estado donde la app se encarga de iniciar y finalizar estacionamientos, el usuario no puede
 	//hacerlo en este estado
@@ -22,7 +24,7 @@ public class Automatico extends EstadoApp{
 	}
 
 	@Override
-	protected String iniciarEstacionamiento(SEM sem, Celular celular, String patente, int horaActual) {
+	protected String iniciarEstacionamiento(SEM sem, Celular celular, String patente, LocalTime horaActual) {
 		return "No se puede iniciar estacionamiento en modo automatico";
 	}
 	
@@ -45,7 +47,7 @@ public class Automatico extends EstadoApp{
 	//Se estaciona
 	//hay que revisar un poco el iniciar del sem
 	@Override
-	protected String cambieACaminar(SEM sem, Celular celular, String patente, int horaActual) {
+	protected String cambieACaminar(SEM sem, Celular celular, String patente, LocalTime horaActual) {
 		return sem.iniciarEstacionamiento(celular,patente,horaActual);
 	}
 

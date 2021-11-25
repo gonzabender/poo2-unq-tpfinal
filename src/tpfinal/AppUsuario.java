@@ -1,5 +1,7 @@
 package tpfinal;
 
+import java.time.LocalTime;
+
 public class AppUsuario  {
 /*En un principio se penso hacer la clase AppUsuario con 2 subclases
  *una que se encargue del funcionamiento manual y otra que se encargue
@@ -16,7 +18,7 @@ public class AppUsuario  {
 	private SEM sem;
 	private String patente;
 	private Celular celular;
-	private int horaActual;
+	private LocalTime horaActual;
 	private EstadoApp estado; 
 	private EstadoMoveS estadoMoveS;
 	private ZonaSem posicion;
@@ -41,11 +43,11 @@ public class AppUsuario  {
 	public Celular getCelular() {
 		return celular;
 	}
-	public int getHoraActual() {
+	public LocalTime getHoraActual() {
 		return horaActual;
 	}
 	
-	public void setHoraActual(int hora) {
+	public void setHoraActual(LocalTime hora) {
 		this.horaActual = hora;
 	}
 	

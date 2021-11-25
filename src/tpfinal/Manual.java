@@ -1,5 +1,7 @@
 package tpfinal;
 
+import java.time.LocalTime;
+
 public class Manual extends EstadoApp {
 	//Estado donde el usuario se encarga de iniciar y finalizar estacionamientos
 	
@@ -10,7 +12,7 @@ public class Manual extends EstadoApp {
 	}
 
 	@Override
-	protected String iniciarEstacionamiento(SEM sem, Celular celular, String patente, int horaActual) {
+	protected String iniciarEstacionamiento(SEM sem, Celular celular, String patente, LocalTime horaActual) {
 	
 		return sem.iniciarEstacionamiento(celular,patente,horaActual);
 	}
@@ -39,7 +41,7 @@ public class Manual extends EstadoApp {
 	//hay que ver una manera de que sepa si esta estacionado
 	//aun no alerta nada
 	@Override
-	protected String cambieACaminar(SEM sem, Celular celular, String patente, int horaActual) {
+	protected String cambieACaminar(SEM sem, Celular celular, String patente, LocalTime horaActual) {
 		/*boolean estacionado= app.estaEstacionado();
 		if (!estacionado && !driving){
 			//alerta si no esta en automatico y dejo de manejar
