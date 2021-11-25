@@ -58,9 +58,10 @@ public class ZonaSem {
 	 */
 
 	public boolean estaVigente(String patente) {
-		List<Estacionamiento> estacionamientos = sem.getEstacionamientosEnCurso().stream()
-				.filter(est -> est.getPatente() == patente).toList();
-		return estacionamientos.size() == 1;
+		List<Estacionamiento> estacionamientos = sem.getEstacionamientosEnCurso();
+		long e = estacionamientos.stream()
+				.filter(est -> est.getPatente() == patente).count();
+		return e == 1;
 	}
 
 }
