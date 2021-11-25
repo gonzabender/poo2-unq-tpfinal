@@ -159,12 +159,24 @@ public class SEM extends Observable {
 	}
 
 	public void finalizarTodosLosEstacionamientos() {
-		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
-		LocalTime horaFin = LocalTime.of(20, 0);
-		if (this.getHoraActual().isAfter(horaFin)) {
+		List<Celular> estacionamientos = this.celularesEstacionados.keySet().stream().toList();
+		if (!this.noSonLasOcho()) {
+			for (Estacionamiento e : estacionamientos) {
+				this.descontarTodosLosCréditos(this.consultarSaldo(e.), e);
+			}
 			this.estacionamientosEnCurso.removeAll(estacionamientos);
 		}
 
+	}
+
+	public Celular celularDelEstacionamiento(Estacionamiento est) {
+		this.celularesEstacionados.keySet().stream().filter(cel -> this.celularesEstacionados)
+
+	}
+
+	public void descontarTodosLosCréditos(int monto, Estacionamiento est) {
+		this.celularesEstacionados.keySet().forEach(cel -> this.descontarCrédito(cel, monto, est));
+		;
 	}
 
 	public List<Infraccion> getInfracciones() {
