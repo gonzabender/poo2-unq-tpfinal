@@ -21,7 +21,10 @@ public class Celular {
 	public void restarSaldo(int saldoRestar) {
 		this.saldo -= saldoRestar;	
 	}
-
+	
+	public void cargarSaldo(int saldoCargar) {
+		this.saldo += saldoCargar;
+	}
 	public Celular(AppUsuario app, int número, int crédito) {
 		this.app = app;
 		this.número = número;

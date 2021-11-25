@@ -67,7 +67,7 @@ public class SEM extends Observable {
 	public String iniciarEstacionamiento(Celular celular, String patente, LocalTime hora) {
 		LocalTime finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular);
 		if (finDeEstacionamiento.isBefore(hora) && this.noSonLasOcho()
-				&& this.créditoSuficiente(celular, finDeEstacionamiento.compareTo(hora))) {
+				&& this.créditoSuficiente(celular, (finDeEstacionamiento.getHour() - hora.getHour()))) {
 			EstacionamientoApp operación = new EstacionamientoApp(patente, celular);
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
@@ -106,9 +106,9 @@ public class SEM extends Observable {
 	public LocalTime calcularFinalDeEstacionamiento(Celular celular) {
 		int saldo = this.consultarSaldo(celular);
 		LocalTime horas = this.horaActual;
-		while (saldo >= 40) {
+		while (saldo >= precioHora) {
 			horas = horas.plusHours(1);
-			saldo = saldo - 40;
+			saldo = saldo - precioHora;
 		}
 		return horas;
 	}
@@ -163,11 +163,13 @@ public class SEM extends Observable {
 	 */
 	private void descontarCrédito(Celular celular, int monto, Estacionamiento est) {
 		this.saldos.put(celular,
-				this.consultarSaldo(celular) - (est.getHorarioInicio().compareTo(LocalTime.now()) * 40));
+				this.consultarSaldo(celular) - ((LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40));
 	}
+	
+	//(LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
 
 	private boolean créditoSuficiente(Celular celular, int horas) {
-		return this.consultarSaldo(celular) / 40 >= horas;
+		return this.consultarSaldo(celular) / precioHora >= horas;
 	}
 
 	public void finalizarTodosLosEstacionamientos() {
@@ -181,10 +183,10 @@ public class SEM extends Observable {
 
 	}
 
-	public Celular celularDelEstacionamiento(Estacionamiento est) {
-		this.celularesEstacionados.keySet().stream().filter(cel ->  this.celularesEstacionados);
+	//public Celular celularDelEstacionamiento(Estacionamiento est) {
+		//this.celularesEstacionados.keySet().stream().filter(cel ->  this.celularesEstacionados);
 
-	}
+	//}
 
 	public void descontarTodosLosCréditos(int monto, Estacionamiento est) {
 		this.celularesEstacionados.keySet().forEach(cel -> this.descontarCrédito(cel, monto, est));
@@ -217,7 +219,7 @@ public class SEM extends Observable {
 	 * @param monto   Value
 	 */
 	public void cargarCrédito(Celular celular, int monto) {
-		this.saldos.put(celular, monto + this.consultarSaldo(celular));
+		celular.cargarSaldo(monto);
 	}
 
 	/*
