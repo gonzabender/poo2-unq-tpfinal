@@ -1,7 +1,12 @@
-package tpfinal;
+package tpfinal.sistema;
 
 import java.time.LocalTime;
 import java.util.Calendar;
+
+import tpfinal.compras.CompraPuntual;
+import tpfinal.compras.RecargaCelular;
+import tpfinal.compras.estacionamientos.EstacionamientoCompraPuntual;
+import tpfinal.usuario.Celular;
 
 public class PuntoDeVenta {
 

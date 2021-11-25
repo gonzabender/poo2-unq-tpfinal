@@ -1,4 +1,7 @@
-package tpfinal;
+package tpfinal.inspector;
+
+import tpfinal.sistema.SEM;
+import tpfinal.sistema.ZonaSem;
 
 public class Inspector {
 	

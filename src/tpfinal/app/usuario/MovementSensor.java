@@ -1,4 +1,4 @@
-package tpfinal;
+package tpfinal.app.usuario;
 
 /*
 * Cada una determinada cantidad de segundos las apps que implementen esta interfaz
