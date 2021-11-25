@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.time.LocalTime;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
@@ -47,7 +48,7 @@ public class InformaciónAlUsuarioTest {
 	@Test
 	public void testInformaciónEstacionamientoExitoso() {
 		// Exercise
-		app.setHoraActual(9);
+		app.setHoraActual(LocalTime.of(9, 0));
 		kiosco.cargarCelular(iphone, 120);;
 		app.iniciarEstacionamiento();
 		
@@ -61,7 +62,7 @@ public class InformaciónAlUsuarioTest {
 	@Test
 	public void testEstacionamientoNoPermitido() {
 		// Exercise
-		app.setHoraActual(9);
+		app.setHoraActual(LocalTime.of(9, 0));
 		kiosco.cargarCelular(iphone, 20);; // No llegaría a pagar ni una hora de estacionamiento
 		app.iniciarEstacionamiento();
 		String data = "Saldo Insuficiente. Estacionamiento no permitido";
@@ -73,7 +74,7 @@ public class InformaciónAlUsuarioTest {
 	@Test
 	public void testFinDeEstacionamiento() {
 		// Exercise
-		app.setHoraActual(9);
+		app.setHoraActual(LocalTime.of(9, 0));
 		kiosco.cargarCelular(iphone, 120);;
 		String data = "Su estacionamiento es valido desde las 9hs. Hasta las 12hs."
 						+"Hora de Inicio: 9hs. Hora de fin: 12hs. Duración: 3hs. Crédito restante: 0";

@@ -2,6 +2,7 @@ package tpfinal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.Before;
@@ -34,15 +35,16 @@ public class MonitoreoDeEstacionamientoTest {
 	    callCenter.suscribirse();
 	    cel= new Celular(app, 11000000, 120);
 	    app= new AppUsuario(sem, "abc123", cel);
-	    app.setHoraActual(10);
-	    sem.setHoraActual(12);
+	    app.setHoraActual(LocalTime.of(10, 0));
+	    sem.setHoraActual(LocalTime.of(12, 0));
 	}
 	
 	@Test
 	public void testSuscripciónGenérica() {
 		// Exercise
 		//datos de iniciar estacionamiento de punto de venta
-		kiosco.iniciarEstacionamiento(A, 14, 15);
+		
+		kiosco.iniciarEstacionamiento(A, LocalTime.of(15, 0));
 		// Verify
 		assertTrue(callCenter.getInformes().size() == 1);
 		assertTrue(callCenter.getInformes().contains("Estacionamiento iniciado a las 14hs. Y finalizado a las 15hs."));

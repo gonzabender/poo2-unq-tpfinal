@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -37,7 +38,7 @@ public class AutomatizacionAppTest {
 		sem= new SEM();
 		cel= new Celular(app, 1122334455, 0);
 		app= new AppUsuario(sem, "abc123", cel);
-		app.setHoraActual(8);
+		app.setHoraActual(LocalTime.of(8, 0));
 		pv= new PuntoDeVenta();
 		pv.setSem(sem);
 		pvs.add(pv);
