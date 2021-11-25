@@ -148,6 +148,7 @@ public class SEM extends Observable {
 	 * 
 	 * @param celular Celular a descontar saldo
 	 * @param monto   Monto a descontar
+	 * @param est Se necesita la hora de inicio para compararla con la hora actual y asi descontar
 	 */
 	private void descontarCrédito(Celular celular, int monto, Estacionamiento est) {
 		this.saldos.put(celular,
