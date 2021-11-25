@@ -119,7 +119,7 @@ public class SEM extends Observable {
 		// celular).toList().get(0);
 
 		this.estacionamientosEnCurso.remove(estacionamiento);
-		this.descontarCrédito(celular, this.consultarSaldo(celular));
+		this.descontarCrédito(celular, this.consultarSaldo(celular), estacionamiento);
 
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
 				estacionamiento.duración(), this.consultarSaldo(celular));
@@ -149,8 +149,9 @@ public class SEM extends Observable {
 	 * @param celular Celular a descontar saldo
 	 * @param monto   Monto a descontar
 	 */
-	private void descontarCrédito(Celular celular, int monto) {
-		this.saldos.put(celular, this.consultarSaldo(celular) - monto);
+	private void descontarCrédito(Celular celular, int monto, Estacionamiento est) {
+		this.saldos.put(celular,
+				this.consultarSaldo(celular) - (est.getHorarioInicio().compareTo(LocalTime.now()) * 40));
 	}
 
 	private boolean créditoSuficiente(Celular celular, int horas) {
