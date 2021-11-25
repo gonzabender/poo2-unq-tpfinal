@@ -5,19 +5,18 @@ public class MovementSensorDesactivado extends EstadoMoveS {
 	//se vuelva a activar el sensor de movimiento
 
 	@Override
-	protected String walking(AppUsuario appUsuario, EstadoApp estado, SEM sem, Celular celular, String patente,
-			int horaActual) {
-		return "";
+	protected void caminando(AppUsuario appUsuario) {
+		//no hace nada
 	}
 
 	@Override
-	protected String driving(AppUsuario appUsuario, EstadoApp estado, SEM sem, Celular celular) {
-		return "";
+	protected void manejando(AppUsuario appUsuario) {
+		//no hace nada
 	}
 	
 	@Override
 	protected void toggleMovementSensor(AppUsuario app) {
-		app.setEstadoMoveS(new Driving());
+		app.setEstadoMoveS(new Manejando());
 	}
 
 }

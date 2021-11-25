@@ -11,7 +11,6 @@ public abstract class Estacionamiento {
 	private String patente;
 	private LocalTime horarioInicio;
 	private LocalTime horarioFin;
-	private Celular celular;
 
 	/**
 	 * 
@@ -30,11 +29,6 @@ public abstract class Estacionamiento {
 	public void setHorarioFin(LocalTime horarioFin) {
 		this.horarioFin = horarioFin;
 	}
-	
-
-	public void setCelular(Celular celular) {
-		this.celular = celular;
-	}
 
 	public String getPatente() {
 		return this.patente;
@@ -50,11 +44,6 @@ public abstract class Estacionamiento {
 
 	public int duración() {
 		return horarioInicio.compareTo(horarioFin);
-	}
-
-	 
-	public Celular getCelular() {
-		return celular;
 	}
 
 }

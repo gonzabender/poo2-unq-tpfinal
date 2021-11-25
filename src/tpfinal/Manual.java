@@ -26,7 +26,7 @@ public class Manual extends EstadoApp {
 	//hay que ver una manera de que sepa si esta estacionado
 	//aun no alerta nada
 	@Override
-	protected String driving(SEM sem, Celular celular) {
+	protected String cambieAManejar(SEM sem, Celular celular) {
 	/*	boolean estacionado= app.estaEstacionado();
 	  	if(estacionado && driving){
 			//alerta si esta no esta en modo automatico y comenzo a manejar
@@ -39,7 +39,7 @@ public class Manual extends EstadoApp {
 	//hay que ver una manera de que sepa si esta estacionado
 	//aun no alerta nada
 	@Override
-	protected String walking(SEM sem, Celular celular, String patente, int horaActual) {
+	protected String cambieACaminar(SEM sem, Celular celular, String patente, int horaActual) {
 		/*boolean estacionado= app.estaEstacionado();
 		if (!estacionado && !driving){
 			//alerta si no esta en automatico y dejo de manejar

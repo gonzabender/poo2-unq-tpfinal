@@ -17,13 +17,7 @@ public class EstacionamientoApp extends Estacionamiento {
 		super(patente);
 		this.celular = celular;
 	}
-	
-	@Override
-	public void setCelular(Celular celular) {
-		this.celular = celular;
-	}
 
-	@Override
 	public Celular getCelular() {
 		return celular;
 	}

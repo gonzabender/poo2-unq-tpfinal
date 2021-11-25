@@ -14,7 +14,7 @@ public class SEM extends Observable {
 	private List<Infraccion> infracciones;
 	private HashMap<Celular, Integer> saldos;
 	private LocalTime horaActual;
-	private HashMap<Celular,String> celEstacionados;
+	private HashMap<Celular,String> celularesEstacionados;
 
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
@@ -22,7 +22,7 @@ public class SEM extends Observable {
 		this.zonasDeEstacionamiento = new ArrayList<ZonaSem>();
 		this.infracciones = new ArrayList<Infraccion>();
 		this.saldos = new HashMap<Celular, Integer>();
-		this.celEstacionados= new HashMap<Celular,String>();
+		this.celularesEstacionados= new HashMap<Celular,String>();
 	}
 
 	public void addZona(ZonaSem zona) {
@@ -60,7 +60,7 @@ public class SEM extends Observable {
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
 			this.addEstacionamiento(operación);
-			this.celEstacionados.put(celular, patente);
+			this.celularesEstacionados.put(celular, patente);
 			return info;
 		} else {
 
@@ -104,10 +104,10 @@ public class SEM extends Observable {
 	 * @return Información variada sobre el servicio otorgado
 	 */
 	public String finalizarEstacionamiento(Celular celular) {
-		String patente= this.celEstacionados.get(celular);
+		String patente= this.celularesEstacionados.get(celular);
 		Estacionamiento estacionamiento = 	this.estacionamientosEnCurso.stream()
-											.filter(est -> est.getPatente()==patente)
-											.findFirst().get(); //Si no estaciono esto falla, hay que 
+												.filter(est -> est.getPatente()==patente)
+												.findFirst().get(); //Si no estaciono esto falla, hay que 
 																//tocarlo para preguntar si estaciono antes
 				
 		
@@ -116,10 +116,10 @@ public class SEM extends Observable {
 
 		
 		this.estacionamientosEnCurso.remove(estacionamiento);
-		this.descontarCrédito(estacionamiento.getCelular(), this.consultarSaldo(estacionamiento.getCelular()));
+		this.descontarCrédito(celular, this.consultarSaldo(celular));
 
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
-				estacionamiento.duración(), this.consultarSaldo(estacionamiento.getCelular()));
+				estacionamiento.duración(), this.consultarSaldo(celular));
 
 		this.setChanged();
 		this.notifyObservers(info);

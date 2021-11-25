@@ -36,7 +36,7 @@ public class Automatico extends EstadoApp{
 	//Finaliza estacionamiento,
 	//hay que arreglar el finalizar estacionamiento del sem para que tome solo el celular y descuente el saldo
 	@Override
-	protected String driving(SEM sem, Celular celular) {
+	protected String cambieAManejar(SEM sem, Celular celular) {
 		return sem.finalizarEstacionamiento(celular);
 	}
 
@@ -45,7 +45,7 @@ public class Automatico extends EstadoApp{
 	//Se estaciona
 	//hay que revisar un poco el iniciar del sem
 	@Override
-	protected String walking(SEM sem, Celular celular, String patente, int horaActual) {
+	protected String cambieACaminar(SEM sem, Celular celular, String patente, int horaActual) {
 		return sem.iniciarEstacionamiento(celular,patente,horaActual);
 	}
 

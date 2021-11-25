@@ -27,7 +27,7 @@ public class AppUsuario  {
 		this.celular=celular;
 		this.patente=patente;
 		this.estado=new Manual();
-		this.estadoMoveS= new Driving();
+		this.estadoMoveS= new Manejando();
 	}
 
 	public SEM getSem() {
@@ -100,7 +100,7 @@ public class AppUsuario  {
 	 * @see #walking()
 	 */
 	public void driving() {
-		this.celular.alerta( this.estadoMoveS.driving(this,this.estado, this.sem, this.celular));
+		this.estadoMoveS.manejando(this);
 		//delega al EstadoMoveS el cual vuelve a delgar 
 	}
 	
@@ -111,7 +111,7 @@ public class AppUsuario  {
 	 * @see #driving()
 	 */
 	public void walking() {
-		this.celular.alerta(this.estadoMoveS.walking(this,this.estado, this.sem, this.celular, this.patente, this.horaActual));
+		this.estadoMoveS.caminando(this);
 		//delega al EstadoMoveS el cual vuelve a delgar 
 	}
 
@@ -126,7 +126,15 @@ public class AppUsuario  {
 		this.estado=estado;
 	}
 
-	public void setEstadoMoveS(EstadoMoveS estadoMoveS) {
+	protected void setEstadoMoveS(EstadoMoveS estadoMoveS) {
 		this.estadoMoveS=estadoMoveS;
+	}
+
+	public void ahoraEstasCaminando() {
+		this.celular.alerta(this.estado.cambieACaminar(sem, celular, patente, horaActual));
+	}
+
+	public void ahoraEstasManejando() {
+		this.celular.alerta(this.estado.cambieAManejar(sem, celular));
 	};
 }
