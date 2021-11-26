@@ -46,6 +46,11 @@ public abstract class Estacionamiento {
 		return horarioInicio.compareTo(horarioFin);
 	}
 	
-	public abstract void terminarEstacionamiento(); 
+	/**
+	 * Hook method
+	 */
+	public void terminarEstacionamiento() {
+		
+	}
 
 }

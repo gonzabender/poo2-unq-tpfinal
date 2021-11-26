@@ -125,10 +125,6 @@ public class SEM extends Observable {
 				.filter(est -> est.getPatente() == patente).findFirst().get(); // Si no estaciono esto falla, hay que
 		// tocarlo para preguntar si estaciono antes
 
-		// this.estacionamientosEnCurso.stream()
-		// .filter(est -> est.getCelular() != null && est.getCelular()==
-		// celular).toList().get(0);
-
 		this.estacionamientosEnCurso.remove(estacionamiento);
 		this.descontarCrédito(celular, this.consultarSaldo(celular), estacionamiento);
 
@@ -140,7 +136,7 @@ public class SEM extends Observable {
 
 		return info;
 	}
-	
+
 	public String retornarInfo(LocalTime inicio, LocalTime fin, int duración, int crédito) {
 		return "Hora de Inicio: " + String.valueOf(inicio) + "hs. Hora de fin: " + String.valueOf(fin)
 				+ "hs. Duración: " + String.valueOf(duración) + "hs. Crédito restante: " + String.valueOf(crédito);
@@ -159,14 +155,15 @@ public class SEM extends Observable {
 	 * 
 	 * @param celular Celular a descontar saldo
 	 * @param monto   Monto a descontar
-	 * @param est Se necesita la hora de inicio para compararla con la hora actual y asi descontar
+	 * @param est     Se necesita la hora de inicio para compararla con la hora
+	 *                actual y asi descontar
 	 */
 	private void descontarCrédito(Celular celular, int monto, Estacionamiento est) {
 		this.saldos.put(celular,
-				this.consultarSaldo(celular) - ((LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40));
+				this.consultarSaldo(celular) - ((LocalTime.now().getHour() - est.getHorarioInicio().getHour()) * 40));
 	}
-	
-	//(LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
+
+	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
 
 	private boolean créditoSuficiente(Celular celular, int horas) {
 		return this.consultarSaldo(celular) / precioHora >= horas;
@@ -183,22 +180,23 @@ public class SEM extends Observable {
 
 	}
 
-	//public Celular celularDelEstacionamiento(Estacionamiento est) {
-		//this.celularesEstacionados.keySet().stream().filter(cel ->  this.celularesEstacionados);
+	// public Celular celularDelEstacionamiento(Estacionamiento est) {
+	// this.celularesEstacionados.keySet().stream().filter(cel ->
+	// this.celularesEstacionados);
 
-	//}
+	// }
 
 	public void descontarTodosLosCréditos(int monto, Estacionamiento est) {
 		this.celularesEstacionados.keySet().forEach(cel -> this.descontarCrédito(cel, monto, est));
 		;
 	}
-	
-	public Stream<Infraccion> getInfraccionesVehiculo(String patente){
+
+	public Stream<Infraccion> getInfraccionesVehiculo(String patente) {
 		List<Infraccion> inf = this.getInfracciones();
-		Stream<Infraccion> res = inf.stream().filter(i -> i.getPatente() == patente); 
-				return res;
+		Stream<Infraccion> res = inf.stream().filter(i -> i.getPatente() == patente);
+		return res;
 	}
-	
+
 	public List<Infraccion> getInfracciones() {
 		return infracciones;
 	}
@@ -221,12 +219,5 @@ public class SEM extends Observable {
 	public void cargarCrédito(Celular celular, int monto) {
 		celular.cargarSaldo(monto);
 	}
-
-	/*
-	 * String.valueOf(estacionamiento.getHorarioInicio()) +
-	 * String.valueOf(estacionamiento.getHorarioFin()) +
-	 * String.valueOf(estacionamiento.duración()) +
-	 * String.valueOf(estacionamiento.getCelular().getCrédito());
-	 */
 
 }

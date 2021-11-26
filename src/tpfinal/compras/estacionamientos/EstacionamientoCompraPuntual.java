@@ -20,8 +20,6 @@ public class EstacionamientoCompraPuntual extends Estacionamiento {
 		this.compra = compra;
 	}
 	
-	public void terminarEstacionamiento() {
-		
-	}
+	
 
 }
