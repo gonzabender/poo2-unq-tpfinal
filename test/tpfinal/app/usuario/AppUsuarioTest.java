@@ -1,6 +1,9 @@
 package tpfinal.app.usuario;
 
 import static org.mockito.Mockito.*;
+
+import java.time.LocalTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
@@ -30,11 +33,12 @@ public class AppUsuarioTest {
 	public void setUp() {
 		
 		sem= mock (SEM.class);
-		cel= mock (Celular.class);
+		cel= new Celular(app, 0, 120);
 		app= new AppUsuario(sem,patente,cel);
 		posicion= mock(ZonaSem.class);
 		kiosco= mock (PuntoDeVenta.class);
 		when(sem.consultarSaldo(cel)).thenReturn(0);
+		app.setHoraActual(LocalTime.of(9, 0, 0));
 
 	}
 	
@@ -52,47 +56,69 @@ public class AppUsuarioTest {
 		assertEquals(1253,app.consultaSaldo());
 		verify(kiosco).cargarCelular(cel, 1253);
 	}
-
+	
 	@Test
 	public void testVerficarValidezEstacionamientoCuandoNoEstaEnZonaDiceQueNoEstaEnUnaZona() {
+		app.estaFueraDeZona();
+		
 		assertEquals(EstadoEstacionamiento.NoEstaEnZona, app.getEstadoEstacionamiento());
 	}
 
 	@Test
-	public void testVerficarEstacionamientoCuandoEstaEnZonaPeroNoEstaEstacionadoDiceQueNoEstaEstacionado() {
-		cel.setPosicion(posicion);//dentro de una zona
-		
+	public void testPorDefectoUnaAolicacionEstaDentroDeUnaZonaYNoEstaEstacionado() {
 		assertEquals(EstadoEstacionamiento.NoEstaEstacionado, app.getEstadoEstacionamiento());
 	}
 	
 	@Test
 	public void testVerficarEstacionamientoCuandoElCelularEntraEnUnaZonaYLuegoSaleDiceQueNoEstaEnUnaZona() {
-		cel.setPosicion(posicion);
-		cel.setPosicion(null);
+		app.estaFueraDeZona();
+		app.estaDentroDeZona();
+		app.estaFueraDeZona();
 		
 		assertEquals(EstadoEstacionamiento.NoEstaEnZona, app.getEstadoEstacionamiento());
 	}
 
 	@Test
 	public void testVerficarEstacionamientoCuandoEstaEnZonaYEstacionoDiceQueEstaEstacionado() {
-		cel.setPosicion(posicion);
+		when(sem.iniciarEstacionamiento(cel, patente, null)).thenReturn("");
+		assertEquals(EstadoEstacionamiento.NoEstaEstacionado, app.getEstadoEstacionamiento());
 		app.iniciarEstacionamiento();
 		
 		assertEquals(EstadoEstacionamiento.EstaEstacionado, app.getEstadoEstacionamiento());
+		
 	}
 	
 	@Test
 	public void testIniciarEstacionamientoCuandoNoEstaEnUnaZonaNoHaceNada() {
+		app.estaFueraDeZona();
+		app.iniciarEstacionamiento();
 		
+		assertEquals("No puede iniciar estacionamiento porque no se encuentra en una zona de estacionamiento medido",cel.ultimaAlerta());
+		assertEquals(EstadoEstacionamiento.NoEstaEnZona, app.getEstadoEstacionamiento());
 	}
 
 	@Test
-	public void testIniciarEstacionamientoCuandoEstaEnUnaZonaYNoEstaEstacionadoLoEstaciona() {
+	public void testIniciarEstacionamientoCuandoEstaEnUnaZonaYNoEstaEstacionadoLoEstacionaSiTieneSuficienteSaldo() {
+		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
 		
+		//falta la parte de si tiene suficiente saldo
+		app.iniciarEstacionamiento();
+		
+		assertEquals("Su estacionamiento es valido desde las 09:00hs. Hasta las 12:00hs.",cel.ultimaAlerta());
+		assertEquals(EstadoEstacionamiento.EstaEstacionado, app.getEstadoEstacionamiento());
 	}
 
 	@Test
 	public void testIniciarEstacionamientoCuandoEstaEnUnaZonaYEstaEstacionadoNoHaceNada() {
+		cel.alerta("ya no hay mas alertas");
+		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
+		app.iniciarEstacionamiento();
+		app.iniciarEstacionamiento();
+		
+		assertEquals("No se puede iniciar estacionamiento porque ya esta estacionado",cel.ultimaAlerta());
+		cel.descartarUltimaAlerta();
+		cel.descartarUltimaAlerta();
+		assertEquals("ya no hay mas alertas", cel.ultimaAlerta());
 		
 	}
 		

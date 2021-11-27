@@ -1,5 +1,7 @@
 package tpfinal.app.usuario;
 
+import java.util.Stack;
+
 import tpfinal.sistema.ZonaSem;
 
 public class Celular {
@@ -7,7 +9,7 @@ public class Celular {
 	private AppUsuario app;
 	private int número;
 	private int saldo;
-	private ZonaSem gps;
+	private Stack<String> alertas;
 	
 	public int getNúmero() {
 		return número;
@@ -32,27 +34,19 @@ public class Celular {
 		this.app = app;
 		this.número = número;
 		this.saldo=crédito;
+		this.alertas=new Stack <String>();
 	}
 
 	public void alerta(String texto) {
-		// Imprime el mensaje que recibe en pantalla
-		System.out.print(texto);
+		this.alertas.push(texto);
 	}
 
+	public String ultimaAlerta() {
+		return this.alertas.peek();
+	}
 	
-	/**
-	 * Setea la posicion actual en el gps y le indica a la app si esta dentro de una zona o no
-	 * @param posicion	representa la zona en la que esta, null en caso de que no este dentro de una zona
-	 */
-	public void setPosicion(ZonaSem posicion) {
-		//podria cambiarse por "entroEnZona()" y "salioDeZona()"
-		this.gps= posicion;
-		if (posicion==null) {
-			this.app.notificarFueraDeZona();
-		} else {
-			this.app.notificarDentroDeZona();
-		}
-		
+	public void descartarUltimaAlerta() {
+		this.alertas.pop();
 	}
 
 }

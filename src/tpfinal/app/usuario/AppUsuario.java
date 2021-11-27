@@ -34,7 +34,7 @@ public class AppUsuario  {
 		this.patente=patente;
 		this.estado=new Manual();
 		this.estadoMoveS= new Manejando();
-		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEnZona;
+		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEstacionado;
 	}
 
 	public SEM getSem() {
@@ -75,7 +75,7 @@ public class AppUsuario  {
 	 */
 	//(puede simplemente devolver un string o tambien podria hacerse con una clase y una excepcion)
 	public void iniciarEstacionamiento (){
-		this.celular.alerta( this.estado.iniciarEstacionamiento(this.sem,this.celular,this.patente,this.horaActual) );	//Delegado a EstadoApp
+		this.celular.alerta( this.estadoEstacionamiento.iniciarEstacionamiento(this,this.sem,this.celular,this.patente,this.horaActual) );	//Delegado a EstadoApp
 	}
 
 	
@@ -149,12 +149,23 @@ public class AppUsuario  {
 		return this.estadoEstacionamiento;
 	}
 
-	protected void notificarDentroDeZona() {
+	
+	/**
+	 * Su funcion es probar causisticas de si esta dentro de una zona de estacionamiento medido
+	 */
+	public void estaDentroDeZona() {
 		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEstacionado;
 	}
 
-	protected void notificarFueraDeZona() {
+	/**
+	 * Su funcion es probar causisticas de si esta fuera de una zona de estacionamiento medido
+	 */
+	public void estaFueraDeZona() {
 		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEnZona;
+	}
+
+	public void setEstadoEstacionamiento(EstadoEstacionamiento estadoEstacionamiento) {
+		this.estadoEstacionamiento=estadoEstacionamiento;
 	}
 
 }
