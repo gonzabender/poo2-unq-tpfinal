@@ -85,21 +85,8 @@ public class AppUsuario  {
 	 */
 	//(puede simplemente devolver un string o en lugar de un string se podria usar una nueva clase)
 	public void finalizarEstacionamiento() {
-		this.celular.alerta( this.estado.finalizarEstacionamiento(this));	//Delegado a EstadoApp
+		this.celular.alerta( this.estadoEstacionamiento.finalizarEstacionamiento(this));	//Delegado a EstadoApp
 	}	
-	
-	public void cambiarModo() {
-		this.estado.cambiarModo(this);	//Delegado a EstadoApp
-	}
-
-	public boolean estaEstacionado() {
-		if (this.posicion==null) {
-			return false;
-		}else {
-			return this.posicion.estaVigente(this.patente);
-		}
-	}
-	
 	
 	/**
 	 * Mensaje recibido constantemente por la app para determinar si el usuario está manejando.
@@ -137,12 +124,12 @@ public class AppUsuario  {
 		this.estadoMoveS=estadoMoveS;
 	}
 
-	public void ahoraEstasCaminando() {
-		this.celular.alerta(this.estado.cambieACaminar(sem, celular, patente, horaActual));
+	protected void ahoraEstasCaminando() {
+		this.estado.cambieACaminar(this);
 	}
 
-	public void ahoraEstasManejando() {
-		this.celular.alerta(this.estado.cambieAManejar(sem, celular));
+	protected void ahoraEstasManejando() {
+		this.estado.cambieAManejar(this);
 	}
 
 	public EstadoEstacionamiento getEstadoEstacionamiento() {
@@ -164,8 +151,15 @@ public class AppUsuario  {
 		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEnZona;
 	}
 
-	public void setEstadoEstacionamiento(EstadoEstacionamiento estadoEstacionamiento) {
+	protected void setEstadoEstacionamiento(EstadoEstacionamiento estadoEstacionamiento) {
 		this.estadoEstacionamiento=estadoEstacionamiento;
 	}
 
+	public void cambiarAManual() {
+		this.estado=new Manual();
+	}
+
+	public void cambiarAAutomatico() {
+		this.estado=new Automatico();
+	}
 }

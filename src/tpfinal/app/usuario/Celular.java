@@ -2,8 +2,6 @@ package tpfinal.app.usuario;
 
 import java.util.Stack;
 
-import tpfinal.sistema.ZonaSem;
-
 public class Celular {
 
 	private AppUsuario app;

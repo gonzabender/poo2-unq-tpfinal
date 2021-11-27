@@ -220,4 +220,13 @@ public class SEM extends Observable {
 		celular.cargarSaldo(monto);
 	}
 
+	
+	
+	public boolean tieneSaldoSuficiente(Celular cel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 }

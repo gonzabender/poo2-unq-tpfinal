@@ -15,8 +15,14 @@ public enum EstadoEstacionamiento {
 	}, NoEstaEstacionado {
 		@Override
 		public String iniciarEstacionamiento(AppUsuario app, SEM sem, Celular celular, String patente, LocalTime horaActual) {
-			app.setEstadoEstacionamiento(EstadoEstacionamiento.EstaEstacionado);
-			return sem.iniciarEstacionamiento(celular, patente, horaActual);
+			String alerta="";
+			if (sem.tieneSaldoSuficiente(celular)){
+				app.setEstadoEstacionamiento(EstadoEstacionamiento.EstaEstacionado);
+				alerta= sem.iniciarEstacionamiento(celular, patente, horaActual);
+			} else {
+				alerta="No tiene credito suficiente para iniciar estacionamiento";
+			}
+			return alerta;
 		}
 		
 	}, EstaEstacionado {
