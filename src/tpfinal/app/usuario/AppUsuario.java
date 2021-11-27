@@ -1,11 +1,7 @@
-package tpfinal.usuario;
+package tpfinal.app.usuario;
 
 import java.time.LocalTime;
 
-import tpfinal.app.usuario.EstadoApp;
-import tpfinal.app.usuario.EstadoMoveS;
-import tpfinal.app.usuario.Manejando;
-import tpfinal.app.usuario.Manual;
 import tpfinal.sistema.SEM;
 import tpfinal.sistema.ZonaSem;
 
@@ -29,6 +25,7 @@ public class AppUsuario  {
 	private EstadoApp estado; 
 	private EstadoMoveS estadoMoveS;
 	private ZonaSem posicion;
+	private EstadoEstacionamiento estadoEstacionamiento;
 	
 	
 	public AppUsuario(SEM sem, String patente, Celular celular) {
@@ -37,6 +34,7 @@ public class AppUsuario  {
 		this.patente=patente;
 		this.estado=new Manual();
 		this.estadoMoveS= new Manejando();
+		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEnZona;
 	}
 
 	public SEM getSem() {
@@ -145,5 +143,18 @@ public class AppUsuario  {
 
 	public void ahoraEstasManejando() {
 		this.celular.alerta(this.estado.cambieAManejar(sem, celular));
-	};
+	}
+
+	public EstadoEstacionamiento getEstadoEstacionamiento() {
+		return this.estadoEstacionamiento;
+	}
+
+	protected void notificarDentroDeZona() {
+		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEstacionado;
+	}
+
+	protected void notificarFueraDeZona() {
+		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEnZona;
+	}
+
 }

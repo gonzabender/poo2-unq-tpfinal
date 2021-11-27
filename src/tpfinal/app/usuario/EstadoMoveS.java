@@ -1,7 +1,5 @@
 package tpfinal.app.usuario;
 
-import tpfinal.usuario.AppUsuario;
-
 public abstract class EstadoMoveS {
 
 	public abstract void toggleMovementSensor(AppUsuario appUsuario);

@@ -1,4 +1,4 @@
-package tpfinal;
+package tpfinal.app.usuario;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -6,16 +6,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.stubbing.Answer;
 
 import tpfinal.*;
 import tpfinal.app.usuario.FueraDeZona;
 import tpfinal.app.usuario.NoEstaEstacionado;
-import tpfinal.app.usuario.ValidezEstacionamiento;
+import tpfinal.app.usuario.AppUsuario;
+import tpfinal.app.usuario.EstadoEstacionamiento;
 import tpfinal.sistema.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 import tpfinal.sistema.ZonaSem;
-import tpfinal.usuario.AppUsuario;
-import tpfinal.usuario.Celular;
 
 public class AppUsuarioTest {
 
@@ -35,6 +35,7 @@ public class AppUsuarioTest {
 		posicion= mock(ZonaSem.class);
 		kiosco= mock (PuntoDeVenta.class);
 		when(sem.consultarSaldo(cel)).thenReturn(0);
+
 	}
 	
 	@Test
@@ -46,7 +47,6 @@ public class AppUsuarioTest {
 	@Test
 	public void testCargarSaldo() {
 		when(sem.consultarSaldo(cel)).thenReturn(1253);
-		
 		kiosco.cargarCelular(cel, 1253);
 		
 		assertEquals(1253,app.consultaSaldo());
@@ -55,32 +55,30 @@ public class AppUsuarioTest {
 
 	@Test
 	public void testVerficarValidezEstacionamientoCuandoNoEstaEnZonaDiceQueNoEstaEnUnaZona() {
-		ValidezEstacionamiento validez = mock(FueraDeZona.class);
-		app.verificarEstacionamiento();
-		
-		assertEquals(validez, app.getValidezEstacionamiento());
-		//verify(validez).verificar();
+		assertEquals(EstadoEstacionamiento.NoEstaEnZona, app.getEstadoEstacionamiento());
 	}
 
 	@Test
 	public void testVerficarEstacionamientoCuandoEstaEnZonaPeroNoEstaEstacionadoDiceQueNoEstaEstacionado() {
-		ValidezEstacionamiento validez = mock(NoEstaEstacionado.class);
-		when(cel.setPosicion(posicion)).then(app.notificarGPS);
-		app.verificarEstacionamiento();
+		cel.setPosicion(posicion);//dentro de una zona
 		
-		assertEquals(validez, app.getValidezEstacionamiento());
-		//verify(validez).verificar();
+		assertEquals(EstadoEstacionamiento.NoEstaEstacionado, app.getEstadoEstacionamiento());
+	}
+	
+	@Test
+	public void testVerficarEstacionamientoCuandoElCelularEntraEnUnaZonaYLuegoSaleDiceQueNoEstaEnUnaZona() {
+		cel.setPosicion(posicion);
+		cel.setPosicion(null);
+		
+		assertEquals(EstadoEstacionamiento.NoEstaEnZona, app.getEstadoEstacionamiento());
 	}
 
 	@Test
-	public void testVerficarEstacionamientoCuandoEstaEnZonaYEstaEstacionadoDiceQueEstaEstacionado() {
-		ValidezEstacionamiento validez = mock(EstaEstacionado.class);
-		when(cel.setPosicion(posicion)).then(app.notificarGPS);
-		app.verificarEstacionamiento();
+	public void testVerficarEstacionamientoCuandoEstaEnZonaYEstacionoDiceQueEstaEstacionado() {
+		cel.setPosicion(posicion);
 		app.iniciarEstacionamiento();
 		
-		assertEquals(validez, app.getValidezEstacionamiento());
-		//verify(validez).verificar();
+		assertEquals(EstadoEstacionamiento.EstaEstacionado, app.getEstadoEstacionamiento());
 	}
 	
 	@Test
@@ -106,9 +104,5 @@ public class AppUsuarioTest {
 		cel= null;
 		app= null;
 		kiosco= null;
-	}
-	
-	
-
-	
+	}	
 }

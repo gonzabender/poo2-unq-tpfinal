@@ -2,7 +2,7 @@ package tpfinal.compras.estacionamientos;
 
 import java.time.LocalTime;
 
-import tpfinal.usuario.Celular;
+import tpfinal.app.usuario.Celular;
 
 public class EstacionamientoApp extends Estacionamiento {
 

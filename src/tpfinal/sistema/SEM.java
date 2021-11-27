@@ -5,11 +5,11 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import tpfinal.app.usuario.Celular;
 import tpfinal.compras.Compra;
 import tpfinal.compras.estacionamientos.Estacionamiento;
 import tpfinal.compras.estacionamientos.EstacionamientoApp;
 import tpfinal.inspector.Infraccion;
-import tpfinal.usuario.Celular;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

@@ -1,7 +1,5 @@
 package tpfinal.app.usuario;
 
-import tpfinal.usuario.AppUsuario;
-
 public class Caminando extends EstadoMoveS {
 
 	@Override

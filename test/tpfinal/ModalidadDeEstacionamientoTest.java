@@ -4,10 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tpfinal.*;
+import tpfinal.app.usuario.AppUsuario;
+import tpfinal.app.usuario.Celular;
 import tpfinal.sistema.PuntoDeVenta;
 import tpfinal.sistema.SEM;
-import tpfinal.usuario.AppUsuario;
-import tpfinal.usuario.Celular;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -3,8 +3,6 @@ package tpfinal.app.usuario;
 import java.time.LocalTime;
 
 import tpfinal.sistema.SEM;
-import tpfinal.usuario.AppUsuario;
-import tpfinal.usuario.Celular;
 
 public class Automatico extends EstadoApp{
 	//Estado donde la app se encarga de iniciar y finalizar estacionamientos, el usuario no puede

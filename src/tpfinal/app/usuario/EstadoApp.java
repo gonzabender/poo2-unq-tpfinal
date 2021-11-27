@@ -3,8 +3,6 @@ package tpfinal.app.usuario;
 import java.time.LocalTime;
 
 import tpfinal.sistema.SEM;
-import tpfinal.usuario.AppUsuario;
-import tpfinal.usuario.Celular;
 
 public abstract class EstadoApp {
 
