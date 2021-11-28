@@ -51,6 +51,14 @@ public class AppUsuarioTest {
 	}
 	
 	@Test
+	public void testGetters() {
+		assertEquals(sem,app.getSem());
+		assertEquals(cel,app.getCelular());
+		assertEquals(patente,app.getPatente());
+		assertEquals(lasNueve,app.getHoraActual());
+	}
+	
+	@Test
 	public void testVerficarValidezEstacionamientoCuandoNoEstaEnZonaDiceQueNoEstaEnUnaZona() {
 		app.estaFueraDeZona();
 		
@@ -130,12 +138,132 @@ public class AppUsuarioTest {
 	}
 	
 	@Test
+	public void testFinalizarEstacionamientoSinEstarEnUnaZonaNoHaceNada() {
+		app.estaFueraDeZona();
+		app.finalizarEstacionamiento();
+		
+		assertEquals("No se puede finalizar estacionamiento ya que no inicio uno",cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testFinalizarEstacionamientoSinEstarEstacionadoNoHaceNada() {
+		app.estaDentroDeZona();
+		app.finalizarEstacionamiento();
+		
+		assertEquals("No se puede finalizar estacionamiento ya que no inicio uno",cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testFinalizarEstacionamientoCuandoEstaEstacionadoFinalizaElEstacionamiento() {
+		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
+		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
+		when(sem.finalizarEstacionamiento(cel)).thenReturn("Hora de Inicio: 09:00hs. Hora de fin: 12:00hs. Duración: 3hs. Crédito restante: 0");
+		app.iniciarEstacionamiento();
+		app.finalizarEstacionamiento();
+		
+		assertEquals("Hora de Inicio: 09:00hs. Hora de fin: 12:00hs. Duración: 3hs. Crédito restante: 0",cel.ultimaAlerta());
+		verify(sem).finalizarEstacionamiento(cel);
+	}
+	
+	@Test
 	public void testCuandoSeCambiaDeConducirACaminarEnModoManualSinUnEstacionamientoDentroDeUnaZonaAlertaQueDeberiaIniciarEstacionamiento() {
 		app.cambiarAManual();
 		app.driving();
 		app.walking();
 		
-		assertEquals("Deberia iniciar estacionamiento", cel.ultimaAlerta());
+		assertEquals("Aun no se ha estacionado", cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testCuandoSeCambiaDeCaminarAConducirEnModoManualConUnEstacionamientoDentroDeUnaZonaAlertaQueDeberiaFinalizrEstacionamiento() {
+		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
+		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
+		
+		app.cambiarAManual();
+		app.walking();
+		app.iniciarEstacionamiento();
+		app.driving();
+		
+		assertEquals("Aun no se ha finalizado el estacionamiento", cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testCuandoSeCambiaDeConducirACaminarEnModoAutomaticoYNoTieneUnEstacionamientoLoEstacionaYLeAvisaQueLoEstacionoAdemasDeDarLaInformacionDelEstacionamiento() {
+		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
+		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
+		
+		app.cambiarAAutomatico();
+		app.driving();
+		app.walking();
+		
+		assertEquals("Se ha iniciado estacionamiento", cel.ultimaAlerta());
+		cel.descartarUltimaAlerta();
+		assertEquals("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.", cel.ultimaAlerta());
+		verify(sem).iniciarEstacionamiento(cel, patente, lasNueve);
+	}
+	
+	@Test
+	public void testCuandoSeCambiaDeConducirACaminarEnModoAutomaticoNoTieneUnEstacionamientoYNoTieneSaldoSuficienteAvisaQueInicioEstacionamientoYQueNoTieneSaldoSuficiente() {
+		when(sem.tieneSaldoSuficiente(cel)).thenReturn(false);
+		
+		app.cambiarAAutomatico();
+		app.driving();
+		app.walking();
+		
+		assertEquals("Se ha iniciado estacionamiento", cel.ultimaAlerta());
+		cel.descartarUltimaAlerta();
+		assertEquals("No tiene credito suficiente para iniciar estacionamiento", cel.ultimaAlerta());
+		verify(sem,never()).iniciarEstacionamiento(cel, patente, lasNueve);
+	}
+	
+	@Test
+	public void testCuandoSeCambiaDeCaminarAConducirEnModoAutomaticoTieneUnEstacionamientoTerminaElEstacionamientoYLeAvisaQueTerminoAdemasDeDarLaInformacionDelEstacionamiento() {
+		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
+		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
+		when(sem.finalizarEstacionamiento(cel)).thenReturn("Hora de Inicio: 09:00hs. Hora de fin: 12:00hs. Duración: 3hs. Crédito restante: 0");
+		
+		app.cambiarAAutomatico();
+		app.driving();
+		app.walking();
+		app.driving();
+		
+		assertEquals("Se ha finalizado estacionamiento", cel.ultimaAlerta());
+		cel.descartarUltimaAlerta();
+		assertEquals("Hora de Inicio: 09:00hs. Hora de fin: 12:00hs. Duración: 3hs. Crédito restante: 0", cel.ultimaAlerta());
+		verify(sem).iniciarEstacionamiento(cel, patente, lasNueve);
+		verify(sem).finalizarEstacionamiento(cel);
+	}
+	
+	@Test
+	public void testCuandoRepetidasVecesSeLeAvisaALaAppQueEstaConduciendoOCaminandoSoloAvisaLaPrimeraVezQueSeLeAvisaDeAlgoSiAntesHaciaLoContrario() {
+		cel.alerta("primera alerta");
+		app.cambiarAManual();
+		app.walking();
+		app.walking();
+		app.walking();
+		app.walking();
+		app.walking();
+		app.walking();
+		
+		assertEquals("Aun no se ha estacionado",cel.ultimaAlerta());
+		cel.descartarUltimaAlerta();
+		assertEquals("primera alerta",cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testCuandoSeDesactivaElSensorDeMovimientoElModoManualDeLaAppDejaDeEnviarAlertasYSePuedeReactivarParaPoderRecibirOtraVezLasAlertas() {
+		app.desactivarMoveS();
+		cel.alerta("primera alerta");
+		app.driving();
+		app.walking();
+		app.driving();
+		
+		assertEquals("primera alerta", cel.ultimaAlerta());
+		
+		app.activarMoveS();
+		app.walking();
+		
+		assertEquals("Aun no se ha estacionado", cel.ultimaAlerta());
 	}
 	
 	

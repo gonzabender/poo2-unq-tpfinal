@@ -24,7 +24,6 @@ public class AppUsuario  {
 	private LocalTime horaActual;
 	private EstadoApp estado; 
 	private EstadoMoveS estadoMoveS;
-	private ZonaSem posicion;
 	private EstadoEstacionamiento estadoEstacionamiento;
 	
 	
@@ -56,10 +55,6 @@ public class AppUsuario  {
 		this.horaActual = hora;
 	}
 	
-	public void setPosicion(ZonaSem zona) {
-		this.posicion= zona;
-	}
-
 	/**
 	 * 
 	 * @return El saldo del celular
@@ -71,9 +66,8 @@ public class AppUsuario  {
 	/**
 	 * Alerta de la hora de inicio de estacionamiento, la cantidad maxima de horas que es posible 
 	 * estacionar, y si no tiene suficiente saldo para estacionar devuelve el texto 
-	 * Saldo insuficiente, Estacionamiento no permitido" 
+	 * "No tiene credito suficiente para iniciar estacionamiento"
 	 */
-	//(puede simplemente devolver un string o tambien podria hacerse con una clase y una excepcion)
 	public void iniciarEstacionamiento (){
 		this.celular.alerta( this.estadoEstacionamiento.iniciarEstacionamiento(this,this.sem,this.celular,this.patente,this.horaActual) );	//Delegado a EstadoApp
 	}
@@ -83,9 +77,8 @@ public class AppUsuario  {
 	 * Alerta de la hora de inicio de estacionamiento, la hora de fin, la cantidad de horas estacionado 
 	 * y el costo del estacionamiento 
 	 */
-	//(puede simplemente devolver un string o en lugar de un string se podria usar una nueva clase)
 	public void finalizarEstacionamiento() {
-		this.celular.alerta( this.estadoEstacionamiento.finalizarEstacionamiento(this));	//Delegado a EstadoApp
+		this.celular.alerta(this.estadoEstacionamiento.finalizarEstacionamiento(this.sem,this.celular));	//Delegado a EstadoApp
 	}	
 	
 	/**
@@ -108,28 +101,17 @@ public class AppUsuario  {
 		this.estadoMoveS.caminando(this);
 		//delega al EstadoMoveS el cual vuelve a delgar 
 	}
-
-	/**
-	 * Desactiva el MovementSensor si esta activado o lo activa si esta desactivado
-	 */
-	public void toggleMovementSensor() {
-		this.estadoMoveS.toggleMovementSensor(this);	//Delegado a EstadoMoveS
-	}
 	
-	public void setEstado(EstadoApp estado) {
-		this.estado=estado;
-	}
-
 	public void setEstadoMoveS(EstadoMoveS estadoMoveS) {
 		this.estadoMoveS=estadoMoveS;
 	}
 
 	protected void ahoraEstasCaminando() {
-		this.estado.cambieACaminar(this);
+		this.estadoEstacionamiento.cambieACaminar(this);
 	}
 
 	protected void ahoraEstasManejando() {
-		this.estado.cambieAManejar(this);
+		this.estadoEstacionamiento.cambieAManejar(this);
 	}
 
 	public EstadoEstacionamiento getEstadoEstacionamiento() {
@@ -161,5 +143,28 @@ public class AppUsuario  {
 
 	public void cambiarAAutomatico() {
 		this.estado=new Automatico();
+	}
+
+	public void cambieACaminarYNoEstoyEstacionado() {
+		this.celular.alerta(this.estado.alertaIniciar(this));
+	}
+
+	public void cambieAManejarYEstoyEstacionado() {
+		this.celular.alerta(this.estado.alertaFinalizar(this));
+	}
+
+	
+	/*
+	 * Desactiva el sensor de movimiento
+	 */
+	public void desactivarMoveS() {
+		this.estadoMoveS=new MovementSensorDesactivado();
+	}
+	
+	/*
+	 * Activa el sensor de movimiento y asume que esta manejando
+	 */
+	public void activarMoveS() {
+		this.estadoMoveS=new Manejando();
 	}
 }
