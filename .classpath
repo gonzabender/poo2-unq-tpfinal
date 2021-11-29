@@ -25,9 +25,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Beta/Desktop/LucasFacultad/POO2/eclipse/byte-buddy-1.10.18.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Beta/Desktop/LucasFacultad/POO2/eclipse/byte-buddy-agent-1.10.15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Beta/Desktop/LucasFacultad/POO2/eclipse/mockito-core-4.1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Beta/Desktop/LucasFacultad/POO2/eclipse/objenesis-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ignac/Downloads/objenesis-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ignac/Downloads/mockito-inline-3.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ignac/Downloads/mockito-core-3.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ignac/Downloads/byte-buddy-1.10.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ignac/Downloads/byte-buddy-agent-1.10.15.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
