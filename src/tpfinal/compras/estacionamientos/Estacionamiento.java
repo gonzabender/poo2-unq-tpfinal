@@ -43,7 +43,7 @@ public abstract class Estacionamiento {
 	}
 
 	public int duración() {
-		return horarioFin.compareTo(horarioInicio);
+		return horarioFin.getHour() - horarioInicio.getHour();
 	}
 	
 	/**
