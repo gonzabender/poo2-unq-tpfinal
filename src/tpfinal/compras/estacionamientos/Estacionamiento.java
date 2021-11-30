@@ -21,9 +21,9 @@ public abstract class Estacionamiento {
 		return horarioInicio.isBefore(horarioFin);
 	}
 
-	public Estacionamiento(String patente) {
+	public Estacionamiento(String patente, LocalTime horaInicio) {
 		this.patente = patente;
-		this.horarioInicio = LocalTime.now();
+		this.horarioInicio = horaInicio;
 	}
 
 	public void setHorarioFin(LocalTime horarioFin) {
@@ -43,7 +43,7 @@ public abstract class Estacionamiento {
 	}
 
 	public int duración() {
-		return horarioInicio.compareTo(horarioFin);
+		return horarioFin.getHour() - horarioInicio.getHour();
 	}
 	
 	/**

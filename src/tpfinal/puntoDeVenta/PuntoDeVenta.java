@@ -31,7 +31,7 @@ public class PuntoDeVenta {
 	 */
 	public void iniciarEstacionamiento(String patente, LocalTime horaFin) {
 		CompraPuntual compra = new CompraPuntual(Calendar.getInstance(), this);
-		EstacionamientoCompraPuntual operación = new EstacionamientoCompraPuntual(patente, compra);
+		EstacionamientoCompraPuntual operación = new EstacionamientoCompraPuntual(patente, compra, LocalTime.now());
 		operación.setHorarioFin(horaFin);
 		compra.setHorasCompradas(this.cantidadDeHorasTotales(operación.getHorarioInicio(), horaFin));
 		sem.addCompra(compra);

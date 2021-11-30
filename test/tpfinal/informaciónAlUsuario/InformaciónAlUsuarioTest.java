@@ -1,4 +1,4 @@
-package tpfinal;
+package tpfinal.informaciónAlUsuario;
 
 import static org.junit.jupiter.api.Assertions.*;
 
