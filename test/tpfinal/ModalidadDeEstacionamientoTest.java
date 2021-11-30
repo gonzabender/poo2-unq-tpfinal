@@ -74,7 +74,7 @@ public class ModalidadDeEstacionamientoTest {
 		// Verify
 		assertTrue(sem.getEstacionamientosEnCurso().size() == 1); // Se registra en los estacionamientos en curso
 		assertTrue(sem.getCompras().size() == 1); // Se registra en las compras de punto de venta
-		assertTrue(!sem.getEstacionamientosEnCurso().get(0).vigente()); // El estacionamiento se encuentra vigente
+		assertTrue(sem.getEstacionamientosEnCurso().get(0).vigente()); // El estacionamiento se encuentra vigente
 
 	}
 	
