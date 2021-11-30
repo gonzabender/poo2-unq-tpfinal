@@ -9,6 +9,7 @@ public class EntidadAdapter implements Observer {
 
 	private SEM sem;
 	private ArrayList<String> informes = new ArrayList<String>();
+	private Notificable entidad;
 
 	
 	
@@ -28,7 +29,7 @@ public class EntidadAdapter implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.informes.add((String) arg); 
+		entidad.notificar((String) arg); 
 	}
 
 
