@@ -34,4 +34,18 @@ public class CelularTest {
 		assertEquals("alerta que se va a ver",cel.ultimaAlerta());
 	}
 	
+	@Test
+	public void cargarCreditoCargaCredito() {
+		assertEquals(0, cel.getSaldo());
+		cel.cargarSaldo(100);
+		assertEquals(100,cel.getSaldo());
+	}
+	
+	@Test
+	public void testDescontarSaldoDescuentaSaldo() {
+		cel.cargarSaldo(135);
+		assertEquals(135,cel.getSaldo());
+		cel.restarSaldo(40);
+		assertEquals(95,cel.getSaldo());
+	}
 }

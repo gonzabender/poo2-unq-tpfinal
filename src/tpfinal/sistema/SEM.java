@@ -21,7 +21,6 @@ public class SEM extends Observable {
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones;
-	private HashMap<Celular, Integer> saldos;
 	private LocalTime horaActual;
 	private HashMap<Celular, String> celularesEstacionados;
 	private int precioHora;
@@ -31,7 +30,6 @@ public class SEM extends Observable {
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
 		this.zonasDeEstacionamiento = new ArrayList<ZonaSem>();
 		this.infracciones = new ArrayList<Infraccion>();
-		this.saldos = new HashMap<Celular, Integer>();
 		this.celularesEstacionados = new HashMap<Celular, String>();
 		this.precioHora = 40;
 	}
@@ -65,9 +63,8 @@ public class SEM extends Observable {
 	 *         el celular no posee suficiente saldo.
 	 */
 	public String iniciarEstacionamiento(Celular celular, String patente, LocalTime hora) {
-		LocalTime finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular);
-		if (finDeEstacionamiento.isBefore(hora) && this.noSonLasOcho()
-				&& this.créditoSuficiente(celular, (finDeEstacionamiento.getHour() - hora.getHour()))) {
+		if (this.noSonLasOcho()) {
+			LocalTime finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular);
 			EstacionamientoApp operación = new EstacionamientoApp(patente, celular);
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
@@ -76,7 +73,7 @@ public class SEM extends Observable {
 			return info;
 		} else {
 
-			return "Saldo Insuficiente. Estacionamiento no permitido";
+			return "No es requerido estacionar despues de las 20:00hs";
 
 		}
 
@@ -88,23 +85,13 @@ public class SEM extends Observable {
 
 	/**
 	 * 
-	 * @param celular Celular a obtener el saldo
-	 * @return El saldo del celular o 0 si el celular nunca cargo saldo y no esta en
-	 *         el sistema
-	 */
-	public int consultarSaldo(Celular celular) {
-		return this.saldos.getOrDefault(celular, 0);
-	}
-
-	/**
-	 * 
 	 * @param celular      De tipo Celular
 	 * @param horaDeCompra de tipo int
 	 * @return Un número que representa la hora de finalización de un
 	 *         estacionamiento
 	 */
 	public LocalTime calcularFinalDeEstacionamiento(Celular celular) {
-		int saldo = this.consultarSaldo(celular);
+		int saldo = celular.getSaldo();
 		LocalTime horas = this.horaActual;
 		while (saldo >= precioHora) {
 			horas = horas.plusHours(1);
@@ -124,12 +111,13 @@ public class SEM extends Observable {
 		Estacionamiento estacionamiento = this.estacionamientosEnCurso.stream()
 				.filter(est -> est.getPatente() == patente).findFirst().get(); // Si no estaciono esto falla, hay que
 		// tocarlo para preguntar si estaciono antes
-
+		estacionamiento.setHorarioFin(horaActual);
+		
 		this.estacionamientosEnCurso.remove(estacionamiento);
-		this.descontarCrédito(celular, this.consultarSaldo(celular), estacionamiento);
+		this.descontarCrédito(celular, celular.getSaldo(), estacionamiento);
 
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
-				estacionamiento.duración(), this.consultarSaldo(celular));
+				estacionamiento.duración(), celular.getSaldo());
 
 		this.setChanged();
 		this.notifyObservers(info);
@@ -159,14 +147,13 @@ public class SEM extends Observable {
 	 *                actual y asi descontar
 	 */
 	private void descontarCrédito(Celular celular, int monto, Estacionamiento est) {
-		this.saldos.put(celular,
-				this.consultarSaldo(celular) - ((LocalTime.now().getHour() - est.getHorarioInicio().getHour()) * 40));
+		celular.restarSaldo(((LocalTime.now().getHour() - est.getHorarioInicio().getHour()) * this.precioHora));
 	}
 
 	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
 
 	private boolean créditoSuficiente(Celular celular, int horas) {
-		return this.consultarSaldo(celular) / precioHora >= horas;
+		return celular.getSaldo() / precioHora >= horas;
 	}
 
 	public void finalizarTodosLosEstacionamientos() {
@@ -209,22 +196,9 @@ public class SEM extends Observable {
 		this.horaActual = horaActual;
 	}
 
-	/**
-	 * Añade el monto al saldo actual del celular, si no esta registrado en el
-	 * sistema lo registra y carga el celular con ese monto
-	 * 
-	 * @param celular Key
-	 * @param monto   Value
-	 */
-	public void cargarCrédito(Celular celular, int monto) {
-		celular.cargarSaldo(monto);
-	}
-
-	
 	
 	public boolean tieneSaldoSuficiente(Celular cel) {
-		// TODO Auto-generated method stub
-		return null;
+		return cel.getSaldo() >= this.precioHora;
 	}
 
 

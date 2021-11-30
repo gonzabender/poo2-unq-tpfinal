@@ -12,7 +12,7 @@ import tpfinal.*;
 import tpfinal.app.usuario.AppUsuario;
 import tpfinal.app.usuario.Celular;
 import tpfinal.inspector.Inspector;
-import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 import tpfinal.sistema.ZonaSem;
 

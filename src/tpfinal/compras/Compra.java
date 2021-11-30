@@ -2,7 +2,7 @@ package tpfinal.compras;
 
 import java.util.Calendar;
 
-import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 
 public abstract class Compra {
 

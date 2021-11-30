@@ -10,7 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 
 public class AppUsuarioTest {
@@ -30,26 +30,15 @@ public class AppUsuarioTest {
 		cel= new Celular(app, 0, 120);
 		app= new AppUsuario(sem,patente,cel);
 		kiosco= mock (PuntoDeVenta.class);
-		when(sem.consultarSaldo(cel)).thenReturn(0);
 		app.setHoraActual(lasNueve);
 
 	}
 	
 	@Test
-	public void testConsultaSaldoAlInicioEs0() {
-		assertEquals(0,app.consultaSaldo());
-		verify(sem).consultarSaldo(cel);
+	public void testConsultaSaldoDaElSaldo() {
+		assertEquals(120,app.consultaSaldo());
 	}
-	
-	@Test
-	public void testCargarSaldo() {
-		when(sem.consultarSaldo(cel)).thenReturn(1253);
-		kiosco.cargarCelular(cel, 1253);
-		
-		assertEquals(1253,app.consultaSaldo());
-		verify(kiosco).cargarCelular(cel, 1253);
-	}
-	
+
 	@Test
 	public void testGetters() {
 		assertEquals(sem,app.getSem());

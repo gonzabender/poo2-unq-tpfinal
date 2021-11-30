@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import tpfinal.*;
 import tpfinal.app.usuario.AppUsuario;
 import tpfinal.app.usuario.Celular;
-import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 
 import static org.junit.Assert.assertEquals;
@@ -22,24 +22,20 @@ public class ModalidadDeEstacionamientoTest {
 	Celular iphone;
 	AppUsuario app;
 	PuntoDeVenta kiosco;
-	
-	//Para testear los prints de consola
-	ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	PrintStream originalOut = System.out;
-	
+	LocalTime unaHora;
 
 	@BeforeEach
 	public void setUp() throws Exception {
 		// Set up
+		unaHora= LocalTime.of(10,0);
 
 		sem = new SEM();
 		iphone = new Celular(app, 118594729, 0);
 		app = new AppUsuario(sem, "PO2UNQ", iphone);
 		kiosco = new PuntoDeVenta();
 		kiosco.setSem(sem);
-
-		//Para testear los prints de consola
-		System.setOut(new PrintStream(outContent));
+		sem.setHoraActual(unaHora);
+		app.setHoraActual(unaHora);
 	}
 
 	@Test
@@ -85,8 +81,11 @@ public class ModalidadDeEstacionamientoTest {
 	@Test
 	public void testCompraConApp() {
 		// Exercise
+		LocalTime horaFin= LocalTime.of(12, 0);
 		kiosco.cargarCelular(iphone, 120);; // Primero debe cargar crédito, aunque eso debe ser algo manual...
 		app.iniciarEstacionamiento(); // Por el momento, no retorna nada 
+		app.setHoraActual(horaFin);
+		sem.setHoraActual(horaFin);
 		
 		// Verify
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 1);
@@ -99,14 +98,11 @@ public class ModalidadDeEstacionamientoTest {
 		// Exercise
         app.iniciarEstacionamiento(); // Por el momento, no retorna nada 
 		
-        String data= "Saldo Insuficiente. Estacionamiento no permitido";
+        String data= "No tiene credito suficiente para iniciar estacionamiento";
 		// Verify
         assertEquals(0, app.consultaSaldo());
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
-		assertEquals(data, outContent.toString());
-		
-		
-	    System.setOut(originalOut);
+		assertEquals(data, iphone.ultimaAlerta());
 	}
 	
 	@Test
@@ -114,7 +110,11 @@ public class ModalidadDeEstacionamientoTest {
 		// Exercise
 		LocalTime fin = LocalTime.of(15, 0);
 		kiosco.iniciarEstacionamiento("986DRH", fin);
-		kiosco.cargarCelular(iphone, 120);; // Primero debe cargar crédito, aunque eso debe ser algo manual...
+		kiosco.cargarCelular(iphone, 150);; // Primero debe cargar crédito, aunque eso debe ser algo manual...
+		
+		LocalTime inicio= LocalTime.of(15, 0);
+		app.setHoraActual(inicio);
+		sem.setHoraActual(inicio);
 		app.iniciarEstacionamiento();
 		assertEquals(2, sem.getEstacionamientosEnCurso().size());
 		sem.setHoraActual(LocalTime.of(20, 1));

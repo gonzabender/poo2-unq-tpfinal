@@ -60,7 +60,7 @@ public class AppUsuario  {
 	 * @return El saldo del celular
 	 */
 	public int consultaSaldo() {
-		return this.sem.consultarSaldo(this.celular);
+		return this.celular.getSaldo();
 	}
 
 	/**

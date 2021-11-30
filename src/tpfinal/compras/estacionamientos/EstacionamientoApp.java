@@ -25,6 +25,7 @@ public class EstacionamientoApp extends Estacionamiento {
 	}
 	
 	public void terminarEstacionamiento() {
+		this.setHorarioFin(LocalTime.of(20,0));
 		this.celular.restarSaldo(this.calcularResta());
 	}
 	

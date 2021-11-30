@@ -1,4 +1,4 @@
-package tpfinal.sistema;
+package tpfinal.puntoDeVenta;
 
 import java.time.LocalTime;
 import java.util.Calendar;
@@ -7,6 +7,7 @@ import tpfinal.app.usuario.Celular;
 import tpfinal.compras.CompraPuntual;
 import tpfinal.compras.RecargaCelular;
 import tpfinal.compras.estacionamientos.EstacionamientoCompraPuntual;
+import tpfinal.sistema.SEM;
 
 public class PuntoDeVenta {
 
@@ -19,7 +20,7 @@ public class PuntoDeVenta {
 	 */
 	public void cargarCelular(Celular celular, int monto) {
 		RecargaCelular operación = new RecargaCelular(Calendar.getInstance(), this, monto, celular);
-		sem.cargarCrédito(celular,monto);
+		celular.cargarSaldo(monto);
 		sem.addCompra(operación);
 	}
 

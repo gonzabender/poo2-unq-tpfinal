@@ -11,8 +11,8 @@ import org.junit.Test;
 import tpfinal.*;
 import tpfinal.app.usuario.AppUsuario;
 import tpfinal.app.usuario.Celular;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.EntidadAdapter;
-import tpfinal.sistema.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 
 public class MonitoreoDeEstacionamientoTest {

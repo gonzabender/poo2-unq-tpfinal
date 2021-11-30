@@ -15,7 +15,7 @@ import org.junit.Test;
 import tpfinal.*;
 import tpfinal.app.usuario.AppUsuario;
 import tpfinal.app.usuario.Celular;
-import tpfinal.sistema.PuntoDeVenta;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 
 public class InformaciónAlUsuarioTest {
@@ -48,42 +48,51 @@ public class InformaciónAlUsuarioTest {
 	@Test
 	public void testInformaciónEstacionamientoExitoso() {
 		// Exercise
-		app.setHoraActual(LocalTime.of(9, 0));
+		app.setHoraActual(LocalTime.of(9, 30));
+		sem.setHoraActual(LocalTime.of(9, 30));
 		kiosco.cargarCelular(iphone, 120);;
 		app.iniciarEstacionamiento();
 		
-		String data =  "Su estacionamiento es valido desde las 9hs. Hasta las 12hs.";
+		String data =  "Su estacionamiento es valido desde las 09:30hs. Hasta las 12:30hs.";
 		
 		
 		// Verify
-		assertEquals(data,outContent.toString());
+		assertEquals(data,iphone.ultimaAlerta());
 	}
 
 	@Test
 	public void testEstacionamientoNoPermitido() {
 		// Exercise
 		app.setHoraActual(LocalTime.of(9, 0));
+		sem.setHoraActual(LocalTime.of(9,0));
 		kiosco.cargarCelular(iphone, 20);; // No llegaría a pagar ni una hora de estacionamiento
 		app.iniciarEstacionamiento();
-		String data = "Saldo Insuficiente. Estacionamiento no permitido";
+		String data = "No tiene credito suficiente para iniciar estacionamiento";
 
 		// Verify
-		assertEquals(data,outContent.toString());
+		assertEquals(data,iphone.ultimaAlerta());
 	}
 
 	@Test
 	public void testFinDeEstacionamiento() {
 		// Exercise
 		app.setHoraActual(LocalTime.of(9, 0));
-		kiosco.cargarCelular(iphone, 120);;
-		String data = "Su estacionamiento es valido desde las 9hs. Hasta las 12hs."
-						+"Hora de Inicio: 9hs. Hora de fin: 12hs. Duración: 3hs. Crédito restante: 0";
+		sem.setHoraActual(LocalTime.of(9, 0));
+		kiosco.cargarCelular(iphone, 120);
+		String data = "Su estacionamiento es valido desde las 09:00hs. Hasta las 12:00hs.";
+		String data2="Hora de Inicio: 09:00hs. Hora de fin: 11:00hs. Duración: 2hs. Crédito restante: 40";
 
 		app.iniciarEstacionamiento();
+		
+		app.setHoraActual(LocalTime.of(11, 0));
+		sem.setHoraActual(LocalTime.of(11, 0));
+		
 		app.finalizarEstacionamiento();
 
 		// Verify
-		assertEquals(data, outContent.toString());
+		assertEquals(data2, iphone.ultimaAlerta());
+		iphone.descartarUltimaAlerta();
+		assertEquals(data,iphone.ultimaAlerta());
 	}
 	
 	

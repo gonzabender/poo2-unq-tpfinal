@@ -5,6 +5,7 @@ import java.util.List;
 
 import tpfinal.compras.estacionamientos.Estacionamiento;
 import tpfinal.inspector.Inspector;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 
 public class ZonaSem {
 
