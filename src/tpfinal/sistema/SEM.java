@@ -52,6 +52,8 @@ public class SEM extends Observable {
 
 	public void addCompra(Compra compra) {
 		this.compras.add(compra);
+		this.setChanged();
+		this.notifyObservers("Nueva compra");
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class SEM extends Observable {
 				.filter(est -> est.getPatente() == patente).findFirst().get(); // Si no estaciono esto falla, hay que
 		// tocarlo para preguntar si estaciono antes
 		estacionamiento.setHorarioFin(horaActual);
-		
+
 		this.estacionamientosEnCurso.remove(estacionamiento);
 		this.descontarCrédito(celular, this.precioHora, estacionamiento);
 
@@ -196,11 +198,8 @@ public class SEM extends Observable {
 		this.horaActual = horaActual;
 	}
 
-	
 	public boolean tieneSaldoSuficiente(Celular cel) {
 		return cel.getSaldo() >= this.precioHora;
 	}
-
-
 
 }
