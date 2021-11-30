@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tpfinal.app.usuario.Celular;
+import tpfinal.compras.Compra;
 import tpfinal.sistema.SEM;
 
 public class PuntoDeVentaTest {
@@ -24,7 +25,7 @@ public class PuntoDeVentaTest {
 	public void setUp() {
 		cel=mock (Celular.class);
 		patente= "ASD123";
-		sem=mock(SEM.class);
+		sem = new SEM();
 		pv= new PuntoDeVenta();
 		pv.setSem(sem);
 		algunFinal= LocalTime.of(18, 0);
@@ -35,15 +36,15 @@ public class PuntoDeVentaTest {
 		pv.cargarCelular(cel, 100);
 		
 		verify(cel).cargarSaldo(100);
-		verify(sem).addCompra(null);//no se que hacer
+		assertTrue(sem.getCompras().size() == 1);
 	}
 
 	@Test
 	public void testIniciarEstacionamientoEnUnaCompraPuntualLoInicia() {
 		pv.iniciarEstacionamiento(patente, algunFinal);;
 		
-		verify(sem).addCompra(null);//no se que hacer
-		verify(sem).addEstacionamiento(null);//no se que hacer
+		assertTrue(sem.getCompras().size() == 1);
+		assertTrue(sem.getEstacionamientosEnCurso().size() == 1);
 	}
 
 }
