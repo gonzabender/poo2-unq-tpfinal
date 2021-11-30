@@ -1,4 +1,4 @@
-package tpfinal;
+package tpfinal.informaciónAlUsuario;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,7 +80,7 @@ public class InformaciónAlUsuarioTest {
 		sem.setHoraActual(LocalTime.of(9, 0));
 		kiosco.cargarCelular(iphone, 120);
 		String data = "Su estacionamiento es valido desde las 09:00hs. Hasta las 12:00hs.";
-		String data2="Hora de Inicio: 09:00hs. Hora de fin: 11:00hs. Duración: 2hs. Crédito restante: 40";
+		String data2="Hora de Inicio: 09:00hs. Hora de fin: 11:00hs. Duración: 1hs. Crédito restante: 40";
 
 		app.iniciarEstacionamiento();
 		

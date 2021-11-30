@@ -14,9 +14,10 @@ public class EstacionamientoApp extends Estacionamiento {
 	 * @param horarioInicio Inicio de estacionamiento, automático en la app.
 	 * @param horarioFin    Fin de estacionamiento, automático en la app.
 	 * @param celular       El celular que realizo la compra.
+	 * @param horaInicio 
 	 */
-	public EstacionamientoApp(String patente,  Celular celular) {
-		super(patente);
+	public EstacionamientoApp(String patente,  Celular celular, LocalTime horaInicio) {
+		super(patente, horaInicio);
 		this.celular = celular;
 	}
 

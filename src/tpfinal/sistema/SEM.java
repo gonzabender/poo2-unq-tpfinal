@@ -65,7 +65,7 @@ public class SEM extends Observable {
 	public String iniciarEstacionamiento(Celular celular, String patente, LocalTime hora) {
 		if (this.noSonLasOcho()) {
 			LocalTime finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular);
-			EstacionamientoApp operación = new EstacionamientoApp(patente, celular);
+			EstacionamientoApp operación = new EstacionamientoApp(patente, celular, this.getHoraActual());
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
 			this.addEstacionamiento(operación);
@@ -114,7 +114,7 @@ public class SEM extends Observable {
 		estacionamiento.setHorarioFin(horaActual);
 		
 		this.estacionamientosEnCurso.remove(estacionamiento);
-		this.descontarCrédito(celular, celular.getSaldo(), estacionamiento);
+		this.descontarCrédito(celular, this.precioHora, estacionamiento);
 
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
 				estacionamiento.duración(), celular.getSaldo());
@@ -147,7 +147,7 @@ public class SEM extends Observable {
 	 *                actual y asi descontar
 	 */
 	private void descontarCrédito(Celular celular, int monto, Estacionamiento est) {
-		celular.restarSaldo(((LocalTime.now().getHour() - est.getHorarioInicio().getHour()) * this.precioHora));
+		celular.restarSaldo(((est.getHorarioFin().getHour() - est.getHorarioInicio().getHour()) * monto));
 	}
 
 	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
