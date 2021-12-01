@@ -24,24 +24,8 @@ public class ZonaSem {
 		return puntosDeVenta;
 	}
 
-	public void setPuntosDeVenta(List<PuntoDeVenta> puntosDeVenta) {
-		this.puntosDeVenta = puntosDeVenta;
-	}
-
 	public List<Estacionamiento> getEstacionamientos() {
 		return estacionamientos;
-	}
-
-	public void setEstacionamientos(List<Estacionamiento> estacionamientos) {
-		this.estacionamientos = estacionamientos;
-	}
-
-	public SEM getSem() {
-		return sem;
-	}
-
-	public void setSem(SEM sem) {
-		this.sem = sem;
 	}
 
 	public Inspector getInspector() {

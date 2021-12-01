@@ -20,10 +20,6 @@ public class EstacionamientoApp extends Estacionamiento {
 		super(patente, horaInicio);
 		this.celular = celular;
 	}
-
-	public Celular getCelular() {
-		return celular;
-	}
 	
 	public void terminarEstacionamiento() {
 		this.setHorarioFin(LocalTime.of(20,0));

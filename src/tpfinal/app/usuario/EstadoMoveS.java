@@ -2,7 +2,6 @@ package tpfinal.app.usuario;
 
 public abstract class EstadoMoveS {
 
-	public abstract void toggleMovementSensor(AppUsuario appUsuario);
 	/**
 	 * Si anteriormente estaba manejando no hace nada, si estaba caminando cambia el estado a manejando	 
 	 * @param appUsuario Le indica si maneja o camina

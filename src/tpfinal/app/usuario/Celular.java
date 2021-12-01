@@ -17,10 +17,6 @@ public class Celular {
 		return saldo;
 	}
 	
-	public void setSaldo(int saldo) {
-		this.saldo = saldo;
-	}
-	
 	public void restarSaldo(int saldoRestar) {
 		this.saldo -= saldoRestar;	
 	}

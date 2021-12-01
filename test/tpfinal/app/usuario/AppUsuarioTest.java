@@ -32,6 +32,8 @@ public class AppUsuarioTest {
 		kiosco= mock (PuntoDeVenta.class);
 		app.setHoraActual(lasNueve);
 
+		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
+		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
 	}
 	
 	@Test
@@ -91,8 +93,6 @@ public class AppUsuarioTest {
 
 	@Test
 	public void testIniciarEstacionamientoCuandoEstaEnUnaZonaYNoEstaEstacionadoLoEstacionaSiTieneSuficienteSaldo() {
-		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
-		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
 		app.iniciarEstacionamiento();
 		
 		assertEquals("Su estacionamiento es valido desde las 09:00hs. Hasta las 12:00hs.",cel.ultimaAlerta());
@@ -103,7 +103,6 @@ public class AppUsuarioTest {
 
 	@Test
 	public void testIniciarEstacionamientoSinCreditoSuficienteEnUnaZonaDeEstacionamientoNoPermiteEstacionar() {
-		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
 		when(sem.tieneSaldoSuficiente(cel)).thenReturn(false);
 		app.iniciarEstacionamiento();
 		
@@ -115,8 +114,6 @@ public class AppUsuarioTest {
 	@Test
 	public void testIniciarEstacionamientoCuandoEstaEnUnaZonaYEstaEstacionadoNoHaceNada() {
 		cel.alerta("ya no hay mas alertas");
-		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
-		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
 		app.iniciarEstacionamiento();
 		app.iniciarEstacionamiento();
 		
@@ -144,8 +141,6 @@ public class AppUsuarioTest {
 	
 	@Test
 	public void testFinalizarEstacionamientoCuandoEstaEstacionadoFinalizaElEstacionamiento() {
-		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
-		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
 		when(sem.finalizarEstacionamiento(cel)).thenReturn("Hora de Inicio: 09:00hs. Hora de fin: 12:00hs. Duración: 3hs. Crédito restante: 0");
 		app.iniciarEstacionamiento();
 		app.finalizarEstacionamiento();
@@ -165,9 +160,6 @@ public class AppUsuarioTest {
 	
 	@Test
 	public void testCuandoSeCambiaDeCaminarAConducirEnModoManualConUnEstacionamientoDentroDeUnaZonaAlertaQueDeberiaFinalizrEstacionamiento() {
-		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
-		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
-		
 		app.cambiarAManual();
 		app.walking();
 		app.iniciarEstacionamiento();
@@ -178,9 +170,6 @@ public class AppUsuarioTest {
 	
 	@Test
 	public void testCuandoSeCambiaDeConducirACaminarEnModoAutomaticoYNoTieneUnEstacionamientoLoEstacionaYLeAvisaQueLoEstacionoAdemasDeDarLaInformacionDelEstacionamiento() {
-		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
-		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
-		
 		app.cambiarAAutomatico();
 		app.driving();
 		app.walking();
@@ -207,8 +196,6 @@ public class AppUsuarioTest {
 	
 	@Test
 	public void testCuandoSeCambiaDeCaminarAConducirEnModoAutomaticoTieneUnEstacionamientoTerminaElEstacionamientoYLeAvisaQueTerminoAdemasDeDarLaInformacionDelEstacionamiento() {
-		when(sem.tieneSaldoSuficiente(cel)).thenReturn(true);
-		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
 		when(sem.finalizarEstacionamiento(cel)).thenReturn("Hora de Inicio: 09:00hs. Hora de fin: 12:00hs. Duración: 3hs. Crédito restante: 0");
 		
 		app.cambiarAAutomatico();
@@ -253,6 +240,38 @@ public class AppUsuarioTest {
 		app.walking();
 		
 		assertEquals("Aun no se ha estacionado", cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testCambiarDeCaminarAManejarODeManejarACaminarFueraDeUnaZonaNoHaceNada() {
+		cel.alerta("primera alerta");
+		app.estaFueraDeZona();
+		app.driving();
+		app.walking();
+		app.driving();
+		app.walking();
+		
+		assertEquals("primera alerta",cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testCambiarACaminarCuandoEstaEstacionadoNoHaceNada() {
+		cel.alerta("primera alerta");
+		app.driving();
+		app.iniciarEstacionamiento();
+		app.walking();
+		
+		cel.descartarUltimaAlerta(); //descarta la alerta con la informacion del estacionamiento
+		assertEquals("primera alerta", cel.ultimaAlerta());
+	}
+	
+	@Test
+	public void testCambiarAManejarCuandoNoEstaEstacionadoNoHaceNada() {
+		app.walking();
+		cel.alerta("antes de cambiar a manejar");
+		app.driving();
+		
+		assertEquals("antes de cambiar a manejar", cel.ultimaAlerta());
 	}
 	
 	

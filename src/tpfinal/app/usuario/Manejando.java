@@ -12,10 +12,4 @@ public class Manejando extends EstadoMoveS{
 	public void manejando(AppUsuario appUsuario) {
 		//no hace nada
 	}
-
-	@Override
-	public void toggleMovementSensor(AppUsuario appUsuario) {
-		appUsuario.setEstadoMoveS(new MovementSensorDesactivado());
-	}
-
 }

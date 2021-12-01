@@ -12,10 +12,4 @@ public class Caminando extends EstadoMoveS {
 		appUsuario.setEstadoMoveS(new Manejando());
 		appUsuario.ahoraEstasManejando();
 	}
-
-	@Override
-	public void toggleMovementSensor(AppUsuario appUsuario) {
-		appUsuario.setEstadoMoveS(new MovementSensorDesactivado());
-	}
-
 }

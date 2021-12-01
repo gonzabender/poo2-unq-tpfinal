@@ -14,7 +14,7 @@ public class CelularTest {
 	@BeforeEach
 	public void setup() {
 		app= mock(AppUsuario.class);
-		cel= new Celular(app, 0, 0);
+		cel= new Celular(app, 1120304050, 0);
 	}
 	
 	@Test
@@ -47,5 +47,10 @@ public class CelularTest {
 		assertEquals(135,cel.getSaldo());
 		cel.restarSaldo(40);
 		assertEquals(95,cel.getSaldo());
+	}
+	
+	@Test
+	public void testUnCelularTieneUnNumero() {
+		assertEquals(1120304050,cel.getNúmero());
 	}
 }

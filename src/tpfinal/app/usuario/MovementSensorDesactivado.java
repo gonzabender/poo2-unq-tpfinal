@@ -13,10 +13,4 @@ public class MovementSensorDesactivado extends EstadoMoveS {
 	public void manejando(AppUsuario appUsuario) {
 		//no hace nada
 	}
-	
-	@Override
-	public void toggleMovementSensor(AppUsuario app) {
-		app.setEstadoMoveS(new Manejando());
-	}
-
 }

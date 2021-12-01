@@ -154,9 +154,6 @@ public class SEM extends Observable {
 
 	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
 
-	private boolean créditoSuficiente(Celular celular, int horas) {
-		return celular.getSaldo() / precioHora >= horas;
-	}
 
 	public void finalizarTodosLosEstacionamientos() {
 		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
