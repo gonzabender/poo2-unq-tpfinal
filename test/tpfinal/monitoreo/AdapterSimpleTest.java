@@ -1,5 +1,6 @@
 package tpfinal.monitoreo;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,7 +31,7 @@ public class AdapterSimpleTest {
 		sem = new SEM();
 		sem.setHoraActual(LocalTime.now());
 		adapter = new EntidadAdapter(sem);
-		entidad = mock(Entidad.class);
+		entidad = new Entidad();
 		adapter.suscribirse();
 		e = mock(Estacionamiento.class);
 		cel = mock(Celular.class);
@@ -39,8 +40,9 @@ public class AdapterSimpleTest {
 	@Test
 	public void testNotificar() {
 		String i = sem.iniciarEstacionamiento(cel, "ABC123", LocalTime.now());
-		when(entidad.notificar(i)).thenReturn(i);
+		// when(entidad.notificar(i)).thenReturn(i);
+		assertTrue(entidad.getInformes().contains(i));
 
-		verify(entidad, times(1)).notificar(i);
+		// verify(entidad, times(1)).notificar(i);
 	}
 }
