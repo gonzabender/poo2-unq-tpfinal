@@ -17,6 +17,7 @@ public class ZonaSem {
 		this.sem = sem;
 		this.puntosDeVenta = puntos;
 		this.inspector = inspector;
+		sem.addZona(this);
 	}
 
 	public boolean estaVigente(String patente) {

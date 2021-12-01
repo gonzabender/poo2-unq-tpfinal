@@ -16,7 +16,7 @@ public class PuntoDeVenta {
 	/**
 	 * 
 	 * @param celular El objeto celular a recargar
-	 * @param monto La cantidad de dinero a ingresar
+	 * @param monto   La cantidad de dinero a ingresar
 	 */
 	public void cargarCelular(Celular celular, int monto) {
 		RecargaCelular operación = new RecargaCelular(Calendar.getInstance(), this, monto, celular);

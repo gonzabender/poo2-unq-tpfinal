@@ -38,7 +38,6 @@ public class InspectorTest {
 		zona = new ZonaSem(sem, Arrays.asList(kiosco), inspector);
 		inspector = new Inspector(sem, zona);
 		kiosco.setSem(sem);
-	
 	}
 	
 	@Test
