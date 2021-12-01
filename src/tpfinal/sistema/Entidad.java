@@ -1,5 +1,6 @@
 package tpfinal.sistema;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Entidad {
@@ -9,7 +10,15 @@ public class Entidad {
 	 * otra, el adapter debe ser modificado o debe ser creado uno nuevo
 	 */
 
-	private List<String> informes;
+	private List<String> informes = new ArrayList<String>();
+	
+	
+
+	public List<String> getInformes() {
+		return informes;
+	}
+
+
 
 	/**
 	 * 

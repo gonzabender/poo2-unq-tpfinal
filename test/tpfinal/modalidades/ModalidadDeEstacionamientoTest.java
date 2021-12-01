@@ -1,4 +1,4 @@
-package tpfinal;
+package tpfinal.modalidades;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -105,28 +105,7 @@ public class ModalidadDeEstacionamientoTest {
 		assertEquals(data, iphone.ultimaAlerta());
 	}
 	
-	@Test
-	public void testFinalizarTodo() {
-		// Exercise
-		LocalTime fin = LocalTime.of(15, 0);
-		kiosco.iniciarEstacionamiento("986DRH", fin);
-		kiosco.cargarCelular(iphone, 150);; // Primero debe cargar crédito, aunque eso debe ser algo manual...
-		
-		LocalTime inicio= LocalTime.of(15, 0);
-		app.setHoraActual(inicio);
-		sem.setHoraActual(inicio);
-		app.iniciarEstacionamiento();
-		assertEquals(2, sem.getEstacionamientosEnCurso().size());
-		sem.setHoraActual(LocalTime.of(20, 1));
-		sem.finalizarTodosLosEstacionamientos();
-		
-		// Verify
-		assertTrue(sem.getEstacionamientosEnCurso().isEmpty());
-		
-		
-	}
 	
-
 }
 
 
