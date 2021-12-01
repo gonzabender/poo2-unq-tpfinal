@@ -10,6 +10,8 @@ import tpfinal.compras.Compra;
 import tpfinal.compras.estacionamientos.Estacionamiento;
 import tpfinal.compras.estacionamientos.EstacionamientoApp;
 import tpfinal.inspector.Infraccion;
+import tpfinal.inspector.Inspector;
+import tpfinal.puntoDeVenta.PuntoDeVenta;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -17,7 +19,8 @@ import java.util.HashMap;
 
 public class SEM extends Observable {
 
-	private List<ZonaSem> zonasDeEstacionamiento;
+	private List<ZonaSem> zonas;
+	private Inspector inspector;
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones;
@@ -28,14 +31,14 @@ public class SEM extends Observable {
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
 		this.estacionamientosEnCurso = new ArrayList<Estacionamiento>();
-		this.zonasDeEstacionamiento = new ArrayList<ZonaSem>();
+		this.zonas = new ArrayList<ZonaSem>();
 		this.infracciones = new ArrayList<Infraccion>();
 		this.celularesEstacionados = new HashMap<Celular, String>();
 		this.precioHora = 40;
 	}
 
-	public void addZona(ZonaSem zona) {
-		zonasDeEstacionamiento.add(zona);
+	public void addZona(ZonaSem z) {
+		zonas.add(z);
 	}
 
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
@@ -154,7 +157,6 @@ public class SEM extends Observable {
 
 	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
 
-
 	public void finalizarTodosLosEstacionamientos() {
 		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
 		if (!this.noSonLasOcho()) {
@@ -172,16 +174,17 @@ public class SEM extends Observable {
 
 	// }
 
-	public void descontarTodosLosCréditos(int monto, Estacionamiento est) {
-		this.celularesEstacionados.keySet().forEach(cel -> this.descontarCrédito(cel, monto, est));
-		;
-	}
+	/*
+	 * public void descontarTodosLosCréditos(int monto, Estacionamiento est) {
+	 * this.celularesEstacionados.keySet().forEach(cel -> this.descontarCrédito(cel,
+	 * monto, est)); ; }
+	 */
 
-	public Stream<Infraccion> getInfraccionesVehiculo(String patente) {
-		List<Infraccion> inf = this.getInfracciones();
-		Stream<Infraccion> res = inf.stream().filter(i -> i.getPatente() == patente);
-		return res;
-	}
+	/*
+	 * public Stream<Infraccion> getInfraccionesVehiculo(String patente) {
+	 * List<Infraccion> inf = this.getInfracciones(); Stream<Infraccion> res =
+	 * inf.stream().filter(i -> i.getPatente() == patente); return res; }
+	 */
 
 	public List<Infraccion> getInfracciones() {
 		return infracciones;
@@ -193,6 +196,13 @@ public class SEM extends Observable {
 
 	public void setHoraActual(LocalTime horaActual) {
 		this.horaActual = horaActual;
+		this.verificarVigencias(horaActual);
+	}
+
+	private void verificarVigencias(LocalTime horaActual) {
+		List<Estacionamiento> e = this.estacionamientosEnCurso.stream().filter(est -> est.getHorarioFin() == horaActual)
+				.toList();
+		this.estacionamientosEnCurso.removeAll(e);
 	}
 
 	public boolean tieneSaldoSuficiente(Celular cel) {

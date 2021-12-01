@@ -5,12 +5,12 @@ import java.util.Calendar;
 import tpfinal.sistema.ZonaSem;
 
 public class Infraccion {
-	
+
 	private Calendar fechaYHora;
 	private String patente;
 	private Inspector inspector;
 	private ZonaSem zonasem;
-	
+
 	public Infraccion(Inspector inspector, ZonaSem zonaSem, String patente) {
 		this.fechaYHora = Calendar.getInstance();
 		this.inspector = inspector;
@@ -18,20 +18,8 @@ public class Infraccion {
 		this.patente = patente;
 	}
 
-	public Calendar getFechaYHora() {
-		return fechaYHora;
-	}
-
 	public String getPatente() {
 		return patente;
-	}
-
-	public Inspector getInspector() {
-		return inspector;
-	}
-
-	public ZonaSem getZonasem() {
-		return zonasem;
 	}
 
 }

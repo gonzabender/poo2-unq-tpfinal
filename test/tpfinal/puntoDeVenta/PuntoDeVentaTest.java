@@ -35,6 +35,7 @@ public class PuntoDeVentaTest {
 		pv = new PuntoDeVenta();
 		pv.setSem(sem);
 		algunFinal = LocalTime.of(18, 0);
+		sem.setHoraActual(LocalTime.of(13, 0));
 	}
 
 	@Test

@@ -10,7 +10,6 @@ import tpfinal.puntoDeVenta.PuntoDeVenta;
 public class ZonaSem {
 
 	private List<PuntoDeVenta> puntosDeVenta = new ArrayList<PuntoDeVenta>();
-	private List<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
 	private SEM sem;
 	private Inspector inspector;
 
@@ -18,34 +17,12 @@ public class ZonaSem {
 		this.sem = sem;
 		this.puntosDeVenta = puntos;
 		this.inspector = inspector;
+		sem.addZona(this);
 	}
-
-	public List<PuntoDeVenta> getPuntosDeVenta() {
-		return puntosDeVenta;
-	}
-
-	public List<Estacionamiento> getEstacionamientos() {
-		return estacionamientos;
-	}
-
-	public Inspector getInspector() {
-		return inspector;
-	}
-
-	public void agregarPuntoDeVenta(PuntoDeVenta punto) {
-		this.puntosDeVenta.add(punto);
-	}
-
-	/*
-	 * public boolean estaVigente(String patente) { boolean res = false; for
-	 * (Estacionamiento e : sem.getEstacionamientosEnCurso()) { if (e.getPatente()
-	 * == patente) { res = true; break; } } return res; }
-	 */
 
 	public boolean estaVigente(String patente) {
 		List<Estacionamiento> estacionamientos = sem.getEstacionamientosEnCurso();
-		long e = estacionamientos.stream()
-				.filter(est -> est.getPatente() == patente).count();
+		long e = estacionamientos.stream().filter(est -> est.getPatente() == patente).count();
 		return e == 1;
 	}
 

@@ -38,7 +38,6 @@ public class InspectorTest {
 		zona = new ZonaSem(sem, Arrays.asList(kiosco), inspector);
 		inspector = new Inspector(sem, zona);
 		kiosco.setSem(sem);
-	
 	}
 	
 	@Test
@@ -58,5 +57,5 @@ public class InspectorTest {
 		assertFalse(inspector.verificarEstacionamiento(patente)); // Pasa el inspector, ve que la patente no se encuentra en el sistema
 		assertTrue(sem.getInfracciones().size() == 1); //Realiza la infracción, la cual se guarda en el sistema
 	}
-
+	
 }

@@ -10,6 +10,7 @@ import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -27,7 +28,7 @@ public class ModalidadDeEstacionamientoTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		// Set up
-		unaHora= LocalTime.of(10,0);
+		unaHora = LocalTime.of(10, 0);
 
 		sem = new SEM();
 		iphone = new Celular(app, 118594729, 0);
@@ -54,8 +55,8 @@ public class ModalidadDeEstacionamientoTest {
 		// Exercise
 		LocalTime horaSem = LocalTime.of(17, 0);
 		sem.setHoraActual(horaSem);
-		LocalTime fin = LocalTime.of(19, 0);				
-		kiosco.iniciarEstacionamiento("986DRH",fin); // Un estacionamiento cualquiera...
+		LocalTime fin = LocalTime.of(19, 0);
+		kiosco.iniciarEstacionamiento("986DRH", fin); // Un estacionamiento cualquiera...
 
 		// Verify
 		assertTrue(sem.getEstacionamientosEnCurso().size() == 1); // Se registra en los estacionamientos en curso
@@ -63,49 +64,50 @@ public class ModalidadDeEstacionamientoTest {
 		assertTrue(sem.getEstacionamientosEnCurso().get(0).vigente()); // El estacionamiento se encuentra vigente
 
 	}
+
 	@Test
 	public void testCompraPuntualFalla() {
 		// Exercise
-		LocalTime horaSem = LocalTime.of(18, 0);
+		LocalTime horaSem = LocalTime.of(14, 0);
 		sem.setHoraActual(horaSem);
-		LocalTime fin = LocalTime.of(17, 0);				
-		kiosco.iniciarEstacionamiento("986DRH",fin); // Un estacionamiento cualquiera...
-
-		// Verify
+		LocalTime fin = LocalTime.of(17, 0);
+		kiosco.iniciarEstacionamiento("986DRH", fin); // Un estacionamiento cualquiera...
 		assertTrue(sem.getEstacionamientosEnCurso().size() == 1); // Se registra en los estacionamientos en curso
 		assertTrue(sem.getCompras().size() == 1); // Se registra en las compras de punto de venta
 		assertTrue(sem.getEstacionamientosEnCurso().get(0).vigente()); // El estacionamiento se encuentra vigente
 
+		// Verify
+		sem.setHoraActual(fin);
+		assertTrue(sem.getEstacionamientosEnCurso().isEmpty()); // Al setear la nueva hora actual, el sistema elimina los estacionamientos no vigentes.
+
 	}
-	
+
 	@Test
 	public void testCompraConApp() {
 		// Exercise
-		LocalTime horaFin= LocalTime.of(12, 0);
-		kiosco.cargarCelular(iphone, 120);; // Primero debe cargar crédito, aunque eso debe ser algo manual...
-		app.iniciarEstacionamiento(); // Por el momento, no retorna nada 
+		LocalTime horaFin = LocalTime.of(12, 0);
+		kiosco.cargarCelular(iphone, 120);
+		; // Primero debe cargar crédito, aunque eso debe ser algo manual...
+		app.iniciarEstacionamiento(); // Por el momento, no retorna nada
 		app.setHoraActual(horaFin);
 		sem.setHoraActual(horaFin);
-		
+
 		// Verify
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 1);
 		app.finalizarEstacionamiento();
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
 	}
-	
+
 	@Test
 	public void testCompraConAppFallida() {
 		// Exercise
-        app.iniciarEstacionamiento(); // Por el momento, no retorna nada 
-		
-        String data= "No tiene credito suficiente para iniciar estacionamiento";
+		app.iniciarEstacionamiento(); // Por el momento, no retorna nada
+
+		String data = "No tiene credito suficiente para iniciar estacionamiento";
 		// Verify
-        assertEquals(0, app.consultaSaldo());
+		assertEquals(0, app.consultaSaldo());
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
 		assertEquals(data, iphone.ultimaAlerta());
 	}
-	
-	
+
 }
-
-

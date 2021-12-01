@@ -16,7 +16,7 @@ public class PuntoDeVenta {
 	/**
 	 * 
 	 * @param celular El objeto celular a recargar
-	 * @param monto La cantidad de dinero a ingresar
+	 * @param monto   La cantidad de dinero a ingresar
 	 */
 	public void cargarCelular(Celular celular, int monto) {
 		RecargaCelular operación = new RecargaCelular(Calendar.getInstance(), this, monto, celular);
@@ -31,7 +31,7 @@ public class PuntoDeVenta {
 	 */
 	public void iniciarEstacionamiento(String patente, LocalTime horaFin) {
 		CompraPuntual compra = new CompraPuntual(Calendar.getInstance(), this);
-		EstacionamientoCompraPuntual operación = new EstacionamientoCompraPuntual(patente, compra, LocalTime.now());
+		EstacionamientoCompraPuntual operación = new EstacionamientoCompraPuntual(patente, compra, sem.getHoraActual());
 		operación.setHorarioFin(horaFin);
 		compra.setHorasCompradas(this.cantidadDeHorasTotales(operación.getHorarioInicio(), horaFin));
 		sem.addCompra(compra);
@@ -45,7 +45,7 @@ public class PuntoDeVenta {
 	 * @return La diferencia entre ambas horas
 	 */
 	private int cantidadDeHorasTotales(LocalTime a, LocalTime b) {
-		return a.compareTo(b);
+		return b.getHour() - a.getHour();
 	}
 
 	public void setSem(SEM sem) {
