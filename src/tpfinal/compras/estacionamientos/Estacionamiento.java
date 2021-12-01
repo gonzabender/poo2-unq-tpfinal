@@ -18,7 +18,7 @@ public abstract class Estacionamiento {
 	 *         horario abonado, falso sino.
 	 */
 	public boolean vigente() {
-		return horarioInicio.isBefore(horarioFin);
+		return horarioFin.getHour() > horarioInicio.getHour();
 	}
 
 	public Estacionamiento(String patente, LocalTime horaInicio) {

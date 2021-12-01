@@ -154,7 +154,6 @@ public class SEM extends Observable {
 
 	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
 
-
 	public void finalizarTodosLosEstacionamientos() {
 		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
 		if (!this.noSonLasOcho()) {
@@ -193,6 +192,13 @@ public class SEM extends Observable {
 
 	public void setHoraActual(LocalTime horaActual) {
 		this.horaActual = horaActual;
+		this.verificarVigencias(horaActual);
+	}
+
+	private void verificarVigencias(LocalTime horaActual) {
+		List<Estacionamiento> e = this.estacionamientosEnCurso.stream().filter(est -> est.getHorarioFin() == horaActual)
+				.toList();
+		this.estacionamientosEnCurso.removeAll(e);
 	}
 
 	public boolean tieneSaldoSuficiente(Celular cel) {
