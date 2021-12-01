@@ -1,4 +1,4 @@
-package tpfinal;
+package tpfinal.modalidades;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
