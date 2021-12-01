@@ -19,6 +19,11 @@ import tpfinal.sistema.SEM;
 
 public class FinalizarTodosTest {
 
+	/**
+	 * Esta clase se encarga de verificar que a las 20hs, el servicio dispara la
+	 * finalización de todos los estacionamientos.
+	 */
+
 	SEM sem;
 	Celular cel1;
 	Celular cel2;
@@ -28,7 +33,6 @@ public class FinalizarTodosTest {
 	AppUsuario app2;
 	AppUsuario app3;
 	AppUsuario app4;
-	PuntoDeVenta kiosco;
 	LocalTime unaHora;
 
 	@BeforeEach
@@ -44,8 +48,6 @@ public class FinalizarTodosTest {
 		app2 = new AppUsuario(sem, "ABC123", cel2);
 		app3 = new AppUsuario(sem, "DEF456", cel3);
 		app4 = new AppUsuario(sem, "FGH789", cel4);
-		kiosco = new PuntoDeVenta();
-		kiosco.setSem(sem);
 		sem.setHoraActual(unaHora);
 		app.setHoraActual(unaHora);
 		when(cel1.getSaldo()).thenReturn(400);
@@ -61,11 +63,14 @@ public class FinalizarTodosTest {
 	@Test
 	public void testFinalizarTodos() {
 		// Exercise
-		sem.setHoraActual(LocalTime.of(20, 0));
+		sem.setHoraActual(LocalTime.of(19, 0));
+		assertTrue(!sem.getEstacionamientosEnCurso().isEmpty()); // No son las 20, no finaliza nada.
+		sem.setHoraActual(LocalTime.of(20, 0)); // La hora en la que finaliza el servicio.
 		String info = "Su estacionamiento medido fue finalizado por haber alcanzado la hora límite del servicio";
 		sem.finalizarTodosLosEstacionamientos();
 
 		// Verify
+		assertTrue(sem.getEstacionamientosEnCurso().isEmpty());
 		verify(cel1, times(1)).restarSaldo(400); // El sistema resta el equivalente a 10hs (actualmente = 40 * 10)
 		verify(cel1, times(1)).alerta(info);
 		verify(cel2, times(1)).restarSaldo(400);
