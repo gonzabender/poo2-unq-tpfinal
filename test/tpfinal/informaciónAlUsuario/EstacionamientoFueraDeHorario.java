@@ -2,8 +2,6 @@ package tpfinal.informaciónAlUsuario;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.time.LocalTime;
 
 import org.junit.Before;
@@ -21,10 +19,6 @@ public class EstacionamientoFueraDeHorario {
 	AppUsuario app;
 	PuntoDeVenta kiosco;
 
-	// Para testear los prints de consola
-	ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	PrintStream originalOut = System.out;
-
 	@Before
 	public void setUp() throws Exception {
 		// Set up
@@ -33,9 +27,6 @@ public class EstacionamientoFueraDeHorario {
 		iphone = new Celular(app, 1157990244, 0);
 		app = new AppUsuario(sem, "UNQ021", iphone);
 		kiosco = new PuntoDeVenta(sem);
-
-		// Para testear los prints de consola
-		System.setOut(new PrintStream(outContent));
 
 	}
 
