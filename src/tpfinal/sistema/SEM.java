@@ -68,7 +68,7 @@ public class SEM extends Observable {
 	 *         el celular no posee suficiente saldo.
 	 */
 	public String iniciarEstacionamiento(Celular celular, String patente, LocalTime hora) {
-		if (this.noSonLasOcho()) {
+		if (this.estaEnFranjaHoraria()) {
 			LocalTime finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular);
 			EstacionamientoApp operación = new EstacionamientoApp(patente, celular, this.getHoraActual());
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
@@ -84,8 +84,9 @@ public class SEM extends Observable {
 
 	}
 
-	private boolean noSonLasOcho() {
-		return this.horaActual.getHour() < 20;
+	private boolean estaEnFranjaHoraria() {
+		int hora= this.horaActual.getHour();
+		return hora < 20 && hora > 7 ;
 	}
 
 	/**
@@ -97,11 +98,8 @@ public class SEM extends Observable {
 	 */
 	public LocalTime calcularFinalDeEstacionamiento(Celular celular) {
 		int saldo = celular.getSaldo();
-		LocalTime horas = this.horaActual;
-		while (saldo >= precioHora) {
-			horas = horas.plusHours(1);
-			saldo = saldo - precioHora;
-		}
+		LocalTime horas = this.horaActual.plusHours(saldo/this.precioHora);
+		
 		return horas;
 	}
 
@@ -159,7 +157,7 @@ public class SEM extends Observable {
 
 	public void finalizarTodosLosEstacionamientos() {
 		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
-		if (!this.noSonLasOcho()) {
+		if (!this.estaEnFranjaHoraria()) {
 			for (Estacionamiento e : estacionamientos) {
 				e.terminarEstacionamiento();
 			}
