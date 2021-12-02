@@ -94,7 +94,6 @@ public class ModalidadDeEstacionamientoTest {
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
 	}
 
-
 	@Test
 	public void testCompraConAppFallida() {
 		// Exercise

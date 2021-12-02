@@ -8,7 +8,7 @@ public enum FranjaHoraria {
 	Inactiva {
 		@Override
 		protected String iniciarEstacionamiento(SEM sem, Celular celular, String patente, LocalTime hora) {
-			return "No es requerido estacionar despues entre las 20:00hs y las 07:00hs";
+			return "No es requerido estacionar entre las 20:00hs y las 07:00hs";
 		}
 
 		@Override
@@ -21,14 +21,13 @@ public enum FranjaHoraria {
 			return sem.estacionamientoPermitido(celular,patente,hora);
 		}
 
-		@Override
-		protected void finalizarTodosLosEstacionamientos(SEM sem) {
-			// no hace nada
-		}
+		
 	};
 
 	protected abstract String iniciarEstacionamiento(SEM sem, Celular celular, String patente, LocalTime hora);
 
-	protected abstract void finalizarTodosLosEstacionamientos(SEM sem);
+	protected  void finalizarTodosLosEstacionamientos(SEM sem) {
+		// Hook para Inactiva.
+	}
 	
 }

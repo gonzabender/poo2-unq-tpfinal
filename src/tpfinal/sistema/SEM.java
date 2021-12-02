@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SEM {
-	
+
 	/**
 	 * Esta clase representa al sistema general de estacionamiento medido
 	 */
@@ -66,7 +66,7 @@ public class SEM {
 	 *         el celular no posee suficiente saldo.
 	 */
 	public String iniciarEstacionamiento(Celular celular, String patente, LocalTime hora) {
-		return this.franjaHoraria.iniciarEstacionamiento(this,celular,patente,hora);
+		return this.franjaHoraria.iniciarEstacionamiento(this, celular, patente, hora);
 	}
 
 	private boolean estaEnFranjaHoraria() {
@@ -141,17 +141,9 @@ public class SEM {
 		celular.restarSaldo(((est.getHorarioFin().getHour() - est.getHorarioInicio().getHour()) * monto));
 	}
 
-	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
-
 	public void finalizarTodosLosEstacionamientos() {
 		this.franjaHoraria.finalizarTodosLosEstacionamientos(this);
 	}
-
-	/*
-	 * public Stream<Infraccion> getInfraccionesVehiculo(String patente) {
-	 * List<Infraccion> inf = this.getInfracciones(); Stream<Infraccion> res =
-	 * inf.stream().filter(i -> i.getPatente() == patente); return res; }
-	 */
 
 	public List<Infraccion> getInfracciones() {
 		return infracciones;
@@ -168,7 +160,7 @@ public class SEM {
 		if (!this.estaEnFranjaHoraria()) {
 			this.franjaHoraria = FranjaHoraria.Inactiva;
 			this.finalizarTodosLosEstacionamientos();
-		}else {
+		} else {
 			this.franjaHoraria = FranjaHoraria.Activa;
 		}
 	}
@@ -214,7 +206,7 @@ public class SEM {
 
 	public void finalizarTodosLosEstacionamientosPermitido() {
 		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
-		
+
 		for (Estacionamiento e : estacionamientos) {
 			e.terminarEstacionamiento();
 			this.notificarEntidadesEstacionamientoFinalizado(e);
