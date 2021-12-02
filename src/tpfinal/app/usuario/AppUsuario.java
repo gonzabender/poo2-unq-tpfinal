@@ -32,7 +32,7 @@ public class AppUsuario  {
 		this.celular=celular;
 		this.patente=patente;
 		this.estado=new Manual();
-		this.estadoMoveS= new Manejando();
+		this.estadoMoveS= EstadoMoveS.Manejando;
 		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEstacionado;
 	}
 
@@ -158,13 +158,13 @@ public class AppUsuario  {
 	 * Desactiva el sensor de movimiento
 	 */
 	public void desactivarMoveS() {
-		this.estadoMoveS=new MovementSensorDesactivado();
+		this.estadoMoveS=EstadoMoveS.MoveSDesactivado;
 	}
 	
 	/*
 	 * Activa el sensor de movimiento y asume que esta manejando
 	 */
 	public void activarMoveS() {
-		this.estadoMoveS=new Manejando();
+		this.estadoMoveS=EstadoMoveS.Manejando;
 	}
 }

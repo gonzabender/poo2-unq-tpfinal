@@ -17,9 +17,5 @@ public class Infraccion {
 		this.zonasem = zonaSem;
 		this.patente = patente;
 	}
-
-	public String getPatente() {
-		return patente;
-	}
-
+	
 }
