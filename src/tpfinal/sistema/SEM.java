@@ -24,6 +24,7 @@ public class SEM {
 	private HashMap<Celular, String> celularesEstacionados;
 	private int precioHora;
 	private ArrayList<EntidadAdapter> entidades;
+	private FranjaHoraria franjaHoraria;
 
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
@@ -65,20 +66,7 @@ public class SEM {
 	 *         el celular no posee suficiente saldo.
 	 */
 	public String iniciarEstacionamiento(Celular celular, String patente, LocalTime hora) {
-		if (this.estaEnFranjaHoraria()) {
-			LocalTime finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular);
-			EstacionamientoApp operación = new EstacionamientoApp(patente, celular, this.getHoraActual());
-			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
-					+ String.valueOf(finDeEstacionamiento) + "hs.";
-			this.addEstacionamiento(operación);
-			this.celularesEstacionados.put(celular, patente);
-			return info;
-		} else {
-
-			return "No es requerido estacionar despues de las 20:00hs";
-
-		}
-
+		return this.franjaHoraria.iniciarEstacionamiento(this,celular,patente,hora);
 	}
 
 	private boolean estaEnFranjaHoraria() {
@@ -156,15 +144,7 @@ public class SEM {
 	// (LocalTime.now().getHour() - est.getHorarioInicio().getHour()) *40;
 
 	public void finalizarTodosLosEstacionamientos() {
-		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
-		if (!this.estaEnFranjaHoraria()) {
-			for (Estacionamiento e : estacionamientos) {
-				e.terminarEstacionamiento();
-				this.notificarEntidadesEstacionamientoFinalizado(e);
-			}
-			this.estacionamientosEnCurso.removeAll(estacionamientos);
-		}
-
+		this.franjaHoraria.finalizarTodosLosEstacionamientos(this);
 	}
 
 	/*
@@ -186,7 +166,10 @@ public class SEM {
 		this.verificarVigencias(horaActual);
 
 		if (!this.estaEnFranjaHoraria()) {
+			this.franjaHoraria = FranjaHoraria.Inactiva;
 			this.finalizarTodosLosEstacionamientos();
+		}else {
+			this.franjaHoraria = FranjaHoraria.Activa;
 		}
 	}
 
@@ -217,6 +200,26 @@ public class SEM {
 		for (Estacionamiento e : est) {
 			this.notificarEntidadesEstacionamientoFinalizado(e);
 		}
+	}
+
+	public String estacionamientoPermitido(Celular celular, String patente, LocalTime hora) {
+		LocalTime finDeEstacionamiento = this.calcularFinalDeEstacionamiento(celular);
+		EstacionamientoApp operación = new EstacionamientoApp(patente, celular, this.getHoraActual());
+		String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
+				+ String.valueOf(finDeEstacionamiento) + "hs.";
+		this.addEstacionamiento(operación);
+		this.celularesEstacionados.put(celular, patente);
+		return info;
+	}
+
+	public void finalizarTodosLosEstacionamientosPermitido() {
+		List<Estacionamiento> estacionamientos = this.estacionamientosEnCurso;
+		
+		for (Estacionamiento e : estacionamientos) {
+			e.terminarEstacionamiento();
+			this.notificarEntidadesEstacionamientoFinalizado(e);
+		}
+		this.estacionamientosEnCurso.removeAll(estacionamientos);
 	}
 
 }
