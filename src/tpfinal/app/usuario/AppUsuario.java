@@ -6,23 +6,12 @@ import tpfinal.sistema.SEM;
 import tpfinal.sistema.ZonaSem;
 
 public class AppUsuario  {
-/*En un principio se penso hacer la clase AppUsuario con 2 subclases
- *una que se encargue del funcionamiento manual y otra que se encargue
- *del funcionamiento automatico. Esto resulto en un problema, que es que
- *al cambiar de modo, el usuario es el que se encarga de decir qué aplicacion
- *va a estar en modo automatico, puesto que el cambio de modo se implementaba
- *devolviendo una nueva AppUsuario, ya sea manual o automatica.
- *Ej: 	AppUsuario miAppEst= new AppUsuario(sem, patente, celular);
- *		AppUsuario miAppEst= miAppEst.cambiarModo();
- *
- *Edit: Resuelto con state ^
- *
- **/
+
 	private SEM sem;
 	private String patente;
 	private Celular celular;
 	private LocalTime horaActual;
-	private EstadoApp estado; 
+	private Modo modo; 
 	private EstadoMoveS estadoMoveS;
 	private EstadoEstacionamiento estadoEstacionamiento;
 	
@@ -31,7 +20,7 @@ public class AppUsuario  {
 		this.sem=sem;
 		this.celular=celular;
 		this.patente=patente;
-		this.estado=new Manual();
+		this.modo= Modo.Manual;
 		this.estadoMoveS= EstadoMoveS.Manejando;
 		this.estadoEstacionamiento= EstadoEstacionamiento.NoEstaEstacionado;
 	}
@@ -138,19 +127,19 @@ public class AppUsuario  {
 	}
 
 	public void cambiarAManual() {
-		this.estado=new Manual();
+		this.modo=Modo.Manual;
 	}
 
 	public void cambiarAAutomatico() {
-		this.estado=new Automatico();
+		this.modo=Modo.Automatico;
 	}
 
 	public void cambieACaminarYNoEstoyEstacionado() {
-		this.celular.alerta(this.estado.alertaIniciar(this));
+		this.celular.alerta(this.modo.alertaIniciar(this));
 	}
 
 	public void cambieAManejarYEstoyEstacionado() {
-		this.celular.alerta(this.estado.alertaFinalizar(this));
+		this.celular.alerta(this.modo.alertaFinalizar(this));
 	}
 
 	
