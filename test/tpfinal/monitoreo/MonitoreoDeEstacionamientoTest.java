@@ -1,7 +1,7 @@
 package tpfinal.monitoreo;
-/*package tpfinal;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import tpfinal.*;
 import tpfinal.app.usuario.AppUsuario;
 import tpfinal.app.usuario.Celular;
+import tpfinal.compras.estacionamientos.Estacionamiento;
 import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.EntidadAdapter;
 import tpfinal.sistema.SEM;
@@ -24,21 +25,53 @@ public class MonitoreoDeEstacionamientoTest {
 	String A;
 	Celular cel;
 	AppUsuario app;
+	Estacionamiento estacionamiento;
 	
 	@Before
 	public void setUp() throws Exception {
 		
 		// Set up
 		sem = new SEM();
-	    kiosco = new PuntoDeVenta();
-	    kiosco.setSem(sem);
-	    callCenter = new EntidadAdapter(sem);
-	    callCenter.suscribirse();
-	    cel= new Celular(app, 11000000, 120);
-	    app= new AppUsuario(sem, "abc123", cel);
-	    app.setHoraActual(LocalTime.of(10, 0));
-	    sem.setHoraActual(LocalTime.of(12, 0));
+	    callCenter = mock(EntidadAdapter.class);
+	    estacionamiento = mock(Estacionamiento.class);
 	}
+	
+	@Test
+	public void testUnaEntidadSePuedeSuscribirAlSem() {
+		sem.subscribirEntidad(callCenter);
+		assertTrue(sem.getEntidades().contains(callCenter));
+	}
+	
+	@Test
+	public void testUnaEntidadSuscriptaPuedeDesuscribirse() {
+		sem.subscribirEntidad(callCenter);
+		sem.desubscribirEntidad(callCenter);
+		
+		assertFalse(sem.getEntidades().contains(callCenter));
+	}
+	
+	@Test
+	public void testCuandoSeIniciaUnEstacionamientoLasEntidadesSonNotificadasDelInicioDelEstacionamiento() {
+		sem.subscribirEntidad(callCenter);
+		sem.addEstacionamiento(estacionamiento);
+		
+		verify(callCenter).actualizarInicioEstacionamiento(estacionamiento);
+	}
+	
+	@Test
+	public void testCuandoSeFinalizaUnEstacionamientoLasEntidadesSonNotificadasDelFinalDelEstacionamiento() {
+		sem.subscribirEntidad(callCenter);
+		sem.addEstacionamiento(estacionamiento);
+		sem.finalizarEstacionamiento(estacionamiento); 	//Complicacion al finalizar, el tema de las entidades
+														//que se crean dentro de los metodos es complicado de testear con mock
+														//Los test en su lugar podrian ser que cuando el sem alerta a todas las entidades
+														//de un cambio
+		
+		verify(callCenter).actualizarFinEstacionamiento(estacionamiento);
+	}
+	
+	/*
+	
 	
 	@Test
 	public void testSuscripciónGenérica() {
@@ -60,6 +93,6 @@ public class MonitoreoDeEstacionamientoTest {
 		assertEquals(3, callCenter.getInformes().size());
 		assertTrue (callCenter.getInformes().contains("Hora de Inicio: 10hs. Hora de fin: 13hs. Duración: 3hs. Crédito restante: 0"));
 		callCenter.desuscribirse();
-	}
+	}*/
 
-}*/
+}

@@ -5,6 +5,8 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.mockito.ArgumentMatchers;
+
 import tpfinal.app.usuario.Celular;
 import tpfinal.compras.Compra;
 import tpfinal.compras.estacionamientos.Estacionamiento;
@@ -17,7 +19,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SEM extends Observable {
+public class SEM {
 
 	private List<ZonaSem> zonas;
 	private Inspector inspector;
@@ -27,6 +29,7 @@ public class SEM extends Observable {
 	private LocalTime horaActual;
 	private HashMap<Celular, String> celularesEstacionados;
 	private int precioHora;
+	private ArrayList<EntidadAdapter> entidades;
 
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
@@ -35,6 +38,7 @@ public class SEM extends Observable {
 		this.infracciones = new ArrayList<Infraccion>();
 		this.celularesEstacionados = new HashMap<Celular, String>();
 		this.precioHora = 40;
+		this.entidades = new ArrayList<EntidadAdapter> () ;
 	}
 
 	public void addZona(ZonaSem z) {
@@ -43,10 +47,11 @@ public class SEM extends Observable {
 
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientosEnCurso.add(estacionamiento);
-		String info = "Estacionamiento iniciado a las " + String.valueOf(estacionamiento.getHorarioInicio())
-				+ "hs. Y finalizado a las " + String.valueOf(estacionamiento.getHorarioFin()) + "hs.";
-		this.setChanged();
-		this.notifyObservers(info);
+		this.notificarEntidadesEstacionamientoIniciado(estacionamiento);
+	}
+
+	private void notificarEntidadesEstacionamientoIniciado(Estacionamiento estacionamiento) {
+		this.entidades.stream().forEach(entidad->entidad.actualizarInicioEstacionamiento(estacionamiento));
 	}
 
 	public void addInfraccion(Infraccion i) {
@@ -55,8 +60,6 @@ public class SEM extends Observable {
 
 	public void addCompra(Compra compra) {
 		this.compras.add(compra);
-		this.setChanged();
-		this.notifyObservers("Nueva compra");
 	}
 
 	/**
@@ -74,7 +77,7 @@ public class SEM extends Observable {
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
 			this.addEstacionamiento(operación);
-			this.celularesEstacionados.put(celular, patente);
+			this.celularesEstacionados.put(celular, patente);	
 			return info;
 		} else {
 
@@ -122,10 +125,13 @@ public class SEM extends Observable {
 		String info = this.retornarInfo(estacionamiento.getHorarioInicio(), estacionamiento.getHorarioFin(),
 				estacionamiento.duración(), celular.getSaldo());
 
-		this.setChanged();
-		this.notifyObservers(info);
+		this.notificarEntidadesEstacionamientoFinalizado(estacionamiento);
 
 		return info;
+	}
+
+	private void notificarEntidadesEstacionamientoFinalizado(Estacionamiento estacionamiento) {
+		this.entidades.stream().forEach(entidad->entidad.actualizarFinEstacionamiento(estacionamiento));
 	}
 
 	public String retornarInfo(LocalTime inicio, LocalTime fin, int duración, int crédito) {
@@ -207,4 +213,17 @@ public class SEM extends Observable {
 		return cel.getSaldo() >= this.precioHora;
 	}
 
+	public void subscribirEntidad(EntidadAdapter entidad) {
+		this.entidades.add(entidad);
+	}
+
+	public ArrayList<EntidadAdapter> getEntidades() {
+		return this.entidades;
+	}
+
+	public void desubscribirEntidad(EntidadAdapter callCenter) {
+		this.entidades.remove(callCenter);
+	}
+	
+	
 }

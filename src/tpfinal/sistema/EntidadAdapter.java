@@ -1,32 +1,11 @@
 package tpfinal.sistema;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import tpfinal.compras.estacionamientos.Estacionamiento;
 
-public class EntidadAdapter implements Observer {
+public interface EntidadAdapter{
 
-	private SEM sem;
-	private Entidad entidad = new Entidad(); // Adaptee
+	public void actualizarInicioEstacionamiento(Estacionamiento estacionamiento);
 
-	public EntidadAdapter(SEM sem) {
-		this.sem = sem;
-	}
-
-	public void suscribirse() {
-		sem.addObserver(this);
-	}
-
-	public void desuscribirse() {
-		sem.deleteObserver(this);
-		;
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		entidad.notificar((String) arg);
-
-	}
+	public void actualizarFinEstacionamiento(Estacionamiento estacionamiento);
 
 }
