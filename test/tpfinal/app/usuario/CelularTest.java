@@ -6,6 +6,11 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * 
+ * @author Lucas Alvarez
+ *
+ */
 public class CelularTest {
 	
 	private Celular cel;

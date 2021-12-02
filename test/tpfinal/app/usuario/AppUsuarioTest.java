@@ -13,6 +13,12 @@ import org.junit.jupiter.api.Test;
 import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 
+/**
+ * 
+ * @author Lucas Alvarez
+ *
+ */
+
 public class AppUsuarioTest {
 
 	private AppUsuario app;
