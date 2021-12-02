@@ -10,7 +10,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 
 /**
@@ -25,7 +24,6 @@ public class AppUsuarioTest {
 	private Celular cel;
 	private SEM sem;
 	private String patente;
-	private PuntoDeVenta kiosco;
 	LocalTime lasNueve;
 
 	
@@ -35,7 +33,6 @@ public class AppUsuarioTest {
 		sem= mock (SEM.class);
 		cel= new Celular(app, 0, 120);
 		app= new AppUsuario(sem,patente,cel);
-		kiosco= mock (PuntoDeVenta.class);
 		app.setHoraActual(lasNueve);
 
 		when(sem.iniciarEstacionamiento(cel, patente, app.getHoraActual())).thenReturn("Su estacionamiento es valido desde las "+ app.getHoraActual() +"hs. Hasta las 12:00hs.");
@@ -286,6 +283,5 @@ public class AppUsuarioTest {
 		sem=null;
 		cel= null;
 		app= null;
-		kiosco= null;
 	}	
 }

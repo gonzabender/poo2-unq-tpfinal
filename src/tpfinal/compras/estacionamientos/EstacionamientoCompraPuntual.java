@@ -6,6 +6,7 @@ import tpfinal.compras.CompraPuntual;
 
 public class EstacionamientoCompraPuntual extends Estacionamiento {
 
+	@SuppressWarnings("unused")
 	private CompraPuntual compra;
 
 	/**

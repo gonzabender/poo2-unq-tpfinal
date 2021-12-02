@@ -12,7 +12,9 @@ public class RecargaCelular extends Compra {
 	 * un PuntoDeVenta
 	 */
 
+	@SuppressWarnings("unused")
 	private int monto;
+	@SuppressWarnings("unused")
 	private Celular celular;
 
 	/**

@@ -3,7 +3,6 @@ package tpfinal.app.usuario;
 import java.time.LocalTime;
 
 import tpfinal.sistema.SEM;
-import tpfinal.sistema.ZonaSem;
 
 public class AppUsuario  {
 

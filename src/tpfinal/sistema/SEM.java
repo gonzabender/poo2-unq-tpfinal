@@ -1,20 +1,11 @@
 package tpfinal.sistema;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import org.mockito.ArgumentMatchers;
-
 import tpfinal.app.usuario.Celular;
 import tpfinal.compras.Compra;
 import tpfinal.compras.estacionamientos.Estacionamiento;
 import tpfinal.compras.estacionamientos.EstacionamientoApp;
 import tpfinal.inspector.Infraccion;
-import tpfinal.inspector.Inspector;
-import tpfinal.puntoDeVenta.PuntoDeVenta;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;

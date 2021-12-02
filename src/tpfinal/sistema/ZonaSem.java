@@ -9,8 +9,10 @@ import tpfinal.puntoDeVenta.PuntoDeVenta;
 
 public class ZonaSem {
 
+	@SuppressWarnings("unused")
 	private List<PuntoDeVenta> puntosDeVenta = new ArrayList<PuntoDeVenta>();
 	private SEM sem;
+	@SuppressWarnings("unused")
 	private Inspector inspector;
 
 	public ZonaSem(SEM sem, List<PuntoDeVenta> puntos, Inspector inspector) {

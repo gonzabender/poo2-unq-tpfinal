@@ -12,6 +12,7 @@ import tpfinal.puntoDeVenta.PuntoDeVenta;
  */
 public class CompraPuntual extends Compra {
 
+	@SuppressWarnings("unused")
 	private int horasCompradas;
 
 	/**

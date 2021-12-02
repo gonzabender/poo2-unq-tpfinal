@@ -4,6 +4,7 @@ import java.util.Stack;
 
 public class Celular {
 
+	@SuppressWarnings("unused")
 	private AppUsuario app;
 	private int número;
 	private int saldo;

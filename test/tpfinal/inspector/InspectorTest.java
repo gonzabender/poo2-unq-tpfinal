@@ -8,10 +8,8 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import tpfinal.*;
 import tpfinal.app.usuario.AppUsuario;
 import tpfinal.app.usuario.Celular;
-import tpfinal.inspector.Inspector;
 import tpfinal.puntoDeVenta.PuntoDeVenta;
 import tpfinal.sistema.SEM;
 import tpfinal.sistema.ZonaSem;
