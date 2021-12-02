@@ -140,8 +140,9 @@ public class FuncionamientoGeneralTest {
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 2);
 
 		sem.setHoraActual(fin);
-		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
+		assertEquals(sem.getEstacionamientosEnCurso().size(), 0); // A las 20 finaliza todo automáticamente
 		String info = "No es requerido estacionar entre las 20:00hs y las 07:00hs";
+		sem.setHoraActual(LocalTime.of(23, 0));
 		when(cel4.getSaldo()).thenReturn(90);
 		app4.iniciarEstacionamiento();
 		verify(cel4, times(1)).alerta(info);
