@@ -9,7 +9,6 @@ import tpfinal.puntoDeVenta.PuntoDeVenta;
 
 public class ZonaSem {
 
-	@SuppressWarnings("unused")
 	private List<PuntoDeVenta> puntosDeVenta = new ArrayList<PuntoDeVenta>();
 	private SEM sem;
 	@SuppressWarnings("unused")
@@ -24,8 +23,11 @@ public class ZonaSem {
 
 	public boolean estaVigente(String patente) {
 		List<Estacionamiento> estacionamientos = sem.getEstacionamientosEnCurso();
-		long e = estacionamientos.stream().filter(est -> est.getPatente() == patente).count();
-		return e == 1;
+		return !estacionamientos.stream().filter(e -> e.getPatente().equals(patente)).toList().isEmpty();
+	}
+
+	public List<PuntoDeVenta> getPuntosDeVenta() {
+		return puntosDeVenta;
 	}
 
 }
