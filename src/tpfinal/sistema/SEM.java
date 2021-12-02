@@ -92,7 +92,7 @@ public class SEM {
 
 	private boolean estaEnFranjaHoraria() {
 		int hora = this.horaActual.getHour();
-		return hora < 20 && hora > 7;
+		return hora < 20 && hora >= 7;
 	}
 
 	/**

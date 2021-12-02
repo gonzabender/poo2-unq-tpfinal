@@ -65,7 +65,7 @@ public class ModalidadDeEstacionamientoTest {
 	}
 
 	@Test
-	public void testCompraPuntualFalla() {
+	public void testCompraPuntualFinaliza() {
 		// Exercise
 		LocalTime horaSem = LocalTime.of(14, 0);
 		sem.setHoraActual(horaSem);
@@ -77,7 +77,8 @@ public class ModalidadDeEstacionamientoTest {
 
 		// Verify
 		sem.setHoraActual(fin);
-		assertTrue(sem.getEstacionamientosEnCurso().isEmpty()); // Al setear la nueva hora actual, el sistema elimina los estacionamientos no vigentes.
+		assertTrue(sem.getEstacionamientosEnCurso().isEmpty()); // Al setear la nueva hora actual, el sistema elimina
+																// los estacionamientos no vigentes.
 
 	}
 
@@ -86,7 +87,7 @@ public class ModalidadDeEstacionamientoTest {
 		// Exercise
 		LocalTime horaFin = LocalTime.of(12, 0);
 		kiosco.cargarCelular(iphone, 120);
-		; // Primero debe cargar crédito, aunque eso debe ser algo manual...
+		// Primero debe cargar crédito, aunque eso debe ser algo manual...
 		app.iniciarEstacionamiento(); // Por el momento, no retorna nada
 		app.setHoraActual(horaFin);
 		sem.setHoraActual(horaFin);
@@ -96,6 +97,7 @@ public class ModalidadDeEstacionamientoTest {
 		app.finalizarEstacionamiento();
 		assertEquals(sem.getEstacionamientosEnCurso().size(), 0);
 	}
+
 
 	@Test
 	public void testCompraConAppFallida() {

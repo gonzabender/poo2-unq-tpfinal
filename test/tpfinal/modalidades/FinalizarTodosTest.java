@@ -34,6 +34,7 @@ public class FinalizarTodosTest {
 	AppUsuario app3;
 	AppUsuario app4;
 	LocalTime unaHora;
+	PuntoDeVenta pv;
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -58,6 +59,9 @@ public class FinalizarTodosTest {
 		app2.iniciarEstacionamiento();
 		app3.iniciarEstacionamiento();
 		app4.iniciarEstacionamiento();
+		pv = new PuntoDeVenta(sem);
+		pv.iniciarEstacionamiento("ABC123", LocalTime.of(22, 0)); // Solo para comprobar, me paso de la hora límite del
+																	// servicio.
 	}
 
 	@Test
@@ -65,9 +69,8 @@ public class FinalizarTodosTest {
 		// Exercise
 		sem.setHoraActual(LocalTime.of(19, 0));
 		assertTrue(!sem.getEstacionamientosEnCurso().isEmpty()); // No son las 20, no finaliza nada.
-		sem.setHoraActual(LocalTime.of(20, 0)); // La hora en la que finaliza el servicio.
+		sem.setHoraActual(LocalTime.of(20, 0)); // La hora en la que finaliza el servicio. Los finaliza automaticamente.
 		String info = "Su estacionamiento medido fue finalizado por haber alcanzado la hora límite del servicio";
-		sem.finalizarTodosLosEstacionamientos();
 
 		// Verify
 		assertTrue(sem.getEstacionamientosEnCurso().isEmpty());
