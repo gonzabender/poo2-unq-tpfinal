@@ -166,8 +166,8 @@ public class SEM {
 	}
 
 	private void verificarVigencias(LocalTime horaActual) {
-		List<Estacionamiento> e = this.estacionamientosEnCurso.stream().filter(est -> est.getHorarioFin() == horaActual)
-				.toList();
+		List<Estacionamiento> e = this.estacionamientosEnCurso.stream()
+				.filter(est -> est.getHorarioFin() == horaActual).toList();
 		this.estacionamientosEnCurso.removeAll(e);
 		this.notificarTodosLosFinales(e);
 	}
@@ -212,6 +212,10 @@ public class SEM {
 			this.notificarEntidadesEstacionamientoFinalizado(e);
 		}
 		this.estacionamientosEnCurso.removeAll(estacionamientos);
+	}
+
+	public List<ZonaSem> getZonas() {
+		return zonas;
 	}
 
 }
