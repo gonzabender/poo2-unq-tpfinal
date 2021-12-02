@@ -38,7 +38,7 @@ public class SEM {
 		this.infracciones = new ArrayList<Infraccion>();
 		this.celularesEstacionados = new HashMap<Celular, String>();
 		this.precioHora = 40;
-		this.entidades = new ArrayList<EntidadAdapter> () ;
+		this.entidades = new ArrayList<EntidadAdapter>();
 	}
 
 	public void addZona(ZonaSem z) {
@@ -51,7 +51,7 @@ public class SEM {
 	}
 
 	private void notificarEntidadesEstacionamientoIniciado(Estacionamiento estacionamiento) {
-		this.entidades.stream().forEach(entidad->entidad.actualizarInicioEstacionamiento(estacionamiento));
+		this.entidades.stream().forEach(entidad -> entidad.actualizarInicioEstacionamiento(estacionamiento));
 	}
 
 	public void addInfraccion(Infraccion i) {
@@ -77,7 +77,7 @@ public class SEM {
 			String info = "Su estacionamiento es valido desde las " + String.valueOf(hora) + "hs. " + "Hasta las "
 					+ String.valueOf(finDeEstacionamiento) + "hs.";
 			this.addEstacionamiento(operación);
-			this.celularesEstacionados.put(celular, patente);	
+			this.celularesEstacionados.put(celular, patente);
 			return info;
 		} else {
 
@@ -88,8 +88,8 @@ public class SEM {
 	}
 
 	private boolean estaEnFranjaHoraria() {
-		int hora= this.horaActual.getHour();
-		return hora < 20 && hora > 7 ;
+		int hora = this.horaActual.getHour();
+		return hora < 20 && hora > 7;
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class SEM {
 	 */
 	public LocalTime calcularFinalDeEstacionamiento(Celular celular) {
 		int saldo = celular.getSaldo();
-		LocalTime horas = this.horaActual.plusHours(saldo/this.precioHora);
-		
+		LocalTime horas = this.horaActual.plusHours(saldo / this.precioHora);
+
 		return horas;
 	}
 
@@ -131,7 +131,7 @@ public class SEM {
 	}
 
 	private void notificarEntidadesEstacionamientoFinalizado(Estacionamiento estacionamiento) {
-		this.entidades.stream().forEach(entidad->entidad.actualizarFinEstacionamiento(estacionamiento));
+		this.entidades.stream().forEach(entidad -> entidad.actualizarFinEstacionamiento(estacionamiento));
 	}
 
 	public String retornarInfo(LocalTime inicio, LocalTime fin, int duración, int crédito) {
@@ -166,23 +166,12 @@ public class SEM {
 		if (!this.estaEnFranjaHoraria()) {
 			for (Estacionamiento e : estacionamientos) {
 				e.terminarEstacionamiento();
+				this.notificarEntidadesEstacionamientoFinalizado(e);
 			}
 			this.estacionamientosEnCurso.removeAll(estacionamientos);
 		}
 
 	}
-
-	// public Celular celularDelEstacionamiento(Estacionamiento est) {
-	// this.celularesEstacionados.keySet().stream().filter(cel ->
-	// this.celularesEstacionados);
-
-	// }
-
-	/*
-	 * public void descontarTodosLosCréditos(int monto, Estacionamiento est) {
-	 * this.celularesEstacionados.keySet().forEach(cel -> this.descontarCrédito(cel,
-	 * monto, est)); ; }
-	 */
 
 	/*
 	 * public Stream<Infraccion> getInfraccionesVehiculo(String patente) {
@@ -201,7 +190,7 @@ public class SEM {
 	public void setHoraActual(LocalTime horaActual) {
 		this.horaActual = horaActual;
 		this.verificarVigencias(horaActual);
-		
+
 		if (!this.estaEnFranjaHoraria()) {
 			this.finalizarTodosLosEstacionamientos();
 		}
@@ -211,6 +200,7 @@ public class SEM {
 		List<Estacionamiento> e = this.estacionamientosEnCurso.stream().filter(est -> est.getHorarioFin() == horaActual)
 				.toList();
 		this.estacionamientosEnCurso.removeAll(e);
+		this.notificarTodosLosFinales(e);
 	}
 
 	public boolean tieneSaldoSuficiente(Celular cel) {
@@ -228,6 +218,11 @@ public class SEM {
 	public void desubscribirEntidad(EntidadAdapter callCenter) {
 		this.entidades.remove(callCenter);
 	}
-	
-	
+
+	public void notificarTodosLosFinales(List<Estacionamiento> est) {
+		for (Estacionamiento e : est) {
+			this.notificarEntidadesEstacionamientoFinalizado(e);
+		}
+	}
+
 }

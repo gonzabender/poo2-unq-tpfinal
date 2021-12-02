@@ -4,12 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalTime;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import tpfinal.*;
 import tpfinal.app.usuario.AppUsuario;
 import tpfinal.app.usuario.Celular;
 import tpfinal.compras.estacionamientos.Estacionamiento;
@@ -18,7 +15,7 @@ import tpfinal.sistema.EntidadAdapter;
 import tpfinal.sistema.SEM;
 
 public class MonitoreoDeEstacionamientoTest {
-	
+
 	SEM sem;
 	PuntoDeVenta kiosco;
 	EntidadAdapter callCenter;
@@ -26,73 +23,54 @@ public class MonitoreoDeEstacionamientoTest {
 	Celular cel;
 	AppUsuario app;
 	Estacionamiento estacionamiento;
-	
+
 	@Before
 	public void setUp() throws Exception {
-		
+
 		// Set up
 		sem = new SEM();
-	    callCenter = mock(EntidadAdapter.class);
-	    estacionamiento = mock(Estacionamiento.class);
+		callCenter = mock(EntidadAdapter.class);
+		kiosco = new PuntoDeVenta();
+		kiosco.setSem(sem);
+		sem.setHoraActual(LocalTime.of(17, 0));
 	}
-	
+
 	@Test
 	public void testUnaEntidadSePuedeSuscribirAlSem() {
 		sem.subscribirEntidad(callCenter);
 		assertTrue(sem.getEntidades().contains(callCenter));
 	}
-	
+
 	@Test
 	public void testUnaEntidadSuscriptaPuedeDesuscribirse() {
+		// Exercise
 		sem.subscribirEntidad(callCenter);
 		sem.desubscribirEntidad(callCenter);
-		
+
+		// Verify
 		assertFalse(sem.getEntidades().contains(callCenter));
 	}
-	
+
 	@Test
 	public void testCuandoSeIniciaUnEstacionamientoLasEntidadesSonNotificadasDelInicioDelEstacionamiento() {
+		// Exercise
 		sem.subscribirEntidad(callCenter);
 		sem.addEstacionamiento(estacionamiento);
-		
+
+		// Verify
 		verify(callCenter).actualizarInicioEstacionamiento(estacionamiento);
 	}
-	
+
 	@Test
 	public void testCuandoSeFinalizaUnEstacionamientoLasEntidadesSonNotificadasDelFinalDelEstacionamiento() {
-		sem.subscribirEntidad(callCenter);
-		sem.addEstacionamiento(estacionamiento);
-		sem.finalizarEstacionamiento(estacionamiento); 	//Complicacion al finalizar, el tema de las entidades
-														//que se crean dentro de los metodos es complicado de testear con mock
-														//Los test en su lugar podrian ser que cuando el sem alerta a todas las entidades
-														//de un cambio
-		
-		verify(callCenter).actualizarFinEstacionamiento(estacionamiento);
-	}
-	
-	/*
-	
-	
-	@Test
-	public void testSuscripciónGenérica() {
 		// Exercise
-		//datos de iniciar estacionamiento de punto de venta
+		sem.subscribirEntidad(callCenter);
+		kiosco.iniciarEstacionamiento("ACB123", LocalTime.of(19, 0));
+		Estacionamiento e = sem.getEstacionamientosEnCurso().get(0);
 		
-		kiosco.iniciarEstacionamiento(A, LocalTime.of(15, 0));
 		// Verify
-		assertTrue(callCenter.getInformes().size() == 1);
-		assertTrue(callCenter.getInformes().contains("Estacionamiento iniciado a las 14hs. Y finalizado a las 15hs."));
-		
-		//datos de iniciar estacionamiento de app
-		app.iniciarEstacionamiento();
-		assertEquals(2,callCenter.getInformes().size());
-		assertTrue(callCenter.getInformes().contains("Estacionamiento iniciado a las 10hs. Y finalizado a las 13hs."));
-		
-		//datos de finalizar estacionamiento de app
-		app.finalizarEstacionamiento();
-		assertEquals(3, callCenter.getInformes().size());
-		assertTrue (callCenter.getInformes().contains("Hora de Inicio: 10hs. Hora de fin: 13hs. Duración: 3hs. Crédito restante: 0"));
-		callCenter.desuscribirse();
-	}*/
+		sem.setHoraActual(LocalTime.of(19, 0));
+		verify(callCenter, times(1)).actualizarFinEstacionamiento(e);
+	}
 
 }
