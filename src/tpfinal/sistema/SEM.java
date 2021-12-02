@@ -201,6 +201,10 @@ public class SEM {
 	public void setHoraActual(LocalTime horaActual) {
 		this.horaActual = horaActual;
 		this.verificarVigencias(horaActual);
+		
+		if (!this.estaEnFranjaHoraria()) {
+			this.finalizarTodosLosEstacionamientos();
+		}
 	}
 
 	private void verificarVigencias(LocalTime horaActual) {
