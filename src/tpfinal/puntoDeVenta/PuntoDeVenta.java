@@ -48,8 +48,14 @@ public class PuntoDeVenta {
 		return b.getHour() - a.getHour();
 	}
 
-	public void setSem(SEM sem) {
+	
+	/**
+	 * @param sem
+	 */
+	public PuntoDeVenta(SEM sem) {
+		super();
 		this.sem = sem;
 	}
+
 
 }

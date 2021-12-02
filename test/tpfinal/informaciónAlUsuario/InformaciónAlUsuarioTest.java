@@ -37,8 +37,7 @@ public class InformaciónAlUsuarioTest {
 		sem = new SEM();
 		iphone = new Celular(app, 1157990244, 0); 
 		app = new AppUsuario(sem, "UNQ021", iphone);
-		kiosco = new PuntoDeVenta();
-		kiosco.setSem(sem);
+		kiosco = new PuntoDeVenta(sem);
 		
 		//Para testear los prints de consola
 	    System.setOut(new PrintStream(outContent));

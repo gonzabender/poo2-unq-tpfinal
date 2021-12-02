@@ -33,8 +33,7 @@ public class ModalidadDeEstacionamientoTest {
 		sem = new SEM();
 		iphone = new Celular(app, 118594729, 0);
 		app = new AppUsuario(sem, "PO2UNQ", iphone);
-		kiosco = new PuntoDeVenta();
-		kiosco.setSem(sem);
+		kiosco = new PuntoDeVenta(sem);
 		sem.setHoraActual(unaHora);
 		app.setHoraActual(unaHora);
 	}

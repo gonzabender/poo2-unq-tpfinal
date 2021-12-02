@@ -22,6 +22,7 @@ public class EstacionamientoApp extends Estacionamiento {
 		this.celular.alerta("Su estacionamiento medido fue finalizado por haber alcanzado la hora límite del servicio");
 	}
 
+	@Override
 	public void terminarEstacionamiento() {
 		this.setHorarioFin(LocalTime.of(20, 0));
 		this.celular.restarSaldo(this.calcularResta());

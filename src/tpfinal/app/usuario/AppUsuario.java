@@ -143,14 +143,14 @@ public class AppUsuario  {
 	}
 
 	
-	/*
+	/**
 	 * Desactiva el sensor de movimiento
 	 */
 	public void desactivarMoveS() {
 		this.estadoMoveS=EstadoMoveS.MoveSDesactivado;
 	}
 	
-	/*
+	/**
 	 * Activa el sensor de movimiento y asume que esta manejando
 	 */
 	public void activarMoveS() {

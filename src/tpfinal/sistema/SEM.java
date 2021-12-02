@@ -20,9 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SEM {
+	
+	/**
+	 * Esta clase representa al sistema general de estacionamiento medido
+	 */
 
 	private List<ZonaSem> zonas;
-	private Inspector inspector;
 	private List<Estacionamiento> estacionamientosEnCurso;
 	private List<Compra> compras;
 	private List<Infraccion> infracciones;

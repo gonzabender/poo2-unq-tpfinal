@@ -30,8 +30,7 @@ public class MonitoreoDeEstacionamientoTest {
 		// Set up
 		sem = new SEM();
 		callCenter = mock(EntidadAdapter.class);
-		kiosco = new PuntoDeVenta();
-		kiosco.setSem(sem);
+		kiosco = new PuntoDeVenta(sem);
 		sem.setHoraActual(LocalTime.of(17, 0));
 	}
 

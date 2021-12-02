@@ -7,6 +7,11 @@ import tpfinal.puntoDeVenta.PuntoDeVenta;
 
 public class RecargaCelular extends Compra {
 
+	/**
+	 * Se crea una nueva RecargaCelular cada vez que el cliente cargue su celular en
+	 * un PuntoDeVenta
+	 */
+
 	private int monto;
 	private Celular celular;
 

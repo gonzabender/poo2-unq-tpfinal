@@ -32,8 +32,7 @@ public class PuntoDeVentaTest {
 		cel = mock(Celular.class);
 		patente = "ASD123";
 		sem = new SEM();
-		pv = new PuntoDeVenta();
-		pv.setSem(sem);
+		pv = new PuntoDeVenta(sem);
 		algunFinal = LocalTime.of(18, 0);
 		sem.setHoraActual(LocalTime.of(13, 0));
 	}
