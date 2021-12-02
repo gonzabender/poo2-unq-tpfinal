@@ -34,6 +34,7 @@ public class InspectorTest {
 		kiosco = new PuntoDeVenta(sem);
 		zona = new ZonaSem(sem, Arrays.asList(kiosco), inspector);
 		inspector = new Inspector(sem, zona);
+		patente = new String();
 	}
 
 	@Test
